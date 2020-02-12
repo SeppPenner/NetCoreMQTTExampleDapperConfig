@@ -172,6 +172,7 @@
             </remarks>
             <response code="200">User created.</response>
             <response code="400">User not created.</response>
+            <response code="409">User already exists.</response>
             <response code="500">Internal server error.</response>
         </member>
         <member name="M:NetCoreMQTTExampleDapperConfig.Controllers.UserController.UpdateUser(System.Guid,Storage.Dto.DtoCreateUpdateUser)">

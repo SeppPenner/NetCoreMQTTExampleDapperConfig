@@ -151,12 +151,14 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
         /// </remarks>
         /// <response code="200">User created.</response>
         /// <response code="400">User not created.</response>
+        /// <response code="409">User already exists.</response>
         /// <response code="500">Internal server error.</response>
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly",
             Justification = "Reviewed. Suppression is OK here.")]
         [HttpPost]
         [ProducesResponseType(typeof(DtoReadUser), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(DtoCreateUpdateUser), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(DtoCreateUpdateUser), StatusCodes.Status409Conflict)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> CreateUser([FromBody] DtoCreateUpdateUser createUser)
         {
@@ -167,7 +169,12 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
                 var user = _autoMapper.Map<User>(createUser);
                 user.Id = Guid.NewGuid();
 
-                // Todo: Check user exists.
+                var userExists = await _userRepository.UserNameExists(createUser.UserName);
+
+                if (userExists)
+                {
+                    return Conflict(createUser);
+                }
 
                 var inserted = await _userRepository.InsertUser(user);
 

@@ -26,6 +26,7 @@ namespace Storage
         /// </summary>
         /// <param name="forceDelete">A <see cref="bool"/> value to force the deletion of the table.</param>
         /// <returns>A <see cref="Task" /> representing any asynchronous operation.</returns>
+        // ReSharper disable once UnusedMemberInSuper.Global
         Task CreateDatabaseVersionTable(bool forceDelete);
 
         /// <summary>
@@ -33,6 +34,7 @@ namespace Storage
         /// </summary>
         /// <param name="forceDelete">A <see cref="bool"/> value to force the deletion of the table.</param>
         /// <returns>A <see cref="Task" /> representing any asynchronous operation.</returns>
+        // ReSharper disable once UnusedMemberInSuper.Global
         Task CreateWhitelistTable(bool forceDelete);
 
         /// <summary>
@@ -40,6 +42,7 @@ namespace Storage
         /// </summary>
         /// <param name="forceDelete">A <see cref="bool"/> value to force the deletion of the table.</param>
         /// <returns>A <see cref="Task" /> representing any asynchronous operation.</returns>
+        // ReSharper disable once UnusedMemberInSuper.Global
         Task CreateBlacklistTable(bool forceDelete);
 
         /// <summary>

@@ -36,6 +36,7 @@ namespace Storage.Repositories.Interfaces
         /// </summary>
         /// <param name="userName">The <see cref="User"/>'s name to query for.</param>
         /// <returns>A <see cref="Task" /> representing any asynchronous operation.</returns>
+        // ReSharper disable once UnusedMember.Global
         Task<(string, Guid)> GetUserNameAndUserIdByName(string userName);
 
         /// <summary>
@@ -43,6 +44,7 @@ namespace Storage.Repositories.Interfaces
         /// </summary>
         /// <param name="userName">The user name to query for.</param>
         /// <returns>A <see cref="Task" /> representing any asynchronous operation.</returns>
+        // ReSharper disable once UnusedMember.Global
         Task<bool> UserNameExists(string userName);
 
         /// <summary>
@@ -66,6 +68,7 @@ namespace Storage.Repositories.Interfaces
         /// </summary>
         /// <param name="userId">The <see cref="User"/>'s id.</param>
         /// <returns>A <see cref="Task" /> representing any asynchronous operation providing the number of affected rows.</returns>
+        // ReSharper disable once UnusedMember.Global
         Task<bool> DeleteUserFromDatabase(Guid userId);
 
         /// <summary>
@@ -81,6 +84,7 @@ namespace Storage.Repositories.Interfaces
         /// <param name="userId">The user identifier to query for.</param>
         /// <param name="hashedPassword">The hashed password to set.</param>
         /// <returns>A <see cref="Task" /> representing any asynchronous operation.</returns>
+        // ReSharper disable once UnusedMember.Global
         Task<bool> ResetPassword(Guid userId, string hashedPassword);
 
         /// <summary>

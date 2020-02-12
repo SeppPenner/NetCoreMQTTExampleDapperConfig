@@ -29,6 +29,7 @@ namespace Storage.Repositories.Interfaces
         /// </summary>
         /// <param name="blacklistItemType">The <see cref="BlacklistWhitelistType"/> to query for.</param>
         /// <returns>A <see cref="Task" /> representing any asynchronous operation.</returns>
+        // ReSharper disable once UnusedMember.Global
         Task<BlacklistWhitelist> GetBlacklistItemByType(BlacklistWhitelistType blacklistItemType);
 
         /// <summary>
@@ -53,6 +54,7 @@ namespace Storage.Repositories.Interfaces
         /// </summary>
         /// <param name="blacklistItemId">The <see cref="BlacklistWhitelist"/>'s id.</param>
         /// <returns>A <see cref="Task" /> representing any asynchronous operation providing the number of affected rows.</returns>
+        // ReSharper disable once UnusedMember.Global
         Task<bool> DeleteBlacklistItemFromDatabase(Guid blacklistItemId);
 
         /// <summary>
@@ -67,6 +69,7 @@ namespace Storage.Repositories.Interfaces
         /// </summary>
         /// <param name="blacklistItem">The updated <see cref="BlacklistWhitelist" />.</param>
         /// <returns>A <see cref="Task" /> representing any asynchronous operation.</returns>
+        // ReSharper disable once UnusedMember.Global
         Task<bool> UpdateBlacklistItem(BlacklistWhitelist blacklistItem);
     }
 }

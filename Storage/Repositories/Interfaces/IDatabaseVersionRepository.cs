@@ -14,6 +14,7 @@ namespace Storage.Repositories.Interfaces
         /// Gets a <see cref="List{T}"/> of all <see cref="DatabaseVersion"/>s.
         /// </summary>
         /// <returns>A <see cref="Task" /> representing any asynchronous operation.</returns>
+        // ReSharper disable once UnusedMember.Global
         Task<IEnumerable<DatabaseVersion>> GetDatabaseVersions();
 
         /// <summary>
@@ -21,6 +22,7 @@ namespace Storage.Repositories.Interfaces
         /// </summary>
         /// <param name="databaseVersionId">The The <see cref="DatabaseVersion"/>'s id to query for.</param>
         /// <returns>A <see cref="Task" /> representing any asynchronous operation.</returns>
+        // ReSharper disable once UnusedMember.Global
         Task<DatabaseVersion> GetDatabaseVersionById(Guid databaseVersionId);
 
         /// <summary>
@@ -28,6 +30,7 @@ namespace Storage.Repositories.Interfaces
         /// </summary>
         /// <param name="databaseVersionName">The <see cref="DatabaseVersion"/>'s name to query for.</param>
         /// <returns>A <see cref="Task" /> representing any asynchronous operation.</returns>
+        // ReSharper disable once UnusedMember.Global
         Task<DatabaseVersion> GetDatabaseVersionByName(string databaseVersionName);
 
         /// <summary>
@@ -43,6 +46,7 @@ namespace Storage.Repositories.Interfaces
         /// </summary>
         /// <param name="databaseVersionId">The <see cref="DatabaseVersion"/>'s id.</param>
         /// <returns>A <see cref="Task" /> representing any asynchronous operation providing the number of affected rows.</returns>
+        // ReSharper disable once UnusedMember.Global
         Task<bool> DeleteDatabaseVersion(Guid databaseVersionId);
 
         /// <summary>
@@ -51,6 +55,7 @@ namespace Storage.Repositories.Interfaces
         /// </summary>
         /// <param name="databaseVersionId">The <see cref="DatabaseVersion"/>'s id.</param>
         /// <returns>A <see cref="Task" /> representing any asynchronous operation providing the number of affected rows.</returns>
+        // ReSharper disable once UnusedMember.Global
         Task<bool> DeleteDatabaseVersionFromDatabase(Guid databaseVersionId);
 
         /// <summary>
@@ -58,6 +63,7 @@ namespace Storage.Repositories.Interfaces
         /// </summary>
         /// <param name="databaseVersion">The updated <see cref="DatabaseVersion" />.</param>
         /// <returns>A <see cref="Task" /> representing any asynchronous operation.</returns>
+        // ReSharper disable once UnusedMember.Global
         Task<bool> UpdateDatabaseVersion(DatabaseVersion databaseVersion);
     }
 }

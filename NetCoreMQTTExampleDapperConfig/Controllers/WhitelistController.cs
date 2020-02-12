@@ -133,7 +133,7 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(BlacklistWhitelist), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlacklistWhitelist), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status409Conflict)]
+        [ProducesResponseType(typeof(BlacklistWhitelist), StatusCodes.Status409Conflict)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> CreateWhitelistItem([FromBody] BlacklistWhitelist createWhitelistItem)
         {
@@ -145,7 +145,7 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
 
                 if (foundBlackListItem != null)
                 {
-                    return Conflict("Whitelist item already exists.");
+                    return Conflict(createWhitelistItem);
                 }
 
                 var inserted = await _whitelistRepository.InsertWhitelistItem(createWhitelistItem);
