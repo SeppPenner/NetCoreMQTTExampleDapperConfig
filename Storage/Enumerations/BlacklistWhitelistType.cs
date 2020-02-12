@@ -1,8 +1,12 @@
 ﻿namespace Storage.Enumerations
 {
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Converters;
+
     /// <summary>
-    ///     The blacklist whitelist type.
+    /// An enumeration representing the available claims.
     /// </summary>
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum BlacklistWhitelistType
     {
         /// <summary>

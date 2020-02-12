@@ -23,7 +23,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="MQTTnet" Version="3.0.8" />
     <PackageReference Include="MQTTnet.AspNetCore" Version="3.0.8" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="NSwag.AspNetCore" Version="13.2.2" />
     <PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />
     <PackageReference Include="System.Runtime.Caching" Version="4.7.0" />
