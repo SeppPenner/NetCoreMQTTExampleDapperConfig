@@ -18,11 +18,18 @@ namespace TopicCheck
         public static bool Regex(string allowedTopic, string topic)
         {
             // Check if the topics match directly
-            if (allowedTopic == topic) return true;
+            if (allowedTopic == topic)
+            {
+                return true;
+            }
 
             // Check if there is more than one cross in the topic
             var crossCountTopic = topic.Count(c => c == '#');
-            if (crossCountTopic > 1) return false;
+
+            if (crossCountTopic > 1)
+            {
+                return false;
+            }
 
             // If the cross count is 1 in the topic
             if (crossCountTopic == 1)
@@ -30,7 +37,10 @@ namespace TopicCheck
                 // Check if the cross is the last char in the topic
                 var index = topic.IndexOf("#", StringComparison.Ordinal);
 
-                if (index != topic.Length - 1) return false;
+                if (index != topic.Length - 1)
+                {
+                    return false;
+                }
             }
 
             // Else do a regex replace
@@ -46,8 +56,12 @@ namespace TopicCheck
 
             // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
             foreach (var match in matches.ToList())
+            {
                 if (match.Value == topic)
+                {
                     return true;
+                }
+            }
 
             return false;
         }

@@ -3,12 +3,12 @@
 namespace NetCoreMQTTExampleDapperConfig
 {
     /// <summary>
-    /// A class that contains extension method for the <see cref="DateTime"/> data type.
+    ///     A class that contains extension method for the <see cref="DateTime" /> data type.
     /// </summary>
     public static class DateTimeExtensions
     {
         /// <summary>
-        /// Gets the time zone offset of the local time zone.
+        ///     Gets the time zone offset of the local time zone.
         /// </summary>
         /// <param name="date">The date to get the time zone offset from.</param>
         /// <returns>The time zone offset of the local time zone</returns>

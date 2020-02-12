@@ -14,27 +14,27 @@ namespace DatabaseSetup
     public static class Program
     {
         /// <summary>
-        /// The <see cref="IUserRepository"/>.
+        ///     The <see cref="IUserRepository" />.
         /// </summary>
         private static IUserRepository _userRepository;
 
         /// <summary>
-        /// The <see cref="IDatabaseVersionRepository"/>.
+        ///     The <see cref="IDatabaseVersionRepository" />.
         /// </summary>
         private static IDatabaseVersionRepository _databaseVersionRepository;
 
         /// <summary>
-        /// The <see cref="IWhitelistRepository"/>.
+        ///     The <see cref="IWhitelistRepository" />.
         /// </summary>
         private static IWhitelistRepository _whitelistRepository;
 
         /// <summary>
-        /// The <see cref="IBlacklistRepository"/>.
+        ///     The <see cref="IBlacklistRepository" />.
         /// </summary>
         private static IBlacklistRepository _blacklistRepository;
 
         /// <summary>
-        /// The <see cref="IDatabaseHelper"/>.
+        ///     The <see cref="IDatabaseHelper" />.
         /// </summary>
         private static IDatabaseHelper _databaseHelper;
 
@@ -79,7 +79,7 @@ namespace DatabaseSetup
         /// </summary>
         private static void SeedData()
         {
-            var version = new DatabaseVersion { Number = 1, Name = "Sicario", CreatedAt = DateTimeOffset.Now };
+            var version = new DatabaseVersion {Number = 1, Name = "Sicario", CreatedAt = DateTimeOffset.Now};
             _databaseVersionRepository.InsertDatabaseVersion(version);
 
             var userId = Guid.NewGuid();

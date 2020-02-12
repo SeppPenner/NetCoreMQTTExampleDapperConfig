@@ -27,18 +27,18 @@ namespace Storage.Repositories.Implementation
         /// <param name="connectionSettings">The connection settings to use.</param>
         public DatabaseVersionRepository(DatabaseConnectionSettings connectionSettings)
         {
-            this._connectionSettings = connectionSettings;
+            _connectionSettings = connectionSettings;
         }
 
         /// <inheritdoc cref="IDatabaseVersionRepository" />
         /// <summary>
-        /// Gets a <see cref="List{T}"/> of all <see cref="DatabaseVersion"/>s.
+        ///     Gets a <see cref="List{T}" /> of all <see cref="DatabaseVersion" />s.
         /// </summary>
         /// <returns>A <see cref="Task" /> representing any asynchronous operation.</returns>
         /// <seealso cref="IDatabaseVersionRepository" />
         public async Task<IEnumerable<DatabaseVersion>> GetDatabaseVersions()
         {
-            await using var connection = new NpgsqlConnection(this._connectionSettings.ToConnectionString());
+            await using var connection = new NpgsqlConnection(_connectionSettings.ToConnectionString());
             await connection.OpenAsync();
             return await connection.QueryAsync<DatabaseVersion>(SelectStatements.SelectAllDatabaseVersions);
         }
@@ -47,59 +47,60 @@ namespace Storage.Repositories.Implementation
         /// <summary>
         ///     Gets a <see cref="DatabaseVersion" /> by its id.
         /// </summary>
-        /// <param name="databaseVersionId">The <see cref="DatabaseVersion"/>'s id.</param>
+        /// <param name="databaseVersionId">The <see cref="DatabaseVersion" />'s id.</param>
         /// <returns>A <see cref="Task" /> representing any asynchronous operation.</returns>
         /// <seealso cref="IDatabaseVersionRepository" />
         public async Task<DatabaseVersion> GetDatabaseVersionById(Guid databaseVersionId)
         {
-            await using var connection = new NpgsqlConnection(this._connectionSettings.ToConnectionString());
+            await using var connection = new NpgsqlConnection(_connectionSettings.ToConnectionString());
             await connection.OpenAsync();
-            return await connection.QueryFirstOrDefaultAsync<DatabaseVersion>(SelectStatements.SelectDatabaseVersionById, new { Id = databaseVersionId });
-                    }
+            return await connection.QueryFirstOrDefaultAsync<DatabaseVersion>(SelectStatements.SelectDatabaseVersionById, new {Id = databaseVersionId});
+        }
 
         /// <inheritdoc cref="IDatabaseVersionRepository" />
         /// <summary>
         ///     Gets a <see cref="DatabaseVersion" /> by its name.
         /// </summary>
-        /// <param name="databaseVersionName">The <see cref="DatabaseVersion"/>'s name to query for.</param>
+        /// <param name="databaseVersionName">The <see cref="DatabaseVersion" />'s name to query for.</param>
         /// <returns>A <see cref="Task" /> representing any asynchronous operation.</returns>
         /// <seealso cref="IDatabaseVersionRepository" />
         public async Task<DatabaseVersion> GetDatabaseVersionByName(string databaseVersionName)
         {
-            await using var connection = new NpgsqlConnection(this._connectionSettings.ToConnectionString());
+            await using var connection = new NpgsqlConnection(_connectionSettings.ToConnectionString());
             await connection.OpenAsync();
-            return await connection.QueryFirstOrDefaultAsync<DatabaseVersion>(SelectStatements.SelectDatabaseVersionByName, new { DatabaseVersionName = databaseVersionName });
+            return await connection.QueryFirstOrDefaultAsync<DatabaseVersion>(SelectStatements.SelectDatabaseVersionByName, new {DatabaseVersionName = databaseVersionName});
         }
 
         /// <inheritdoc cref="IDatabaseVersionRepository" />
         /// <summary>
-        /// Sets the <see cref="DatabaseVersion"/>'s state to deleted. (It will still be present in the database, but with a deleted timestamp).
-        /// Returns the number of affected rows.
+        ///     Sets the <see cref="DatabaseVersion" />'s state to deleted. (It will still be present in the database, but with a
+        ///     deleted timestamp).
+        ///     Returns the number of affected rows.
         /// </summary>
-        /// <param name="databaseVersionId">The <see cref="DatabaseVersion"/>'s id.</param>
+        /// <param name="databaseVersionId">The <see cref="DatabaseVersion" />'s id.</param>
         /// <returns>A <see cref="Task" /> representing any asynchronous operation providing the number of affected rows.</returns>
         /// <seealso cref="IDatabaseVersionRepository" />
         public async Task<bool> DeleteDatabaseVersion(Guid databaseVersionId)
         {
-            await using var connection = new NpgsqlConnection(this._connectionSettings.ToConnectionString());
+            await using var connection = new NpgsqlConnection(_connectionSettings.ToConnectionString());
             await connection.OpenAsync();
-            var result = await connection.ExecuteAsync(UpdateStatements.MarkDatabaseVersionAsDeleted, new { Id = databaseVersionId });
+            var result = await connection.ExecuteAsync(UpdateStatements.MarkDatabaseVersionAsDeleted, new {Id = databaseVersionId});
             return result == 1;
         }
 
         /// <inheritdoc cref="IDatabaseVersionRepository" />
         /// <summary>
-        /// Deletes a <see cref="DatabaseVersion"/> from the database.
-        /// Returns the number of affected rows.
+        ///     Deletes a <see cref="DatabaseVersion" /> from the database.
+        ///     Returns the number of affected rows.
         /// </summary>
-        /// <param name="databaseVersionId">The <see cref="DatabaseVersion"/>'s id.</param>
+        /// <param name="databaseVersionId">The <see cref="DatabaseVersion" />'s id.</param>
         /// <returns>A <see cref="Task" /> representing any asynchronous operation providing the number of affected rows.</returns>
         /// <seealso cref="IDatabaseVersionRepository" />
         public async Task<bool> DeleteDatabaseVersionFromDatabase(Guid databaseVersionId)
         {
-            await using var connection = new NpgsqlConnection(this._connectionSettings.ToConnectionString());
+            await using var connection = new NpgsqlConnection(_connectionSettings.ToConnectionString());
             await connection.OpenAsync();
-            var result = await connection.ExecuteAsync(DeleteStatements.DeleteDatabaseVersion, new { Id = databaseVersionId });
+            var result = await connection.ExecuteAsync(DeleteStatements.DeleteDatabaseVersion, new {Id = databaseVersionId});
             return result == 1;
         }
 
@@ -112,7 +113,7 @@ namespace Storage.Repositories.Implementation
         /// <seealso cref="IDatabaseVersionRepository" />
         public async Task<bool> InsertDatabaseVersion(DatabaseVersion package)
         {
-            await using var connection = new NpgsqlConnection(this._connectionSettings.ToConnectionString());
+            await using var connection = new NpgsqlConnection(_connectionSettings.ToConnectionString());
             await connection.OpenAsync();
             var result = await connection.ExecuteAsync(InsertStatements.InsertDatabaseVersion, package);
             return result == 1;
@@ -127,7 +128,7 @@ namespace Storage.Repositories.Implementation
         /// <seealso cref="IDatabaseVersionRepository" />
         public async Task<bool> UpdateDatabaseVersion(DatabaseVersion package)
         {
-            await using var connection = new NpgsqlConnection(this._connectionSettings.ToConnectionString());
+            await using var connection = new NpgsqlConnection(_connectionSettings.ToConnectionString());
             await connection.OpenAsync();
             var result = await connection.ExecuteAsync(UpdateStatements.UpdateDatabaseVersion, package);
             return result == 1;

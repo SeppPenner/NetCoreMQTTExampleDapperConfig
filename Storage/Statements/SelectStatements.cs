@@ -3,12 +3,12 @@
 namespace Storage.Statements
 {
     /// <summary>
-    /// The SQL statements for selecting data.
+    ///     The SQL statements for selecting data.
     /// </summary>
     public class SelectStatements
     {
         /// <summary>
-        /// A SQL query string to select all users.
+        ///     A SQL query string to select all users.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string SelectAllUsers =
@@ -16,7 +16,7 @@ namespace Storage.Statements
             FROM user;";
 
         /// <summary>
-        /// A SQL query string to select all client id prefixes for all users.
+        ///     A SQL query string to select all client id prefixes for all users.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string SelectAllClientIdPrefixes =
@@ -25,7 +25,7 @@ namespace Storage.Statements
             WHERE clientidprefix IS NOT NULL;";
 
         /// <summary>
-        /// A SQL query string to select the user by their identifier.
+        ///     A SQL query string to select the user by their identifier.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string SelectUserById =
@@ -34,7 +34,7 @@ namespace Storage.Statements
             WHERE id = @Id;";
 
         /// <summary>
-        /// A SQL query string to select the user by their user name.
+        ///     A SQL query string to select the user by their user name.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string SelectUserByUserName =
@@ -43,7 +43,7 @@ namespace Storage.Statements
             WHERE username = @UserName;";
 
         /// <summary>
-        /// A SQL query string to select the user's name and identifier by their user name.
+        ///     A SQL query string to select the user's name and identifier by their user name.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string SelectUserNameAndIdByUserName =
@@ -52,7 +52,7 @@ namespace Storage.Statements
             WHERE username = @UserName;";
 
         /// <summary>
-        /// A SQL query string to select all database versions.
+        ///     A SQL query string to select all database versions.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string SelectAllDatabaseVersions =
@@ -60,7 +60,7 @@ namespace Storage.Statements
             FROM databaseversion;";
 
         /// <summary>
-        /// A SQL query string to select the database version by its identifier.
+        ///     A SQL query string to select the database version by its identifier.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string SelectDatabaseVersionById =
@@ -69,7 +69,7 @@ namespace Storage.Statements
             WHERE id = @Id;";
 
         /// <summary>
-        /// A SQL query string to select the database version by its name.
+        ///     A SQL query string to select the database version by its name.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string SelectDatabaseVersionByName =
@@ -78,7 +78,7 @@ namespace Storage.Statements
             WHERE name = @WidgetName;";
 
         /// <summary>
-        /// A SQL query string to select all whitelist items.
+        ///     A SQL query string to select all whitelist items.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string SelectAllWhitelistItems =
@@ -86,7 +86,7 @@ namespace Storage.Statements
             FROM whitelist;";
 
         /// <summary>
-        /// A SQL query string to select a whitelist item by its id.
+        ///     A SQL query string to select a whitelist item by its id.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string SelectWhitelistItemById =
@@ -95,7 +95,7 @@ namespace Storage.Statements
             WHERE id = @Id;";
 
         /// <summary>
-        /// A SQL query string to select a whitelist item by its id and type.
+        ///     A SQL query string to select a whitelist item by its id and type.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string SelectWhitelistItemByIdAndType =
@@ -105,7 +105,7 @@ namespace Storage.Statements
             AND type = @Type;";
 
         /// <summary>
-        /// A SQL query string to select a whitelist item by its type.
+        ///     A SQL query string to select a whitelist item by its type.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string SelectWhitelistItemByType =
@@ -114,7 +114,7 @@ namespace Storage.Statements
             WHERE type = @Type;";
 
         /// <summary>
-        /// A SQL query string to select all blacklist items.
+        ///     A SQL query string to select all blacklist items.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string SelectAllBlacklistItems =
@@ -122,7 +122,7 @@ namespace Storage.Statements
             FROM blacklist;";
 
         /// <summary>
-        /// A SQL query string to select a blacklist item by its id.
+        ///     A SQL query string to select a blacklist item by its id.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string SelectBlacklistItemById =
@@ -131,7 +131,7 @@ namespace Storage.Statements
             WHERE id = @Id;";
 
         /// <summary>
-        /// A SQL query string to select a blacklist item by its id and type.
+        ///     A SQL query string to select a blacklist item by its id and type.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string SelectBlacklistItemByIdAndType =
@@ -141,7 +141,7 @@ namespace Storage.Statements
             AND type = @Type;";
 
         /// <summary>
-        /// A SQL query string to select a blacklist item by its type.
+        ///     A SQL query string to select a blacklist item by its type.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string SelectBlacklistItemByType =
@@ -150,7 +150,7 @@ namespace Storage.Statements
             WHERE type = @Type;";
 
         /// <summary>
-        /// A SQL query string to select all blacklist items for a user.
+        ///     A SQL query string to select all blacklist items for a user.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string SelectBlacklistItemsForUser =
@@ -159,7 +159,7 @@ namespace Storage.Statements
             WHERE userid = @UserId AND type = @Type;";
 
         /// <summary>
-        /// A SQL query string to select all whitelist items for a user.
+        ///     A SQL query string to select all whitelist items for a user.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string SelectWhitelistItemsForUser =

@@ -3,19 +3,19 @@
 namespace Storage.Statements
 {
     /// <summary>
-    /// The SQL statements for updating data.
+    ///     The SQL statements for updating data.
     /// </summary>
     public class UpdateStatements
     {
         /// <summary>
-        /// A SQL query string to mark a user as deleted.
+        ///     A SQL query string to mark a user as deleted.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string MarkUserAsDeleted =
             @"UPDATE user SET deletedat = now() WHERE id = @Id;";
 
         /// <summary>
-        /// A SQL query string to update a user.
+        ///     A SQL query string to update a user.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string UpdateUser =
@@ -31,14 +31,14 @@ namespace Storage.Statements
             WHERE id = @Id;";
 
         /// <summary>
-        /// A SQL query string to mark a database version as deleted.
+        ///     A SQL query string to mark a database version as deleted.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string MarkDatabaseVersionAsDeleted =
             @"UPDATE databaseversion SET deletedat = now() WHERE id = @Id;";
 
         /// <summary>
-        /// A SQL query string to update a database version.
+        ///     A SQL query string to update a database version.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string UpdateDatabaseVersion =
@@ -49,14 +49,14 @@ namespace Storage.Statements
             WHERE id = @Id;";
 
         /// <summary>
-        /// A SQL query string to mark a whitelist item as deleted.
+        ///     A SQL query string to mark a whitelist item as deleted.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string MarkWhitelistItemAsDeleted =
             @"UPDATE whitelist SET deletedat = now() WHERE id = @Id;";
 
         /// <summary>
-        /// A SQL query string to update a whitelist item.
+        ///     A SQL query string to update a whitelist item.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string UpdateWhitelistItem =
@@ -68,14 +68,14 @@ namespace Storage.Statements
             WHERE id = @Id;";
 
         /// <summary>
-        /// A SQL query string to mark a blacklist item as deleted.
+        ///     A SQL query string to mark a blacklist item as deleted.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string MarkBlacklistItemAsDeleted =
             @"UPDATE blacklist SET deletedat = now() WHERE id = @Id;";
 
         /// <summary>
-        /// A SQL query string to update a blacklist item.
+        ///     A SQL query string to update a blacklist item.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string UpdateBlacklistItem =
@@ -87,7 +87,7 @@ namespace Storage.Statements
             WHERE id = @Id;";
 
         /// <summary>
-        /// A SQL query string to reset a password for a user.
+        ///     A SQL query string to reset a password for a user.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string ResetPasswordForUser =

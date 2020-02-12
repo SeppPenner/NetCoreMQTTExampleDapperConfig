@@ -51,7 +51,7 @@
         }
 
         /// <summary>
-        /// Gets the administrator connection string.
+        ///     Gets the administrator connection string.
         /// </summary>
         /// <returns>The administrator connection string from the connection settings.</returns>
         public string ToAdminConnectionString()

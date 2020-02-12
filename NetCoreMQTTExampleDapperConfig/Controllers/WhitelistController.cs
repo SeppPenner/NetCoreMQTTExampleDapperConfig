@@ -22,14 +22,14 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
     public class WhitelistController : ControllerBase
     {
         /// <summary>
-        /// The whitelist repository.
+        ///     The whitelist repository.
         /// </summary>
         private readonly IWhitelistRepository _whitelistRepository;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="WhitelistController" /> class.
         /// </summary>
-        /// <param name="whitelistRepository">The <see cref="IWhitelistRepository"/>.</param>
+        /// <param name="whitelistRepository">The <see cref="IWhitelistRepository" />.</param>
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly",
             Justification = "Reviewed. Suppression is OK here.")]
         public WhitelistController(IWhitelistRepository whitelistRepository)
@@ -149,7 +149,12 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
                 }
 
                 var inserted = await _whitelistRepository.InsertWhitelistItem(createWhitelistItem);
-                if (inserted) return Ok(createWhitelistItem);
+
+                if (inserted)
+                {
+                    return Ok(createWhitelistItem);
+                }
+
                 return BadRequest(createWhitelistItem);
             }
             catch (Exception ex)
@@ -186,7 +191,12 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
             {
                 Log.Information($"Executed DeleteWhitelistItemById({whitelistItemId}).");
                 var deleted = await _whitelistRepository.DeleteWhitelistItem(whitelistItemId);
-                if (deleted) return Ok(whitelistItemId);
+
+                if (deleted)
+                {
+                    return Ok(whitelistItemId);
+                }
+
                 return BadRequest(whitelistItemId);
             }
             catch (Exception ex)

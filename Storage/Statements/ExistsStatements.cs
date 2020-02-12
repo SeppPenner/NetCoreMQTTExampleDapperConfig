@@ -3,12 +3,12 @@
 namespace Storage.Statements
 {
     /// <summary>
-    /// The SQL statements for checking if a table exists.
+    ///     The SQL statements for checking if a table exists.
     /// </summary>
     public class ExistsStatements
     {
         /// <summary>
-        /// A SQL query string to check whether the database exists.
+        ///     A SQL query string to check whether the database exists.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string CheckDatabaseExists =
@@ -19,7 +19,7 @@ namespace Storage.Statements
             );";
 
         /// <summary>
-        /// A SQL query string to check whether the database version table exists.
+        ///     A SQL query string to check whether the database version table exists.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string CheckDatabaseVersionTableExists =
@@ -31,7 +31,7 @@ namespace Storage.Statements
             );";
 
         /// <summary>
-        /// A SQL query string to check whether the blacklist table exists.
+        ///     A SQL query string to check whether the blacklist table exists.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string CheckBlacklistTableExists =
@@ -43,7 +43,7 @@ namespace Storage.Statements
             );";
 
         /// <summary>
-        /// A SQL query string to check whether the whitelist table exists.
+        ///     A SQL query string to check whether the whitelist table exists.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string CheckWhitelistTableExists =
@@ -55,7 +55,7 @@ namespace Storage.Statements
             );";
 
         /// <summary>
-        /// A SQL query string to check whether the user table exists.
+        ///     A SQL query string to check whether the user table exists.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string CheckUserTableExists =
@@ -67,7 +67,7 @@ namespace Storage.Statements
             );";
 
         /// <summary>
-        /// A SQL query string to select whether a user name already exists or not.
+        ///     A SQL query string to select whether a user name already exists or not.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string UserNameExists =

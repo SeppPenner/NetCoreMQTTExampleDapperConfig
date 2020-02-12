@@ -6,12 +6,12 @@ using Storage.Database;
 namespace Storage.Repositories.Interfaces
 {
     /// <summary>
-    /// An interface supporting the repository pattern to work with <see cref="DatabaseVersion"/>s.
+    ///     An interface supporting the repository pattern to work with <see cref="DatabaseVersion" />s.
     /// </summary>
     public interface IDatabaseVersionRepository
     {
         /// <summary>
-        /// Gets a <see cref="List{T}"/> of all <see cref="DatabaseVersion"/>s.
+        ///     Gets a <see cref="List{T}" /> of all <see cref="DatabaseVersion" />s.
         /// </summary>
         /// <returns>A <see cref="Task" /> representing any asynchronous operation.</returns>
         // ReSharper disable once UnusedMember.Global
@@ -20,7 +20,7 @@ namespace Storage.Repositories.Interfaces
         /// <summary>
         ///     Gets a <see cref="DatabaseVersion" /> by its id.
         /// </summary>
-        /// <param name="databaseVersionId">The The <see cref="DatabaseVersion"/>'s id to query for.</param>
+        /// <param name="databaseVersionId">The The <see cref="DatabaseVersion" />'s id to query for.</param>
         /// <returns>A <see cref="Task" /> representing any asynchronous operation.</returns>
         // ReSharper disable once UnusedMember.Global
         Task<DatabaseVersion> GetDatabaseVersionById(Guid databaseVersionId);
@@ -28,7 +28,7 @@ namespace Storage.Repositories.Interfaces
         /// <summary>
         ///     Gets a <see cref="DatabaseVersion" /> by its name.
         /// </summary>
-        /// <param name="databaseVersionName">The <see cref="DatabaseVersion"/>'s name to query for.</param>
+        /// <param name="databaseVersionName">The <see cref="DatabaseVersion" />'s name to query for.</param>
         /// <returns>A <see cref="Task" /> representing any asynchronous operation.</returns>
         // ReSharper disable once UnusedMember.Global
         Task<DatabaseVersion> GetDatabaseVersionByName(string databaseVersionName);
@@ -41,19 +41,20 @@ namespace Storage.Repositories.Interfaces
         Task<bool> InsertDatabaseVersion(DatabaseVersion databaseVersion);
 
         /// <summary>
-        /// Sets the <see cref="DatabaseVersion"/>'s state to deleted. (It will still be present in the database, but with a deleted timestamp).
-        /// Returns the number of affected rows.
+        ///     Sets the <see cref="DatabaseVersion" />'s state to deleted. (It will still be present in the database, but with a
+        ///     deleted timestamp).
+        ///     Returns the number of affected rows.
         /// </summary>
-        /// <param name="databaseVersionId">The <see cref="DatabaseVersion"/>'s id.</param>
+        /// <param name="databaseVersionId">The <see cref="DatabaseVersion" />'s id.</param>
         /// <returns>A <see cref="Task" /> representing any asynchronous operation providing the number of affected rows.</returns>
         // ReSharper disable once UnusedMember.Global
         Task<bool> DeleteDatabaseVersion(Guid databaseVersionId);
 
         /// <summary>
-        /// Deletes a <see cref="DatabaseVersion"/> from the database.
-        /// Returns the number of affected rows.
+        ///     Deletes a <see cref="DatabaseVersion" /> from the database.
+        ///     Returns the number of affected rows.
         /// </summary>
-        /// <param name="databaseVersionId">The <see cref="DatabaseVersion"/>'s id.</param>
+        /// <param name="databaseVersionId">The <see cref="DatabaseVersion" />'s id.</param>
         /// <returns>A <see cref="Task" /> representing any asynchronous operation providing the number of affected rows.</returns>
         // ReSharper disable once UnusedMember.Global
         Task<bool> DeleteDatabaseVersionFromDatabase(Guid databaseVersionId);

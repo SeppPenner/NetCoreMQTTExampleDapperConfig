@@ -7,12 +7,12 @@ using Storage.Enumerations;
 namespace Storage.Repositories.Interfaces
 {
     /// <summary>
-    /// An interface supporting the repository pattern to work with <see cref="BlacklistWhitelist"/>s.
+    ///     An interface supporting the repository pattern to work with <see cref="BlacklistWhitelist" />s.
     /// </summary>
     public interface IWhitelistRepository
     {
         /// <summary>
-        /// Gets a <see cref="List{T}"/> of all <see cref="BlacklistWhitelist"/> items.
+        ///     Gets a <see cref="List{T}" /> of all <see cref="BlacklistWhitelist" /> items.
         /// </summary>
         /// <returns>A <see cref="Task" /> representing any asynchronous operation.</returns>
         Task<IEnumerable<BlacklistWhitelist>> GetAllWhitelistItems();
@@ -20,14 +20,14 @@ namespace Storage.Repositories.Interfaces
         /// <summary>
         ///     Gets a <see cref="BlacklistWhitelist" /> item by its id.
         /// </summary>
-        /// <param name="whitelistItemId">The <see cref="BlacklistWhitelist"/>'s id to query for.</param>
+        /// <param name="whitelistItemId">The <see cref="BlacklistWhitelist" />'s id to query for.</param>
         /// <returns>A <see cref="Task" /> representing any asynchronous operation.</returns>
         Task<BlacklistWhitelist> GetWhitelistItemById(Guid whitelistItemId);
 
         /// <summary>
         ///     Gets a <see cref="BlacklistWhitelist" /> item by its type.
         /// </summary>
-        /// <param name="whitelistItemType">The <see cref="BlacklistWhitelistType"/> to query for.</param>
+        /// <param name="whitelistItemType">The <see cref="BlacklistWhitelistType" /> to query for.</param>
         /// <returns>A <see cref="Task" /> representing any asynchronous operation.</returns>
         // ReSharper disable once UnusedMember.Global
         Task<BlacklistWhitelist> GetWhitelistItemByType(BlacklistWhitelistType whitelistItemType);
@@ -35,24 +35,25 @@ namespace Storage.Repositories.Interfaces
         /// <summary>
         ///     Gets a <see cref="BlacklistWhitelist" /> item by its type.
         /// </summary>
-        /// <param name="whitelistItemId">The <see cref="BlacklistWhitelist"/>'s id to query for.</param>
-        /// <param name="whitelistItemType">The <see cref="BlacklistWhitelistType"/> to query for.</param>
+        /// <param name="whitelistItemId">The <see cref="BlacklistWhitelist" />'s id to query for.</param>
+        /// <param name="whitelistItemType">The <see cref="BlacklistWhitelistType" /> to query for.</param>
         /// <returns>A <see cref="Task" /> representing any asynchronous operation.</returns>
         Task<BlacklistWhitelist> GetWhitelistItemByIdAndType(Guid whitelistItemId, BlacklistWhitelistType whitelistItemType);
 
         /// <summary>
-        /// Sets the <see cref="BlacklistWhitelist"/>'s state to deleted. (It will still be present in the database, but with a deleted timestamp).
-        /// Returns the number of affected rows.
+        ///     Sets the <see cref="BlacklistWhitelist" />'s state to deleted. (It will still be present in the database, but with
+        ///     a deleted timestamp).
+        ///     Returns the number of affected rows.
         /// </summary>
-        /// <param name="whitelistItemId">The <see cref="BlacklistWhitelist"/>'s id.</param>
+        /// <param name="whitelistItemId">The <see cref="BlacklistWhitelist" />'s id.</param>
         /// <returns>A <see cref="Task" /> representing any asynchronous operation providing the number of affected rows.</returns>
         Task<bool> DeleteWhitelistItem(Guid whitelistItemId);
 
         /// <summary>
-        /// Deletes a <see cref="BlacklistWhitelist"/> item from the database.
-        /// Returns the number of affected rows.
+        ///     Deletes a <see cref="BlacklistWhitelist" /> item from the database.
+        ///     Returns the number of affected rows.
         /// </summary>
-        /// <param name="whitelistItemId">The <see cref="BlacklistWhitelist"/>'s id.</param>
+        /// <param name="whitelistItemId">The <see cref="BlacklistWhitelist" />'s id.</param>
         /// <returns>A <see cref="Task" /> representing any asynchronous operation providing the number of affected rows.</returns>
         // ReSharper disable once UnusedMember.Global
         Task<bool> DeleteWhitelistItemFromDatabase(Guid whitelistItemId);

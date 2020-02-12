@@ -38,15 +38,15 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
         private readonly PasswordHasher<User> _passwordHasher;
 
         /// <summary>
-        /// The user repository.
+        ///     The user repository.
         /// </summary>
         private readonly IUserRepository _userRepository;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="UserController" /> class.
         /// </summary>
-        /// <param name="autoMapper">The <see cref="IMapper"/>.</param>
-        /// <param name="userRepository">The <see cref="IUserRepository"/>.</param>
+        /// <param name="autoMapper">The <see cref="IMapper" />.</param>
+        /// <param name="userRepository">The <see cref="IUserRepository" />.</param>
         // ReSharper disable once StyleCop.SA1650
         public UserController(IMapper autoMapper, IUserRepository userRepository)
         {
@@ -80,7 +80,10 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
                 var users = await _userRepository.GetUsers();
                 var usersList = users?.ToList();
 
-                if (usersList?.Count == 0) return Ok("[]");
+                if (usersList?.Count == 0)
+                {
+                    return Ok("[]");
+                }
 
                 var returnUsers = _autoMapper.Map<IEnumerable<DtoReadUser>>(users);
                 return Ok(returnUsers);
@@ -282,7 +285,12 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
             {
                 Log.Information($"Executed DeleteUserById({userId}).");
                 var deleted = await _userRepository.DeleteUser(userId);
-                if (deleted) return Ok(userId);
+
+                if (deleted)
+                {
+                    return Ok(userId);
+                }
+
                 return BadRequest(userId);
             }
             catch (Exception ex)

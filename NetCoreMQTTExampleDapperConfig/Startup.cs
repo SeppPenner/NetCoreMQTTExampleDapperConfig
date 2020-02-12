@@ -41,14 +41,14 @@ namespace NetCoreMQTTExampleDapperConfig
         private static readonly PasswordHasher<User> Hasher = new PasswordHasher<User>();
 
         /// <summary>
-        /// The <see cref="IUserRepository"/>.
-        /// </summary>
-        private IUserRepository _userRepository;
-
-        /// <summary>
-        /// Gets or sets the data limit cache for throttling for monthly data.
+        ///     Gets or sets the data limit cache for throttling for monthly data.
         /// </summary>
         private static readonly MemoryCache DataLimitCacheMonth = MemoryCache.Default;
+
+        /// <summary>
+        ///     The <see cref="IUserRepository" />.
+        /// </summary>
+        private IUserRepository _userRepository;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="Startup" /> class.
@@ -73,9 +73,13 @@ namespace NetCoreMQTTExampleDapperConfig
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.EnvironmentName == Environments.Development)
+            {
                 app.UseDeveloperExceptionPage();
+            }
             else
+            {
                 app.UseHsts();
+            }
 
             // Use authentication.
             app.UseAuthentication();
@@ -242,7 +246,11 @@ namespace NetCoreMQTTExampleDapperConfig
             foreach (var forbiddenTopic in blacklist)
             {
                 var doesTopicMatch = TopicChecker.Regex(forbiddenTopic.Value, topic);
-                if (!doesTopicMatch) continue;
+
+                if (!doesTopicMatch)
+                {
+                    continue;
+                }
 
                 context.AcceptPublish = false;
                 return;
@@ -252,7 +260,11 @@ namespace NetCoreMQTTExampleDapperConfig
             foreach (var allowedTopic in whitelist)
             {
                 var doesTopicMatch = TopicChecker.Regex(allowedTopic.Value, topic);
-                if (!doesTopicMatch) continue;
+
+                if (!doesTopicMatch)
+                {
+                    continue;
+                }
 
                 context.AcceptPublish = true;
                 LogMessage(context);
@@ -319,7 +331,11 @@ namespace NetCoreMQTTExampleDapperConfig
             foreach (var forbiddenTopic in blacklist)
             {
                 var doesTopicMatch = TopicChecker.Regex(forbiddenTopic.Value, topic);
-                if (!doesTopicMatch) continue;
+
+                if (!doesTopicMatch)
+                {
+                    continue;
+                }
 
                 context.AcceptSubscription = false;
                 LogMessage(context, false);
@@ -330,7 +346,11 @@ namespace NetCoreMQTTExampleDapperConfig
             foreach (var allowedTopic in whitelist)
             {
                 var doesTopicMatch = TopicChecker.Regex(allowedTopic.Value, topic);
-                if (!doesTopicMatch) continue;
+
+                if (!doesTopicMatch)
+                {
+                    continue;
+                }
 
                 context.AcceptSubscription = true;
                 LogMessage(context, true);
@@ -414,11 +434,11 @@ namespace NetCoreMQTTExampleDapperConfig
             return clientIdPrefixes.FirstOrDefault(clientId.StartsWith);
         }
 
-        /// <summary> 
-        ///     Logs the message from the MQTT subscription interceptor context. 
-        /// </summary> 
-        /// <param name="context">The MQTT subscription interceptor context.</param> 
-        /// <param name="successful">A <see cref="bool"/> value indicating whether the subscription was successful or not.</param> 
+        /// <summary>
+        ///     Logs the message from the MQTT subscription interceptor context.
+        /// </summary>
+        /// <param name="context">The MQTT subscription interceptor context.</param>
+        /// <param name="successful">A <see cref="bool" /> value indicating whether the subscription was successful or not.</param>
         private static void LogMessage(MqttSubscriptionInterceptorContext context, bool successful)
         {
             Log.Information(successful ? $"New subscription: ClientId = {context.ClientId}, TopicFilter = {context.TopicFilter}" : $"Subscription failed for clientId = {context.ClientId}, TopicFilter = {context.TopicFilter}");
@@ -436,11 +456,11 @@ namespace NetCoreMQTTExampleDapperConfig
                 + $" Retain-Flag = {context.ApplicationMessage.Retain}");
         }
 
-        /// <summary> 
-        ///     Logs the message from the MQTT connection validation context. 
-        /// </summary> 
-        /// <param name="context">The MQTT connection validation context.</param> 
-        /// <param name="showPassword">A <see cref="bool"/> value indicating whether the password is written to the log or not.</param> 
+        /// <summary>
+        ///     Logs the message from the MQTT connection validation context.
+        /// </summary>
+        /// <param name="context">The MQTT connection validation context.</param>
+        /// <param name="showPassword">A <see cref="bool" /> value indicating whether the password is written to the log or not.</param>
         private static void LogMessage(MqttConnectionValidatorContext context, bool showPassword)
         {
             if (showPassword)
@@ -459,7 +479,7 @@ namespace NetCoreMQTTExampleDapperConfig
         }
 
         /// <summary>
-        /// Checks whether a user has used the maximum of its publishing limit for the month or not.
+        ///     Checks whether a user has used the maximum of its publishing limit for the month or not.
         /// </summary>
         /// <param name="clientId">The client identifier.</param>
         /// <param name="sizeInBytes">The message size in bytes.</param>

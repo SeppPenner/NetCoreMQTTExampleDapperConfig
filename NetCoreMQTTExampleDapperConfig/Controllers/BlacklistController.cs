@@ -22,14 +22,14 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
     public class BlacklistController : ControllerBase
     {
         /// <summary>
-        /// The blacklist repository.
+        ///     The blacklist repository.
         /// </summary>
         private readonly IBlacklistRepository _blacklistRepository;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="BlacklistController" /> class.
         /// </summary>
-        /// <param name="blacklistRepository">The <see cref="IBlacklistRepository"/>.</param>
+        /// <param name="blacklistRepository">The <see cref="IBlacklistRepository" />.</param>
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly",
             Justification = "Reviewed. Suppression is OK here.")]
         public BlacklistController(IBlacklistRepository blacklistRepository)
@@ -149,7 +149,12 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
                 }
 
                 var inserted = await _blacklistRepository.InsertBlacklistItem(createBlacklistItem);
-                if (inserted) return Ok(createBlacklistItem);
+
+                if (inserted)
+                {
+                    return Ok(createBlacklistItem);
+                }
+
                 return BadRequest(createBlacklistItem);
             }
             catch (Exception ex)
@@ -186,7 +191,12 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
             {
                 Log.Information($"Executed DeleteBlacklistItemById({blacklistItemId}).");
                 var deleted = await _blacklistRepository.DeleteBlacklistItem(blacklistItemId);
-                if (deleted) return Ok(blacklistItemId);
+
+                if (deleted)
+                {
+                    return Ok(blacklistItemId);
+                }
+
                 return BadRequest(blacklistItemId);
             }
             catch (Exception ex)

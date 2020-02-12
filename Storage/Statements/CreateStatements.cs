@@ -3,18 +3,18 @@
 namespace Storage.Statements
 {
     /// <summary>
-    /// The SQL statements for table creation.
+    ///     The SQL statements for table creation.
     /// </summary>
     public class CreateStatements
     {
         /// <summary>
-        /// A SQL query string to create the database.
+        ///     A SQL query string to create the database.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string CreateDatabase = @"CREATE DATABASE @Database;";
 
         /// <summary>
-        /// A SQL query string to create the database version table.
+        ///     A SQL query string to create the database version table.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string CreateDatabaseVersionTable =
@@ -28,7 +28,7 @@ namespace Storage.Statements
             );";
 
         /// <summary>
-        /// A SQL query string to create the blacklist table.
+        ///     A SQL query string to create the blacklist table.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string CreateBlacklistTable =
@@ -43,7 +43,7 @@ namespace Storage.Statements
             );";
 
         /// <summary>
-        /// A SQL query string to create the whitelist table.
+        ///     A SQL query string to create the whitelist table.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string CreateWhitelistTable =
@@ -58,7 +58,7 @@ namespace Storage.Statements
             );";
 
         /// <summary>
-        /// A SQL query string to create the user table.
+        ///     A SQL query string to create the user table.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string CreateUserTable =
