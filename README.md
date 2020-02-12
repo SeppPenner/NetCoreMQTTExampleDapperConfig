@@ -224,4 +224,4 @@ An example certificate is in the folder. Password for all is `test`.
 Change history
 --------------
 
-* **Version 1.0.0.0 (2020-02-11)** : 1.0 release.
+* **Version 1.0.0.0 (2020-02-12)** : 1.0 release.
