@@ -441,6 +441,11 @@ namespace NetCoreMQTTExampleDapperConfig
         /// <param name="successful">A <see cref="bool" /> value indicating whether the subscription was successful or not.</param>
         private static void LogMessage(MqttSubscriptionInterceptorContext context, bool successful)
         {
+            if (context == null)
+            {
+                return;
+            }
+
             Log.Information(successful ? $"New subscription: ClientId = {context.ClientId}, TopicFilter = {context.TopicFilter}" : $"Subscription failed for clientId = {context.ClientId}, TopicFilter = {context.TopicFilter}");
         }
 
@@ -450,10 +455,17 @@ namespace NetCoreMQTTExampleDapperConfig
         /// <param name="context">The MQTT message interceptor context.</param>
         private static void LogMessage(MqttApplicationMessageInterceptorContext context)
         {
+            if (context == null)
+            {
+                return;
+            }
+
+            var payload = context.ApplicationMessage?.Payload == null ? null : Encoding.UTF8.GetString(context.ApplicationMessage?.Payload);
+
             Log.Information(
-                $"Message: ClientId = {context.ClientId}, Topic = {context.ApplicationMessage.Topic},"
-                + $" Payload = {Encoding.UTF8.GetString(context.ApplicationMessage.Payload)}, QoS = {context.ApplicationMessage.QualityOfServiceLevel},"
-                + $" Retain-Flag = {context.ApplicationMessage.Retain}");
+                $"Message: ClientId = {context.ClientId}, Topic = {context.ApplicationMessage?.Topic},"
+                + $" Payload = {payload}, QoS = {context.ApplicationMessage?.QualityOfServiceLevel},"
+                + $" Retain-Flag = {context.ApplicationMessage?.Retain}");
         }
 
         /// <summary>
@@ -463,6 +475,11 @@ namespace NetCoreMQTTExampleDapperConfig
         /// <param name="showPassword">A <see cref="bool" /> value indicating whether the password is written to the log or not.</param>
         private static void LogMessage(MqttConnectionValidatorContext context, bool showPassword)
         {
+            if (context == null)
+            {
+                return;
+            }
+
             if (showPassword)
             {
                 Log.Information(
