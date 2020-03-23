@@ -74,9 +74,9 @@ namespace Storage
         public async Task CreateAllTables(bool forceDelete)
         {
             await CreateDatabaseVersionTable(forceDelete);
-            await CreateUserTable(false);
-            await CreateWhitelistTable(false);
-            await CreateBlacklistTable(false);
+            await CreateUserTable(forceDelete);
+            await CreateWhitelistTable(forceDelete);
+            await CreateBlacklistTable(forceDelete);
         }
 
         /// <inheritdoc cref="IDatabaseHelper" />
