@@ -3,10 +3,8 @@ using Newtonsoft.Json.Converters;
 
 namespace Storage.Enumerations
 {
-
-
     /// <summary>
-    ///     An enumeration representing the available claims.
+    ///     An enumeration representing the available blacklist or whitelist types.
     /// </summary>
     [JsonConverter(typeof(StringEnumConverter))]
     public enum BlacklistWhitelistType
