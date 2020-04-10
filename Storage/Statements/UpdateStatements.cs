@@ -12,14 +12,14 @@ namespace Storage.Statements
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string MarkUserAsDeleted =
-            @"UPDATE user SET deletedat = now() WHERE id = @Id;";
+            @"UPDATE mqttuser SET deletedat = now() WHERE id = @Id;";
 
         /// <summary>
         ///     A SQL query string to update a user.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string UpdateUser =
-            @"UPDATE user SET
+            @"UPDATE mqttuser SET
                 username = @UserName,
                 passwordhash = @PasswordHash,
                 clientidprefix = @ClientIdPrefix,
@@ -91,7 +91,7 @@ namespace Storage.Statements
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string ResetPasswordForUser =
-            @"UPDATE user SET
+            @"UPDATE mqttuser SET
                 passwordhash = @PasswordHash,
                 updatedat = now()
                 WHERE id = @Id;";

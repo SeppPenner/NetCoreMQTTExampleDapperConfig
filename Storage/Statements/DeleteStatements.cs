@@ -12,7 +12,7 @@ namespace Storage.Statements
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string DeleteUser =
-            @"DELETE FROM user WHERE id = @Id;";
+            @"DELETE FROM mqttuser WHERE id = @Id;";
 
         /// <summary>
         ///     A SQL query string to delete a database version from the database.

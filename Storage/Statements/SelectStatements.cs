@@ -13,7 +13,7 @@ namespace Storage.Statements
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string SelectAllUsers =
             @"SELECT id, username, passwordhash, clientidprefix, clientid, validateclientid, throttleuser, monthlybytelimit, createdat, updatedat, deletedat
-            FROM user;";
+            FROM mqttuser;";
 
         /// <summary>
         ///     A SQL query string to select all client id prefixes for all users.
@@ -21,7 +21,7 @@ namespace Storage.Statements
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string SelectAllClientIdPrefixes =
             @"SELECT clientidprefix
-            FROM user
+            FROM mqttuser
             WHERE clientidprefix IS NOT NULL;";
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace Storage.Statements
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string SelectUserById =
             @"SELECT id, username, passwordhash, clientidprefix, clientid, validateclientid, throttleuser, monthlybytelimit, createdat, updatedat, deletedat
-            FROM user
+            FROM mqttuser
             WHERE id = @Id;";
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace Storage.Statements
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string SelectUserByUserName =
             @"SELECT id, username, passwordhash, clientidprefix, clientid, validateclientid, throttleuser, monthlybytelimit, createdat, updatedat, deletedat
-            FROM user
+            FROM mqttuser
             WHERE username = @UserName;";
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace Storage.Statements
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string SelectUserNameAndIdByUserName =
             @"SELECT username, id
-            FROM user
+            FROM mqttuser
             WHERE username = @UserName;";
 
         /// <summary>

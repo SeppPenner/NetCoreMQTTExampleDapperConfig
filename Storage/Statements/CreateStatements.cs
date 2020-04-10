@@ -34,7 +34,7 @@ namespace Storage.Statements
         public static string CreateBlacklistTable =
             @"CREATE TABLE IF NOT EXISTS blacklist (
                 id                      UUID            NOT NULL PRIMARY KEY,
-                userid                  UUID            NOT NULL                REFERENCES user(id),
+                userid                  UUID            NOT NULL                REFERENCES mqttuser(id),
                 type                    INTEGER         NOT NULL,
                 value                   TEXT            NOT NULL,
                 createdat               TIMESTAMPTZ     DEFAULT now(),
@@ -49,7 +49,7 @@ namespace Storage.Statements
         public static string CreateWhitelistTable =
             @"CREATE TABLE IF NOT EXISTS whitelist (
                 id                      UUID            NOT NULL PRIMARY KEY,
-                userid                  UUID            NOT NULL                REFERENCES user(id),
+                userid                  UUID            NOT NULL                REFERENCES mqttuser(id),
                 type                    INTEGER         NOT NULL,
                 value                   TEXT            NOT NULL,
                 createdat               TIMESTAMPTZ     DEFAULT now(),
@@ -62,7 +62,7 @@ namespace Storage.Statements
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string CreateUserTable =
-            @"CREATE TABLE IF NOT EXISTS user (
+            @"CREATE TABLE IF NOT EXISTS mqttuser (
                 id                                      UUID            NOT NULL PRIMARY KEY,
                 username                                TEXT            NOT NULL UNIQUE,
                 passwordhash                            TEXT            NOT NULL,

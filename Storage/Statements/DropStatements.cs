@@ -35,6 +35,6 @@ namespace Storage.Statements
         ///     A SQL query string to delete the user table.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
-        public static string DropUserTable = @"DROP TABLE IF EXISTS user;";
+        public static string DropUserTable = @"DROP TABLE IF EXISTS mqttuser;";
     }
 }

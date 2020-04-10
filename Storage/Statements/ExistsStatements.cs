@@ -63,7 +63,7 @@ namespace Storage.Statements
                 SELECT 1
                 FROM   information_schema.tables 
                 WHERE  table_schema = 'public'
-                AND    table_name = 'user'
+                AND    table_name = 'mqttuser'
             );";
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace Storage.Statements
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
         public static string UserNameExists =
             @"SELECT EXISTS (
-                SELECT username FROM user
+                SELECT username FROM mqttuser
                 WHERE username = @UserName
             );";
     }
