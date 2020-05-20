@@ -1,8 +1,18 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TopicCheck;
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TopicCheckerTestsCrossOperator.cs" company="Haemmer Electronics">
+//   Copyright (c) 2020 All rights reserved.
+// </copyright>
+// <summary>
+//   A test class to test the <see cref="TopicChecker" /> with the # operator.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace TopicCheckerTest
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+    using TopicCheck;
+
     /// <summary>
     ///     A test class to test the <see cref="TopicChecker" /> with the # operator.
     /// </summary>

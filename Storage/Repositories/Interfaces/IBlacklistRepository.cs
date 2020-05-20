@@ -1,11 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Storage.Database;
-using Storage.Enumerations;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="IBlacklistRepository.cs" company="Haemmer Electronics">
+//   Copyright (c) 2020 All rights reserved.
+// </copyright>
+// <summary>
+//   An interface supporting the repository pattern to work with <see cref="BlacklistWhitelist" />s.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace Storage.Repositories.Interfaces
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    using Storage.Database;
+    using Storage.Enumerations;
+
     /// <summary>
     ///     An interface supporting the repository pattern to work with <see cref="BlacklistWhitelist" />s.
     /// </summary>

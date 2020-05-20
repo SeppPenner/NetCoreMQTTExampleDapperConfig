@@ -1,4 +1,13 @@
-﻿namespace Storage
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="DatabaseConnectionSettings.cs" company="Haemmer Electronics">
+//   Copyright (c) 2020 All rights reserved.
+// </copyright>
+// <summary>
+//   A class for the database connection settings.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Storage
 {
     /// <summary>
     ///     A class for the database connection settings.
@@ -47,7 +56,7 @@
         public string ToConnectionString()
         {
             return
-                $"Server={Host};Port={Port};Database={Database};Username={Username};Password={Password};Pooling={Pooling};Timezone={Timezone};Enlist=false;Maximum Pool Size=400;ConvertInfinityDateTime=true";
+                $"Server={this.Host};Port={this.Port};Database={this.Database};Username={this.Username};Password={this.Password};Pooling={this.Pooling};Timezone={this.Timezone};Enlist=false;Maximum Pool Size=400;ConvertInfinityDateTime=true";
         }
 
         /// <summary>
@@ -56,7 +65,7 @@
         /// <returns>The administrator connection string from the connection settings.</returns>
         public string ToAdminConnectionString()
         {
-            return $"Host={Host};Port={Port};Username={Username};Password={Password};Database=postgres;Pooling={Pooling};Timezone={Timezone};Enlist=false;Maximum Pool Size=400;ConvertInfinityDateTime=true";
+            return $"Host={this.Host};Port={this.Port};Username={this.Username};Password={this.Password};Database=postgres;Pooling={this.Pooling};Timezone={this.Timezone};Enlist=false;Maximum Pool Size=400;ConvertInfinityDateTime=true";
         }
     }
 }

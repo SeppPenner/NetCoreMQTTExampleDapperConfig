@@ -1,9 +1,19 @@
-﻿using AutoMapper;
-using Storage.Database;
-using Storage.Dto;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="UserProfile.cs" company="Haemmer Electronics">
+//   Copyright (c) 2020 All rights reserved.
+// </copyright>
+// <summary>
+//   The user profile.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace Storage.Mappings
 {
+    using AutoMapper;
+
+    using Storage.Database;
+    using Storage.Dto;
+
     /// <summary>
     ///     The user profile.
     /// </summary>
@@ -15,12 +25,12 @@ namespace Storage.Mappings
         /// </summary>
         public UserProfile()
         {
-            CreateMap<User, DtoReadUser>();
-            CreateMap<DtoReadUser, User>();
-            CreateMap<User, DtoCreateUpdateUser>();
-            CreateMap<DtoCreateUpdateUser, User>();
-            CreateMap<DtoReadUser, DtoCreateUpdateUser>();
-            CreateMap<DtoCreateUpdateUser, DtoReadUser>();
+            this.CreateMap<User, DtoReadUser>();
+            this.CreateMap<DtoReadUser, User>();
+            this.CreateMap<User, DtoCreateUpdateUser>();
+            this.CreateMap<DtoCreateUpdateUser, User>();
+            this.CreateMap<DtoReadUser, DtoCreateUpdateUser>();
+            this.CreateMap<DtoCreateUpdateUser, DtoReadUser>();
         }
     }
 }

@@ -1,8 +1,20 @@
-﻿using System;
-using Storage.Enumerations;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="BlacklistWhiteList.cs" company="Haemmer Electronics">
+//   Copyright (c) 2020 All rights reserved.
+// </copyright>
+// <summary>
+//   The blacklist or whitelist class.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace Storage.Database
 {
+    using System;
+
+    using Newtonsoft.Json;
+
+    using Storage.Enumerations;
+
     /// <summary>
     ///     The blacklist or whitelist class.
     /// </summary>
@@ -49,7 +61,7 @@ namespace Storage.Database
         /// <returns>A <see cref="string"></see> representation of the <see cref="BlacklistWhitelist" /> class.</returns>
         public override string ToString()
         {
-            return $"{{{nameof(Id)}: {Id}, {nameof(UserId)}: {UserId}, {nameof(Type)}: {Type}, {nameof(Value)}: {Value}, {nameof(CreatedAt)}: {CreatedAt}, {nameof(DeletedAt)}: {DeletedAt}, {nameof(UpdatedAt)}: {UpdatedAt}}}";
+            return JsonConvert.SerializeObject(this);
         }
     }
 }

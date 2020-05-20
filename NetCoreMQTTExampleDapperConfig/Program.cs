@@ -1,11 +1,22 @@
-﻿using System.IO;
-using System.Reflection;
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
-using Serilog;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Program.cs" company="Haemmer Electronics">
+//   Copyright (c) 2020 All rights reserved.
+// </copyright>
+// <summary>
+//   The main program class.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace NetCoreMQTTExampleDapperConfig
 {
+    using System.IO;
+    using System.Reflection;
+
+    using Microsoft.AspNetCore;
+    using Microsoft.AspNetCore.Hosting;
+
+    using Serilog;
+
     /// <summary>
     ///     The main program class.
     /// </summary>
@@ -19,11 +30,10 @@ namespace NetCoreMQTTExampleDapperConfig
         {
             var currentLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
-            Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Debug()
-                .WriteTo.File(Path.Combine(currentLocation,
-                    @"log\NetCoreMQTTExampleDapperConfig_.txt"), rollingInterval: RollingInterval.Day)
-                .CreateLogger();
+            Log.Logger = new LoggerConfiguration().MinimumLevel.Debug().WriteTo.File(
+                // ReSharper disable once AssignNullToNotNullAttribute
+                Path.Combine(currentLocation, @"log\NetCoreMQTTExampleDapperConfig_.txt"),
+                rollingInterval: RollingInterval.Day).CreateLogger();
 
             CreateWebHostBuilder(args).Build().Run();
         }

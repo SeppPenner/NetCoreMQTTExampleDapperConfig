@@ -1,7 +1,18 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="DatabaseVersion.cs" company="Haemmer Electronics">
+//   Copyright (c) 2020 All rights reserved.
+// </copyright>
+// <summary>
+//   The database version class. It contains information about the database version used.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace Storage.Database
 {
+    using System;
+
+    using Newtonsoft.Json;
+
     /// <summary>
     ///     The database version class. It contains information about the database version used.
     /// </summary>
@@ -43,7 +54,7 @@ namespace Storage.Database
         /// <returns>A <see cref="string"></see> representation of the <see cref="DatabaseVersion" /> class.</returns>
         public override string ToString()
         {
-            return $"{{{nameof(Id)}: {Id}, {nameof(Name)}: {Name}, {nameof(Number)}: {Number}, {nameof(CreatedAt)}: {CreatedAt}, {nameof(DeletedAt)}: {DeletedAt}, {nameof(UpdatedAt)}: {UpdatedAt}}}";
+            return JsonConvert.SerializeObject(this);
         }
     }
 }

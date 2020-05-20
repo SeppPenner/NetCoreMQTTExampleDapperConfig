@@ -1,9 +1,18 @@
-﻿using System;
-using System.Linq;
-using System.Text.RegularExpressions;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TopicChecker.cs" company="Haemmer Electronics">
+//   Copyright (c) 2020 All rights reserved.
+// </copyright>
+// <summary>
+//   A class to test the topics validity.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace TopicCheck
 {
+    using System;
+    using System.Linq;
+    using System.Text.RegularExpressions;
+
     /// <summary>
     ///     A class to test the topics validity.
     /// </summary>

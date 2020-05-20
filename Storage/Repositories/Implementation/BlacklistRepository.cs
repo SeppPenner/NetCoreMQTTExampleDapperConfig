@@ -1,15 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Dapper;
-using Npgsql;
-using Storage.Database;
-using Storage.Enumerations;
-using Storage.Repositories.Interfaces;
-using Storage.Statements;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="BlacklistRepository.cs" company="Haemmer Electronics">
+//   Copyright (c) 2020 All rights reserved.
+// </copyright>
+// <summary>
+//   An implementation supporting the repository pattern to work with <see cref="BlacklistWhitelist" />s.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace Storage.Repositories.Implementation
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    using Dapper;
+
+    using Npgsql;
+
+    using Storage.Database;
+    using Storage.Enumerations;
+    using Storage.Repositories.Interfaces;
+    using Storage.Statements;
+
     /// <inheritdoc cref="IBlacklistRepository" />
     /// <summary>
     ///     An implementation supporting the repository pattern to work with <see cref="BlacklistWhitelist" />s.
@@ -20,7 +32,7 @@ namespace Storage.Repositories.Implementation
         /// <summary>
         ///     The connection settings to use.
         /// </summary>
-        private readonly DatabaseConnectionSettings _connectionSettings;
+        private readonly DatabaseConnectionSettings connectionSettings;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="BlacklistRepository" /> class.
@@ -28,7 +40,7 @@ namespace Storage.Repositories.Implementation
         /// <param name="connectionSettings">The connection settings to use.</param>
         public BlacklistRepository(DatabaseConnectionSettings connectionSettings)
         {
-            _connectionSettings = connectionSettings;
+            this.connectionSettings = connectionSettings;
         }
 
         /// <inheritdoc cref="IBlacklistRepository" />
@@ -39,7 +51,7 @@ namespace Storage.Repositories.Implementation
         /// <seealso cref="IBlacklistRepository" />
         public async Task<IEnumerable<BlacklistWhitelist>> GetAllBlacklistItems()
         {
-            await using var connection = new NpgsqlConnection(_connectionSettings.ToConnectionString());
+            await using var connection = new NpgsqlConnection(this.connectionSettings.ToConnectionString());
             await connection.OpenAsync();
             return await connection.QueryAsync<BlacklistWhitelist>(SelectStatements.SelectAllBlacklistItems);
         }
@@ -53,7 +65,7 @@ namespace Storage.Repositories.Implementation
         /// <seealso cref="IBlacklistRepository" />
         public async Task<BlacklistWhitelist> GetBlacklistItemById(Guid blacklistItemId)
         {
-            await using var connection = new NpgsqlConnection(_connectionSettings.ToConnectionString());
+            await using var connection = new NpgsqlConnection(this.connectionSettings.ToConnectionString());
             await connection.OpenAsync();
             return await connection.QueryFirstOrDefaultAsync<BlacklistWhitelist>(SelectStatements.SelectBlacklistItemById, new {Id = blacklistItemId});
         }
@@ -68,7 +80,7 @@ namespace Storage.Repositories.Implementation
         /// <seealso cref="IBlacklistRepository" />
         public async Task<BlacklistWhitelist> GetBlacklistItemByIdAndType(Guid blacklistItemId, BlacklistWhitelistType blacklistItemType)
         {
-            await using var connection = new NpgsqlConnection(_connectionSettings.ToConnectionString());
+            await using var connection = new NpgsqlConnection(this.connectionSettings.ToConnectionString());
             await connection.OpenAsync();
             return await connection.QueryFirstOrDefaultAsync<BlacklistWhitelist>(SelectStatements.SelectBlacklistItemByIdAndType, new {Id = blacklistItemId, Type = blacklistItemType});
         }
@@ -82,7 +94,7 @@ namespace Storage.Repositories.Implementation
         /// <seealso cref="IBlacklistRepository" />
         public async Task<BlacklistWhitelist> GetBlacklistItemByType(BlacklistWhitelistType blacklistItemType)
         {
-            await using var connection = new NpgsqlConnection(_connectionSettings.ToConnectionString());
+            await using var connection = new NpgsqlConnection(this.connectionSettings.ToConnectionString());
             await connection.OpenAsync();
             return await connection.QueryFirstOrDefaultAsync<BlacklistWhitelist>(SelectStatements.SelectBlacklistItemByType, new {Type = blacklistItemType});
         }
@@ -98,7 +110,7 @@ namespace Storage.Repositories.Implementation
         /// <seealso cref="IBlacklistRepository" />
         public async Task<bool> DeleteBlacklistItem(Guid blacklistItemId)
         {
-            await using var connection = new NpgsqlConnection(_connectionSettings.ToConnectionString());
+            await using var connection = new NpgsqlConnection(this.connectionSettings.ToConnectionString());
             await connection.OpenAsync();
             var result = await connection.ExecuteAsync(UpdateStatements.MarkBlacklistItemAsDeleted, new {Id = blacklistItemId});
             return result == 1;
@@ -114,7 +126,7 @@ namespace Storage.Repositories.Implementation
         /// <seealso cref="IBlacklistRepository" />
         public async Task<bool> DeleteBlacklistItemFromDatabase(Guid blacklistItemId)
         {
-            await using var connection = new NpgsqlConnection(_connectionSettings.ToConnectionString());
+            await using var connection = new NpgsqlConnection(this.connectionSettings.ToConnectionString());
             await connection.OpenAsync();
             var result = await connection.ExecuteAsync(DeleteStatements.DeleteBlacklistItem, new {Id = blacklistItemId});
             return result == 1;
@@ -129,7 +141,7 @@ namespace Storage.Repositories.Implementation
         /// <seealso cref="IBlacklistRepository" />
         public async Task<bool> InsertBlacklistItem(BlacklistWhitelist blacklistItem)
         {
-            await using var connection = new NpgsqlConnection(_connectionSettings.ToConnectionString());
+            await using var connection = new NpgsqlConnection(this.connectionSettings.ToConnectionString());
             await connection.OpenAsync();
             var result = await connection.ExecuteAsync(InsertStatements.InsertBlacklistItem, blacklistItem);
             return result == 1;
@@ -144,7 +156,7 @@ namespace Storage.Repositories.Implementation
         /// <seealso cref="IBlacklistRepository" />
         public async Task<bool> UpdateBlacklistItem(BlacklistWhitelist blacklistItem)
         {
-            await using var connection = new NpgsqlConnection(_connectionSettings.ToConnectionString());
+            await using var connection = new NpgsqlConnection(this.connectionSettings.ToConnectionString());
             await connection.OpenAsync();
             var result = await connection.ExecuteAsync(UpdateStatements.UpdateBlacklistItem, blacklistItem);
             return result == 1;

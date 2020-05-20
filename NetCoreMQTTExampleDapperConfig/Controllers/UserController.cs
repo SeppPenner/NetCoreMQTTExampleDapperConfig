@@ -1,21 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using NetCoreMQTTExampleDapperConfig.Controllers.Extensions;
-using NSwag.Annotations;
-using Serilog;
-using Storage.Database;
-using Storage.Dto;
-using Storage.Repositories.Interfaces;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="UserController.cs" company="Haemmer Electronics">
+//   Copyright (c) 2020 All rights reserved.
+// </copyright>
+// <summary>
+//   The user controller class.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace NetCoreMQTTExampleDapperConfig.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using AutoMapper;
+
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+
+    using NetCoreMQTTExampleDapperConfig.Controllers.Extensions;
+
+    using NSwag.Annotations;
+
+    using Serilog;
+
+    using Storage.Database;
+    using Storage.Dto;
+    using Storage.Repositories.Interfaces;
+
     /// <summary>
     ///     The user controller class.
     /// </summary>
@@ -30,29 +45,30 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly",
             Justification = "Reviewed. Suppression is OK here.")]
-        private readonly IMapper _autoMapper;
+        private readonly IMapper autoMapper;
 
         /// <summary>
         ///     The password hasher.
         /// </summary>
-        private readonly PasswordHasher<User> _passwordHasher;
+        private readonly IPasswordHasher<User> passwordHasher;
 
         /// <summary>
         ///     The user repository.
         /// </summary>
-        private readonly IUserRepository _userRepository;
+        private readonly IUserRepository userRepository;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="UserController" /> class.
         /// </summary>
         /// <param name="autoMapper">The <see cref="IMapper" />.</param>
         /// <param name="userRepository">The <see cref="IUserRepository" />.</param>
+
         // ReSharper disable once StyleCop.SA1650
         public UserController(IMapper autoMapper, IUserRepository userRepository)
         {
-            _autoMapper = autoMapper;
-            _passwordHasher = new PasswordHasher<User>();
-            _userRepository = userRepository;
+            this.autoMapper = autoMapper;
+            this.passwordHasher = new PasswordHasher<User>();
+            this.userRepository = userRepository;
         }
 
         /// <summary>
@@ -66,6 +82,7 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
         /// </remarks>
         /// <response code="200">Users found.</response>
         /// <response code="500">Internal server error.</response>
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here.")]
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly",
             Justification = "Reviewed. Suppression is OK here.")]
         [HttpGet]
@@ -77,16 +94,16 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
             {
                 Log.Information("Executed GetUsers().");
 
-                var users = await _userRepository.GetUsers();
+                var users = await this.userRepository.GetUsers();
                 var usersList = users?.ToList();
 
                 if (usersList?.Count == 0)
                 {
-                    return Ok("[]");
+                    return this.Ok("[]");
                 }
 
-                var returnUsers = _autoMapper.Map<IEnumerable<DtoReadUser>>(users);
-                return Ok(returnUsers);
+                var returnUsers = this.autoMapper.Map<IEnumerable<DtoReadUser>>(users);
+                return this.Ok(returnUsers);
             }
             catch (Exception ex)
             {
@@ -110,6 +127,7 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
         /// <response code="200">User found.</response>
         /// <response code="404">User not found.</response>
         /// <response code="500">Internal server error.</response>
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here.")]
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly",
             Justification = "Reviewed. Suppression is OK here.")]
         [HttpGet("{userId}")]
@@ -122,16 +140,16 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
             {
                 Log.Information($"Executed GetUserById({userId}).");
 
-                var user = await _userRepository.GetUserById(userId);
+                var user = await this.userRepository.GetUserById(userId);
 
                 if (user == null)
                 {
                     Log.Warning($"User with identifier {userId} not found.");
-                    return NotFound(userId);
+                    return this.NotFound(userId);
                 }
 
-                var returnUser = _autoMapper.Map<DtoReadUser>(user);
-                return Ok(returnUser);
+                var returnUser = this.autoMapper.Map<DtoReadUser>(user);
+                return this.Ok(returnUser);
             }
             catch (Exception ex)
             {
@@ -156,6 +174,7 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
         /// <response code="400">User not created.</response>
         /// <response code="409">User already exists.</response>
         /// <response code="500">Internal server error.</response>
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here.")]
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly",
             Justification = "Reviewed. Suppression is OK here.")]
         [HttpPost]
@@ -169,26 +188,25 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
             {
                 Log.Information($"Executed CreateUser({createUser}).");
 
-                var user = _autoMapper.Map<User>(createUser);
+                var user = this.autoMapper.Map<User>(createUser);
                 user.Id = Guid.NewGuid();
 
-                var userExists = await _userRepository.UserNameExists(createUser.UserName);
+                var userExists = await this.userRepository.UserNameExists(createUser.UserName);
 
                 if (userExists)
                 {
-                    return Conflict(createUser);
+                    return this.Conflict(createUser);
                 }
 
-                var inserted = await _userRepository.InsertUser(user);
+                var inserted = await this.userRepository.InsertUser(user);
 
                 if (!inserted)
                 {
-                    return BadRequest(createUser);
+                    return this.BadRequest(createUser);
                 }
 
-                var returnUser = _autoMapper.Map<DtoReadUser>(user);
-                return Ok(returnUser);
-
+                var returnUser = this.autoMapper.Map<DtoReadUser>(user);
+                return this.Ok(returnUser);
             }
             catch (Exception ex)
             {
@@ -216,6 +234,7 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
         /// <response code="400">User not updated.</response>
         /// <response code="404">User not found.</response>
         /// <response code="500">Internal server error.</response>
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here.")]
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly",
             Justification = "Reviewed. Suppression is OK here.")]
         [HttpPut("{userId}")]
@@ -229,27 +248,27 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
             {
                 Log.Information($"Executed UpdateUser({updateUser}) for user identifier: {userId}.");
 
-                var resultUser = await _userRepository.GetUserById(userId);
+                var resultUser = await this.userRepository.GetUserById(userId);
 
                 if (resultUser == null)
                 {
                     Log.Warning($"User with identifier {userId} not found.");
-                    return NotFound(userId);
+                    return this.NotFound(userId);
                 }
 
-                resultUser = _autoMapper.Map<User>(updateUser);
+                resultUser = this.autoMapper.Map<User>(updateUser);
                 resultUser.Id = userId;
-                resultUser.PasswordHash = _passwordHasher.HashPassword(resultUser, updateUser.Password);
+                resultUser.PasswordHash = this.passwordHasher.HashPassword(resultUser, updateUser.Password);
 
-                var updated = await _userRepository.UpdateUser(resultUser);
+                var updated = await this.userRepository.UpdateUser(resultUser);
 
                 if (!updated)
                 {
-                    return BadRequest(userId);
+                    return this.BadRequest(userId);
                 }
 
-                var returnUser = _autoMapper.Map<DtoReadUser>(resultUser);
-                return Ok(returnUser);
+                var returnUser = this.autoMapper.Map<DtoReadUser>(resultUser);
+                return this.Ok(returnUser);
             }
             catch (Exception ex)
             {
@@ -284,14 +303,14 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
             try
             {
                 Log.Information($"Executed DeleteUserById({userId}).");
-                var deleted = await _userRepository.DeleteUser(userId);
+                var deleted = await this.userRepository.DeleteUser(userId);
 
                 if (deleted)
                 {
-                    return Ok(userId);
+                    return this.Ok(userId);
                 }
 
-                return BadRequest(userId);
+                return this.BadRequest(userId);
             }
             catch (Exception ex)
             {

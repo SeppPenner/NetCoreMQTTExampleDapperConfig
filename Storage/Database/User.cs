@@ -1,7 +1,18 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="User.cs" company="Haemmer Electronics">
+//   Copyright (c) 2020 All rights reserved.
+// </copyright>
+// <summary>
+//   The user class.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace Storage.Database
 {
+    using System;
+
+    using Newtonsoft.Json;
+
     /// <summary>
     ///     The user class.
     /// </summary>
@@ -20,6 +31,7 @@ namespace Storage.Database
         /// <summary>
         ///     Gets or sets a salted and hashed representation of the password.
         /// </summary>
+        [JsonIgnore]
         public string PasswordHash { get; set; }
 
         /// <summary>
@@ -68,8 +80,7 @@ namespace Storage.Database
         /// <returns>A <see cref="string"></see> representation of the <see cref="User" /> class.</returns>
         public override string ToString()
         {
-            return
-                $"{{{nameof(Id)}: {Id}, {nameof(UserName)}: {UserName}, {nameof(ClientIdPrefix)}: {ClientIdPrefix}, {nameof(ClientId)}: {ClientId}, {nameof(ValidateClientId)}: {ValidateClientId}, {nameof(ClientId)}: {ClientId}, {nameof(ThrottleUser)}: {ThrottleUser}, {nameof(MonthlyByteLimit)}: {MonthlyByteLimit}, {nameof(CreatedAt)}: {CreatedAt}, {nameof(DeletedAt)}: {DeletedAt}, {nameof(UpdatedAt)}: {UpdatedAt}}}";
+            return JsonConvert.SerializeObject(this);
         }
     }
 }

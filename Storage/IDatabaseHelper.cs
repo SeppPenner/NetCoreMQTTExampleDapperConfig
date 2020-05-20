@@ -1,7 +1,16 @@
-﻿using System.Threading.Tasks;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="IDatabaseHelper.cs" company="Haemmer Electronics">
+//   Copyright (c) 2020 All rights reserved.
+// </copyright>
+// <summary>
+//   An interface to work with the database.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace Storage
 {
+    using System.Threading.Tasks;
+
     /// <summary>
     ///     An interface to work with the database.
     /// </summary>

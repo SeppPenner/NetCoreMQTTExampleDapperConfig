@@ -16,14 +16,14 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
-    <PackageReference Include="GitVersionTask" Version="5.2.4">
+    <PackageReference Include="GitVersionTask" Version="5.3.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
-    <PackageReference Include="MQTTnet" Version="3.0.9" />
-    <PackageReference Include="MQTTnet.AspNetCore" Version="3.0.9" />
-    <PackageReference Include="NSwag.AspNetCore" Version="13.3.0" />
+    <PackageReference Include="MQTTnet" Version="3.0.11" />
+    <PackageReference Include="MQTTnet.AspNetCore" Version="3.0.11" />
+    <PackageReference Include="NSwag.AspNetCore" Version="13.5.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />
     <PackageReference Include="System.Runtime.Caching" Version="4.7.0" />
   </ItemGroup>

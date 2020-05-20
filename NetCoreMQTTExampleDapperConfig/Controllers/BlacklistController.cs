@@ -1,17 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using NetCoreMQTTExampleDapperConfig.Controllers.Extensions;
-using NSwag.Annotations;
-using Serilog;
-using Storage.Database;
-using Storage.Repositories.Interfaces;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="BlacklistController.cs" company="Haemmer Electronics">
+//   Copyright (c) 2020 All rights reserved.
+// </copyright>
+// <summary>
+//   The blacklist controller class.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace NetCoreMQTTExampleDapperConfig.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+
+    using NetCoreMQTTExampleDapperConfig.Controllers.Extensions;
+
+    using NSwag.Annotations;
+
+    using Serilog;
+
+    using Storage.Database;
+    using Storage.Repositories.Interfaces;
+
     /// <summary>
     ///     The blacklist controller class.
     /// </summary>
@@ -24,7 +38,7 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
         /// <summary>
         ///     The blacklist repository.
         /// </summary>
-        private readonly IBlacklistRepository _blacklistRepository;
+        private readonly IBlacklistRepository blacklistRepository;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="BlacklistController" /> class.
@@ -34,7 +48,7 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
             Justification = "Reviewed. Suppression is OK here.")]
         public BlacklistController(IBlacklistRepository blacklistRepository)
         {
-            _blacklistRepository = blacklistRepository;
+            this.blacklistRepository = blacklistRepository;
         }
 
         /// <summary>
@@ -48,6 +62,7 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
         /// </remarks>
         /// <response code="200">Blacklist items found.</response>
         /// <response code="500">Internal server error.</response>
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here.")]
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly",
             Justification = "Reviewed. Suppression is OK here.")]
         [HttpGet]
@@ -58,8 +73,8 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
             try
             {
                 Log.Information("Executed GetAllBlacklistItems().");
-                var blacklistItems = await _blacklistRepository.GetAllBlacklistItems();
-                return Ok(blacklistItems);
+                var blacklistItems = await this.blacklistRepository.GetAllBlacklistItems();
+                return this.Ok(blacklistItems);
             }
             catch (Exception ex)
             {
@@ -83,6 +98,7 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
         /// <response code="200">Blacklist item found.</response>
         /// <response code="404">Blacklist item not found.</response>
         /// <response code="500">Internal server error.</response>
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here.")]
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly",
             Justification = "Reviewed. Suppression is OK here.")]
         [HttpGet("{blacklistItemId}")]
@@ -95,15 +111,15 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
             {
                 Log.Information($"Executed GetBlacklistItemById({blacklistItemId}).");
 
-                var blacklistItem = await _blacklistRepository.GetBlacklistItemById(blacklistItemId);
+                var blacklistItem = await this.blacklistRepository.GetBlacklistItemById(blacklistItemId);
 
                 if (blacklistItem != null)
                 {
-                    return Ok(blacklistItem);
+                    return this.Ok(blacklistItem);
                 }
 
                 Log.Warning($"Blacklist item with identifier {blacklistItemId} not found.");
-                return NotFound(blacklistItemId);
+                return this.NotFound(blacklistItemId);
             }
             catch (Exception ex)
             {
@@ -128,6 +144,7 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
         /// <response code="400">Blacklist item not created.</response>
         /// <response code="409">Blacklist item already exists.</response>
         /// <response code="500">Internal server error.</response>
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here.")]
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly",
             Justification = "Reviewed. Suppression is OK here.")]
         [HttpPost]
@@ -141,21 +158,21 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
             {
                 Log.Information($"Executed CreateBlacklistItem({createBlacklistItem}).");
 
-                var foundBlackListItem = _blacklistRepository.GetBlacklistItemByIdAndType(createBlacklistItem.Id, createBlacklistItem.Type);
+                var foundBlackListItem = this.blacklistRepository.GetBlacklistItemByIdAndType(createBlacklistItem.Id, createBlacklistItem.Type);
 
                 if (foundBlackListItem != null)
                 {
-                    return Conflict(createBlacklistItem);
+                    return this.Conflict(createBlacklistItem);
                 }
 
-                var inserted = await _blacklistRepository.InsertBlacklistItem(createBlacklistItem);
+                var inserted = await this.blacklistRepository.InsertBlacklistItem(createBlacklistItem);
 
                 if (inserted)
                 {
-                    return Ok(createBlacklistItem);
+                    return this.Ok(createBlacklistItem);
                 }
 
-                return BadRequest(createBlacklistItem);
+                return this.BadRequest(createBlacklistItem);
             }
             catch (Exception ex)
             {
@@ -179,6 +196,7 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
         /// <response code="200">Blacklist item deleted.</response>
         /// <response code="400">Blacklist item not deleted.</response>
         /// <response code="500">Internal server error.</response>
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here.")]
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly",
             Justification = "Reviewed. Suppression is OK here.")]
         [HttpDelete("{blacklistItemId}")]
@@ -190,14 +208,14 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
             try
             {
                 Log.Information($"Executed DeleteBlacklistItemById({blacklistItemId}).");
-                var deleted = await _blacklistRepository.DeleteBlacklistItem(blacklistItemId);
+                var deleted = await this.blacklistRepository.DeleteBlacklistItem(blacklistItemId);
 
                 if (deleted)
                 {
-                    return Ok(blacklistItemId);
+                    return this.Ok(blacklistItemId);
                 }
 
-                return BadRequest(blacklistItemId);
+                return this.BadRequest(blacklistItemId);
             }
             catch (Exception ex)
             {

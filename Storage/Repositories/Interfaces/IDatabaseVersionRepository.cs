@@ -1,10 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Storage.Database;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="IDatabaseVersionRepository.cs" company="Haemmer Electronics">
+//   Copyright (c) 2020 All rights reserved.
+// </copyright>
+// <summary>
+//   An interface supporting the repository pattern to work with <see cref="DatabaseVersion" />s.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace Storage.Repositories.Interfaces
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    using Storage.Database;
+
     /// <summary>
     ///     An interface supporting the repository pattern to work with <see cref="DatabaseVersion" />s.
     /// </summary>

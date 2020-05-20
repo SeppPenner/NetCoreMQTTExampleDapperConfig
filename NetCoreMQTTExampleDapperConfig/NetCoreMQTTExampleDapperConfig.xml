@@ -10,7 +10,7 @@
             </summary>
             <seealso cref="T:Microsoft.AspNetCore.Mvc.ControllerBase" />
         </member>
-        <member name="F:NetCoreMQTTExampleDapperConfig.Controllers.BlacklistController._blacklistRepository">
+        <member name="F:NetCoreMQTTExampleDapperConfig.Controllers.BlacklistController.blacklistRepository">
             <summary>
                 The blacklist repository.
             </summary>
@@ -105,17 +105,17 @@
             </summary>
             <seealso cref="T:Microsoft.AspNetCore.Mvc.ControllerBase" />
         </member>
-        <member name="F:NetCoreMQTTExampleDapperConfig.Controllers.UserController._autoMapper">
+        <member name="F:NetCoreMQTTExampleDapperConfig.Controllers.UserController.autoMapper">
             <summary>
                 The auto mapper.
             </summary>
         </member>
-        <member name="F:NetCoreMQTTExampleDapperConfig.Controllers.UserController._passwordHasher">
+        <member name="F:NetCoreMQTTExampleDapperConfig.Controllers.UserController.passwordHasher">
             <summary>
                 The password hasher.
             </summary>
         </member>
-        <member name="F:NetCoreMQTTExampleDapperConfig.Controllers.UserController._userRepository">
+        <member name="F:NetCoreMQTTExampleDapperConfig.Controllers.UserController.userRepository">
             <summary>
                 The user repository.
             </summary>
@@ -219,7 +219,7 @@
             </summary>
             <seealso cref="T:Microsoft.AspNetCore.Mvc.ControllerBase" />
         </member>
-        <member name="F:NetCoreMQTTExampleDapperConfig.Controllers.WhitelistController._whitelistRepository">
+        <member name="F:NetCoreMQTTExampleDapperConfig.Controllers.WhitelistController.whitelistRepository">
             <summary>
                 The whitelist repository.
             </summary>
@@ -352,7 +352,7 @@
                 Gets or sets the data limit cache for throttling for monthly data.
             </summary>
         </member>
-        <member name="F:NetCoreMQTTExampleDapperConfig.Startup._userRepository">
+        <member name="F:NetCoreMQTTExampleDapperConfig.Startup.userRepository">
             <summary>
                 The <see cref="T:Storage.Repositories.Interfaces.IUserRepository" />.
             </summary>
@@ -380,31 +380,6 @@
                 Configures the services.
             </summary>
             <param name="services">The services.</param>
-        </member>
-        <member name="M:NetCoreMQTTExampleDapperConfig.Startup.ValidatePublish(MQTTnet.Server.MqttApplicationMessageInterceptorContext)">
-            <summary>
-                Validates the message publication.
-            </summary>
-            <param name="context">The context.</param>
-        </member>
-        <member name="M:NetCoreMQTTExampleDapperConfig.Startup.ValidateSubscription(MQTTnet.Server.MqttSubscriptionInterceptorContext)">
-            <summary>
-                Validates the subscription.
-            </summary>
-            <param name="context">The context.</param>
-        </member>
-        <member name="M:NetCoreMQTTExampleDapperConfig.Startup.ValidateConnection(MQTTnet.Server.MqttConnectionValidatorContext)">
-            <summary>
-                Validates the connection.
-            </summary>
-            <param name="context">The context.</param>
-        </member>
-        <member name="M:NetCoreMQTTExampleDapperConfig.Startup.GetClientIdPrefix(System.String)">
-            <summary>
-                Gets the client id prefix for a client id if there is one or <c>null</c> else.
-            </summary>
-            <param name="clientId">The client id.</param>
-            <returns>The client id prefix for a client id if there is one or <c>null</c> else.</returns>
         </member>
         <member name="M:NetCoreMQTTExampleDapperConfig.Startup.LogMessage(MQTTnet.Server.MqttSubscriptionInterceptorContext,System.Boolean)">
             <summary>
@@ -434,6 +409,31 @@
             <param name="sizeInBytes">The message size in bytes.</param>
             <param name="monthlyByteLimit">The monthly byte limit.</param>
             <returns>A value indicating whether the user will be throttled or not.</returns>
+        </member>
+        <member name="M:NetCoreMQTTExampleDapperConfig.Startup.ValidatePublish(MQTTnet.Server.MqttApplicationMessageInterceptorContext)">
+            <summary>
+                Validates the message publication.
+            </summary>
+            <param name="context">The context.</param>
+        </member>
+        <member name="M:NetCoreMQTTExampleDapperConfig.Startup.ValidateSubscription(MQTTnet.Server.MqttSubscriptionInterceptorContext)">
+            <summary>
+                Validates the subscription.
+            </summary>
+            <param name="context">The context.</param>
+        </member>
+        <member name="M:NetCoreMQTTExampleDapperConfig.Startup.ValidateConnection(MQTTnet.Server.MqttConnectionValidatorContext)">
+            <summary>
+                Validates the connection.
+            </summary>
+            <param name="context">The context.</param>
+        </member>
+        <member name="M:NetCoreMQTTExampleDapperConfig.Startup.GetClientIdPrefix(System.String)">
+            <summary>
+                Gets the client id prefix for a client id if there is one or <c>null</c> else.
+            </summary>
+            <param name="clientId">The client id.</param>
+            <returns>The client id prefix for a client id if there is one or <c>null</c> else.</returns>
         </member>
     </members>
 </doc>

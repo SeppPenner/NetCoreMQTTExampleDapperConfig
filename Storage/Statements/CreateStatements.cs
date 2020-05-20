@@ -1,7 +1,16 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CreateStatements.cs" company="Haemmer Electronics">
+//   Copyright (c) 2020 All rights reserved.
+// </copyright>
+// <summary>
+//   The SQL statements for table creation.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace Storage.Statements
 {
+    using System.Diagnostics.CodeAnalysis;
+
     /// <summary>
     ///     The SQL statements for table creation.
     /// </summary>

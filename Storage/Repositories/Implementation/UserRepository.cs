@@ -1,15 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Dapper;
-using Npgsql;
-using Storage.Database;
-using Storage.Enumerations;
-using Storage.Repositories.Interfaces;
-using Storage.Statements;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="UserRepository.cs" company="Haemmer Electronics">
+//   Copyright (c) 2020 All rights reserved.
+// </copyright>
+// <summary>
+//   An implementation supporting the repository pattern to work with <see cref="User" />s.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace Storage.Repositories.Implementation
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    using Dapper;
+
+    using Npgsql;
+
+    using Storage.Database;
+    using Storage.Enumerations;
+    using Storage.Repositories.Interfaces;
+    using Storage.Statements;
+
     /// <inheritdoc cref="IUserRepository" />
     /// <summary>
     ///     An implementation supporting the repository pattern to work with <see cref="User" />s.
@@ -20,7 +32,7 @@ namespace Storage.Repositories.Implementation
         /// <summary>
         ///     The connection settings to use.
         /// </summary>
-        private readonly DatabaseConnectionSettings _connectionSettings;
+        private readonly DatabaseConnectionSettings connectionSettings;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="UserRepository" /> class.
@@ -28,7 +40,7 @@ namespace Storage.Repositories.Implementation
         /// <param name="connectionSettings">The connection settings to use.</param>
         public UserRepository(DatabaseConnectionSettings connectionSettings)
         {
-            _connectionSettings = connectionSettings;
+            this.connectionSettings = connectionSettings;
         }
 
         /// <inheritdoc cref="IUserRepository" />
@@ -39,7 +51,7 @@ namespace Storage.Repositories.Implementation
         /// <seealso cref="IUserRepository" />
         public async Task<IEnumerable<User>> GetUsers()
         {
-            await using var connection = new NpgsqlConnection(_connectionSettings.ToConnectionString());
+            await using var connection = new NpgsqlConnection(this.connectionSettings.ToConnectionString());
             await connection.OpenAsync();
             return await connection.QueryAsync<User>(SelectStatements.SelectAllUsers);
         }
@@ -53,7 +65,7 @@ namespace Storage.Repositories.Implementation
         /// <seealso cref="IUserRepository" />
         public async Task<User> GetUserById(Guid userId)
         {
-            await using var connection = new NpgsqlConnection(_connectionSettings.ToConnectionString());
+            await using var connection = new NpgsqlConnection(this.connectionSettings.ToConnectionString());
             await connection.OpenAsync();
             return await connection.QueryFirstOrDefaultAsync<User>(SelectStatements.SelectUserById, new {Id = userId});
         }
@@ -67,7 +79,7 @@ namespace Storage.Repositories.Implementation
         /// <seealso cref="IUserRepository" />
         public async Task<User> GetUserByName(string userName)
         {
-            await using var connection = new NpgsqlConnection(_connectionSettings.ToConnectionString());
+            await using var connection = new NpgsqlConnection(this.connectionSettings.ToConnectionString());
             await connection.OpenAsync();
             return await connection.QueryFirstOrDefaultAsync<User>(SelectStatements.SelectUserByUserName, new {UserName = userName});
         }
@@ -79,7 +91,7 @@ namespace Storage.Repositories.Implementation
         /// <returns>A <see cref="Task" /> representing any asynchronous operation.</returns>
         public async Task<(string, Guid)> GetUserNameAndUserIdByName(string userName)
         {
-            await using var connection = new NpgsqlConnection(_connectionSettings.ToConnectionString());
+            await using var connection = new NpgsqlConnection(this.connectionSettings.ToConnectionString());
             await connection.OpenAsync();
             return await connection.QueryFirstOrDefaultAsync<(string, Guid)>(SelectStatements.SelectUserNameAndIdByUserName, new {UserName = userName});
         }
@@ -94,7 +106,7 @@ namespace Storage.Repositories.Implementation
         /// <seealso cref="IUserRepository" />
         public async Task<bool> ResetPassword(Guid userId, string hashedPassword)
         {
-            await using var connection = new NpgsqlConnection(_connectionSettings.ToConnectionString());
+            await using var connection = new NpgsqlConnection(this.connectionSettings.ToConnectionString());
             await connection.OpenAsync();
             var result = await connection.ExecuteAsync(UpdateStatements.ResetPasswordForUser, new {Id = userId, PasswordHash = hashedPassword});
             return result == 1;
@@ -109,7 +121,7 @@ namespace Storage.Repositories.Implementation
         /// <seealso cref="IUserRepository" />
         public async Task<bool> UserNameExists(string userName)
         {
-            await using var connection = new NpgsqlConnection(_connectionSettings.ToConnectionString());
+            await using var connection = new NpgsqlConnection(this.connectionSettings.ToConnectionString());
             await connection.OpenAsync();
             return await connection.QueryFirstOrDefaultAsync<bool>(ExistsStatements.UserNameExists, new {UserName = userName});
         }
@@ -124,7 +136,7 @@ namespace Storage.Repositories.Implementation
         /// <seealso cref="IUserRepository" />
         public async Task<bool> DeleteUser(Guid userId)
         {
-            await using var connection = new NpgsqlConnection(_connectionSettings.ToConnectionString());
+            await using var connection = new NpgsqlConnection(this.connectionSettings.ToConnectionString());
             await connection.OpenAsync();
             var result = await connection.ExecuteAsync(UpdateStatements.MarkUserAsDeleted, new {Id = userId});
             return result == 1;
@@ -139,7 +151,7 @@ namespace Storage.Repositories.Implementation
         /// <seealso cref="IUserRepository" />
         public async Task<bool> DeleteUserFromDatabase(Guid userId)
         {
-            await using var connection = new NpgsqlConnection(_connectionSettings.ToConnectionString());
+            await using var connection = new NpgsqlConnection(this.connectionSettings.ToConnectionString());
             await connection.OpenAsync();
             var result = await connection.ExecuteAsync(DeleteStatements.DeleteUser, new {Id = userId});
             return result == 1;
@@ -154,7 +166,7 @@ namespace Storage.Repositories.Implementation
         /// <seealso cref="IUserRepository" />
         public async Task<bool> InsertUser(User user)
         {
-            await using var connection = new NpgsqlConnection(_connectionSettings.ToConnectionString());
+            await using var connection = new NpgsqlConnection(this.connectionSettings.ToConnectionString());
             await connection.OpenAsync();
             var result = await connection.ExecuteAsync(InsertStatements.InsertUser, user);
             return result == 1;
@@ -169,7 +181,7 @@ namespace Storage.Repositories.Implementation
         /// <seealso cref="IUserRepository" />
         public async Task<bool> UpdateUser(User user)
         {
-            await using var connection = new NpgsqlConnection(_connectionSettings.ToConnectionString());
+            await using var connection = new NpgsqlConnection(this.connectionSettings.ToConnectionString());
             await connection.OpenAsync();
             var result = await connection.ExecuteAsync(UpdateStatements.UpdateUser, user);
             return result == 1;
@@ -185,7 +197,7 @@ namespace Storage.Repositories.Implementation
         /// <seealso cref="IUserRepository" />
         public async Task<IEnumerable<BlacklistWhitelist>> GetBlacklistItemsForUser(Guid userId, BlacklistWhitelistType type)
         {
-            await using var connection = new NpgsqlConnection(_connectionSettings.ToConnectionString());
+            await using var connection = new NpgsqlConnection(this.connectionSettings.ToConnectionString());
             await connection.OpenAsync();
             return await connection.QueryAsync<BlacklistWhitelist>(SelectStatements.SelectBlacklistItemsForUser, new {UserId = userId, Type = type});
         }
@@ -200,7 +212,7 @@ namespace Storage.Repositories.Implementation
         /// <seealso cref="IUserRepository" />
         public async Task<IEnumerable<BlacklistWhitelist>> GetWhitelistItemsForUser(Guid userId, BlacklistWhitelistType type)
         {
-            await using var connection = new NpgsqlConnection(_connectionSettings.ToConnectionString());
+            await using var connection = new NpgsqlConnection(this.connectionSettings.ToConnectionString());
             await connection.OpenAsync();
             return await connection.QueryAsync<BlacklistWhitelist>(SelectStatements.SelectWhitelistItemsForUser, new {UserId = userId, Type = type});
         }
@@ -213,7 +225,7 @@ namespace Storage.Repositories.Implementation
         /// <seealso cref="IUserRepository" />
         public async Task<IEnumerable<string>> GetAllClientIdPrefixes()
         {
-            await using var connection = new NpgsqlConnection(_connectionSettings.ToConnectionString());
+            await using var connection = new NpgsqlConnection(this.connectionSettings.ToConnectionString());
             await connection.OpenAsync();
             return await connection.QueryAsync<string>(SelectStatements.SelectAllClientIdPrefixes);
         }

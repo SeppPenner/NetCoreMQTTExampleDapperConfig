@@ -1,17 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using NetCoreMQTTExampleDapperConfig.Controllers.Extensions;
-using NSwag.Annotations;
-using Serilog;
-using Storage.Database;
-using Storage.Repositories.Interfaces;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="WhitelistController.cs" company="Haemmer Electronics">
+//   Copyright (c) 2020 All rights reserved.
+// </copyright>
+// <summary>
+//   The whitelist controller class.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace NetCoreMQTTExampleDapperConfig.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+
+    using NetCoreMQTTExampleDapperConfig.Controllers.Extensions;
+
+    using NSwag.Annotations;
+
+    using Serilog;
+
+    using Storage.Database;
+    using Storage.Repositories.Interfaces;
+
     /// <summary>
     ///     The whitelist controller class.
     /// </summary>
@@ -24,7 +38,7 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
         /// <summary>
         ///     The whitelist repository.
         /// </summary>
-        private readonly IWhitelistRepository _whitelistRepository;
+        private readonly IWhitelistRepository whitelistRepository;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="WhitelistController" /> class.
@@ -34,7 +48,7 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
             Justification = "Reviewed. Suppression is OK here.")]
         public WhitelistController(IWhitelistRepository whitelistRepository)
         {
-            _whitelistRepository = whitelistRepository;
+            this.whitelistRepository = whitelistRepository;
         }
 
         /// <summary>
@@ -48,6 +62,7 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
         /// </remarks>
         /// <response code="200">Whitelist items found.</response>
         /// <response code="500">Internal server error.</response>
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here.")]
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly",
             Justification = "Reviewed. Suppression is OK here.")]
         [HttpGet]
@@ -58,8 +73,8 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
             try
             {
                 Log.Information("Executed GetAllWhitelistItems().");
-                var whitelistItems = await _whitelistRepository.GetAllWhitelistItems();
-                return Ok(whitelistItems);
+                var whitelistItems = await this.whitelistRepository.GetAllWhitelistItems();
+                return this.Ok(whitelistItems);
             }
             catch (Exception ex)
             {
@@ -83,6 +98,7 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
         /// <response code="200">Whitelist item found.</response>
         /// <response code="404">Whitelist item not found.</response>
         /// <response code="500">Internal server error.</response>
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here.")]
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly",
             Justification = "Reviewed. Suppression is OK here.")]
         [HttpGet("{whitelistItemId}")]
@@ -95,15 +111,15 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
             {
                 Log.Information($"Executed GetWhitelistItemById({whitelistItemId}).");
 
-                var whitelistItem = await _whitelistRepository.GetWhitelistItemById(whitelistItemId);
+                var whitelistItem = await this.whitelistRepository.GetWhitelistItemById(whitelistItemId);
 
                 if (whitelistItem != null)
                 {
-                    return Ok(whitelistItem);
+                    return this.Ok(whitelistItem);
                 }
 
                 Log.Warning($"Whitelist item with identifier {whitelistItemId} not found.");
-                return NotFound(whitelistItemId);
+                return this.NotFound(whitelistItemId);
             }
             catch (Exception ex)
             {
@@ -128,6 +144,7 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
         /// <response code="400">Whitelist item not created.</response>
         /// <response code="409">Whitelist item already exists.</response>
         /// <response code="500">Internal server error.</response>
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here.")]
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly",
             Justification = "Reviewed. Suppression is OK here.")]
         [HttpPost]
@@ -141,21 +158,21 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
             {
                 Log.Information($"Executed CreateWhitelistItem({createWhitelistItem}).");
 
-                var foundBlackListItem = _whitelistRepository.GetWhitelistItemByIdAndType(createWhitelistItem.Id, createWhitelistItem.Type);
+                var foundBlackListItem = this.whitelistRepository.GetWhitelistItemByIdAndType(createWhitelistItem.Id, createWhitelistItem.Type);
 
                 if (foundBlackListItem != null)
                 {
-                    return Conflict(createWhitelistItem);
+                    return this.Conflict(createWhitelistItem);
                 }
 
-                var inserted = await _whitelistRepository.InsertWhitelistItem(createWhitelistItem);
+                var inserted = await this.whitelistRepository.InsertWhitelistItem(createWhitelistItem);
 
                 if (inserted)
                 {
-                    return Ok(createWhitelistItem);
+                    return this.Ok(createWhitelistItem);
                 }
 
-                return BadRequest(createWhitelistItem);
+                return this.BadRequest(createWhitelistItem);
             }
             catch (Exception ex)
             {
@@ -179,6 +196,7 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
         /// <response code="200">Whitelist item deleted.</response>
         /// <response code="400">Whitelist item not deleted.</response>
         /// <response code="500">Internal server error.</response>
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here.")]
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly",
             Justification = "Reviewed. Suppression is OK here.")]
         [HttpDelete("{whitelistItemId}")]
@@ -190,14 +208,14 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
             try
             {
                 Log.Information($"Executed DeleteWhitelistItemById({whitelistItemId}).");
-                var deleted = await _whitelistRepository.DeleteWhitelistItem(whitelistItemId);
+                var deleted = await this.whitelistRepository.DeleteWhitelistItem(whitelistItemId);
 
                 if (deleted)
                 {
-                    return Ok(whitelistItemId);
+                    return this.Ok(whitelistItemId);
                 }
 
-                return BadRequest(whitelistItemId);
+                return this.BadRequest(whitelistItemId);
             }
             catch (Exception ex)
             {

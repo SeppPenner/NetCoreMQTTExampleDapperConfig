@@ -1,35 +1,50 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.Caching;
-using System.Security.Authentication;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using MQTTnet.AspNetCore;
-using MQTTnet.Protocol;
-using MQTTnet.Server;
-using Serilog;
-using Storage;
-using Storage.Database;
-using Storage.Enumerations;
-using Storage.Mappings;
-using Storage.Repositories.Implementation;
-using Storage.Repositories.Interfaces;
-using TopicCheck;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Startup.cs" company="Haemmer Electronics">
+//   Copyright (c) 2020 All rights reserved.
+// </copyright>
+// <summary>
+//   The startup class.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace NetCoreMQTTExampleDapperConfig
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Reflection;
+    using System.Runtime.Caching;
+    using System.Security.Authentication;
+    using System.Security.Cryptography.X509Certificates;
+    using System.Text;
+    using System.Threading.Tasks;
+
+    using AutoMapper;
+
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
+
+    using MQTTnet.AspNetCore;
+    using MQTTnet.Protocol;
+    using MQTTnet.Server;
+
+    using Serilog;
+
+    using Storage;
+    using Storage.Database;
+    using Storage.Enumerations;
+    using Storage.Mappings;
+    using Storage.Repositories.Implementation;
+    using Storage.Repositories.Interfaces;
+
+    using TopicCheck;
+
     /// <summary>
     ///     The startup class.
     /// </summary>
@@ -38,7 +53,7 @@ namespace NetCoreMQTTExampleDapperConfig
         /// <summary>
         ///     The <see cref="PasswordHasher{TUser}" />.
         /// </summary>
-        private static readonly PasswordHasher<User> Hasher = new PasswordHasher<User>();
+        private static readonly IPasswordHasher<User> Hasher = new PasswordHasher<User>();
 
         /// <summary>
         ///     Gets or sets the data limit cache for throttling for monthly data.
@@ -48,7 +63,7 @@ namespace NetCoreMQTTExampleDapperConfig
         /// <summary>
         ///     The <see cref="IUserRepository" />.
         /// </summary>
-        private IUserRepository _userRepository;
+        private IUserRepository userRepository;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="Startup" /> class.
@@ -56,7 +71,7 @@ namespace NetCoreMQTTExampleDapperConfig
         /// <param name="configuration">The configuration.</param>
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            this.Configuration = configuration;
         }
 
         /// <summary>
@@ -102,16 +117,16 @@ namespace NetCoreMQTTExampleDapperConfig
         public void ConfigureServices(IServiceCollection services)
         {
             // Added the custom configuration options
-            services.Configure<DatabaseConnectionSettings>(Configuration.GetSection("DatabaseConnectionSettings"));
-            services.Configure<MqttSettings>(Configuration.GetSection("MqttSettings"));
+            services.Configure<DatabaseConnectionSettings>(this.Configuration.GetSection("DatabaseConnectionSettings"));
+            services.Configure<MqttSettings>(this.Configuration.GetSection("MqttSettings"));
 
             // Load database connection settings
             var databaseConnection =
-                Configuration.GetSection("DatabaseConnectionSettings").Get<DatabaseConnectionSettings>()
+                this.Configuration.GetSection("DatabaseConnectionSettings").Get<DatabaseConnectionSettings>()
                 ?? new DatabaseConnectionSettings();
 
             // Load MQTT configuration settings
-            var mqttSettings = Configuration.GetSection("MqttSettings").Get<MqttSettings>();
+            var mqttSettings = this.Configuration.GetSection("MqttSettings").Get<MqttSettings>();
 
             // Add database helper
             services.AddSingleton<IDatabaseHelper>(r => new DatabaseHelper(databaseConnection));
@@ -123,7 +138,7 @@ namespace NetCoreMQTTExampleDapperConfig
             services.AddSingleton<IUserRepository>(r => new UserRepository(databaseConnection));
 
             // Add local repositories already
-            _userRepository = new UserRepository(databaseConnection);
+            this.userRepository = new UserRepository(databaseConnection);
 
             // Add identity stuff
             services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
@@ -152,6 +167,7 @@ namespace NetCoreMQTTExampleDapperConfig
             // Read certificate
             var currentPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var certificate = new X509Certificate2(
+                // ReSharper disable once AssignNullToNotNullAttribute
                 Path.Combine(currentPath, "certificate.pfx"),
                 "test",
                 X509KeyStorageFlags.Exportable);
@@ -166,272 +182,12 @@ namespace NetCoreMQTTExampleDapperConfig
 #endif
                     .WithEncryptedEndpoint().WithEncryptedEndpointPort(mqttSettings.Port)
                     .WithEncryptionCertificate(certificate.Export(X509ContentType.Pfx))
-                    .WithEncryptionSslProtocol(SslProtocols.Tls12).WithConnectionValidator(ValidateConnection).WithSubscriptionInterceptor(ValidateSubscription).WithApplicationMessageInterceptor(ValidatePublish));
+                    .WithEncryptionSslProtocol(SslProtocols.Tls12).WithConnectionValidator(this.ValidateConnection).WithSubscriptionInterceptor(this.ValidateSubscription).WithApplicationMessageInterceptor(this.ValidatePublish));
 
             services.AddMqttConnectionHandler();
 
             // Add the MVC stuff
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
-        }
-
-        /// <summary>
-        ///     Validates the message publication.
-        /// </summary>
-        /// <param name="context">The context.</param>
-        private async void ValidatePublish(MqttApplicationMessageInterceptorContext context)
-        {
-            var clientIdPrefix = await GetClientIdPrefix(context.ClientId);
-            User currentUser;
-            bool userFound;
-
-            if (string.IsNullOrWhiteSpace(clientIdPrefix))
-            {
-                userFound = context.SessionItems.TryGetValue(context.ClientId, out var currentUserObject);
-                currentUser = currentUserObject as User;
-            }
-            else
-            {
-                userFound = context.SessionItems.TryGetValue(clientIdPrefix, out var currentUserObject);
-                currentUser = currentUserObject as User;
-            }
-
-            if (!userFound || currentUser == null)
-            {
-                context.AcceptPublish = false;
-                return;
-            }
-
-            var topic = context.ApplicationMessage.Topic;
-
-            if (currentUser.ThrottleUser)
-            {
-                var payload = context.ApplicationMessage?.Payload;
-
-                if (payload != null)
-                {
-                    if (currentUser.MonthlyByteLimit != null)
-                    {
-                        if (IsUserThrottled(context.ClientId, payload.Length, currentUser.MonthlyByteLimit.Value))
-                        {
-                            context.AcceptPublish = false;
-                            return;
-                        }
-                    }
-                }
-            }
-
-            // Get blacklist
-            var publishBlackList = await _userRepository.GetBlacklistItemsForUser(currentUser.Id, BlacklistWhitelistType.Publish);
-            var blacklist = publishBlackList?.ToList() ?? new List<BlacklistWhitelist>();
-
-            // Get whitelist
-            var publishWhitelist = await _userRepository.GetWhitelistItemsForUser(currentUser.Id, BlacklistWhitelistType.Publish);
-            var whitelist = publishWhitelist?.ToList() ?? new List<BlacklistWhitelist>();
-
-            // Check matches
-            if (blacklist.Any(b => b.Value == topic))
-            {
-                context.AcceptPublish = false;
-                return;
-            }
-
-            if (whitelist.Any(b => b.Value == topic))
-            {
-                context.AcceptPublish = true;
-                LogMessage(context);
-                return;
-            }
-
-            // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
-            foreach (var forbiddenTopic in blacklist)
-            {
-                var doesTopicMatch = TopicChecker.Regex(forbiddenTopic.Value, topic);
-
-                if (!doesTopicMatch)
-                {
-                    continue;
-                }
-
-                context.AcceptPublish = false;
-                return;
-            }
-
-            // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
-            foreach (var allowedTopic in whitelist)
-            {
-                var doesTopicMatch = TopicChecker.Regex(allowedTopic.Value, topic);
-
-                if (!doesTopicMatch)
-                {
-                    continue;
-                }
-
-                context.AcceptPublish = true;
-                LogMessage(context);
-                return;
-            }
-
-            context.AcceptPublish = false;
-        }
-
-        /// <summary>
-        ///     Validates the subscription.
-        /// </summary>
-        /// <param name="context">The context.</param>
-        private async void ValidateSubscription(MqttSubscriptionInterceptorContext context)
-        {
-            var clientIdPrefix = await GetClientIdPrefix(context.ClientId);
-            User currentUser;
-            bool userFound;
-
-            if (string.IsNullOrWhiteSpace(clientIdPrefix))
-            {
-                userFound = context.SessionItems.TryGetValue(context.ClientId, out var currentUserObject);
-                currentUser = currentUserObject as User;
-            }
-            else
-            {
-                userFound = context.SessionItems.TryGetValue(clientIdPrefix, out var currentUserObject);
-                currentUser = currentUserObject as User;
-            }
-
-            if (!userFound || currentUser == null)
-            {
-                context.AcceptSubscription = false;
-                LogMessage(context, false);
-                return;
-            }
-
-            var topic = context.TopicFilter.Topic;
-
-            // Get blacklist
-            var publishBlackList = await _userRepository.GetBlacklistItemsForUser(currentUser.Id, BlacklistWhitelistType.Subscribe);
-            var blacklist = publishBlackList?.ToList() ?? new List<BlacklistWhitelist>();
-
-            // Get whitelist
-            var publishWhitelist = await _userRepository.GetWhitelistItemsForUser(currentUser.Id, BlacklistWhitelistType.Subscribe);
-            var whitelist = publishWhitelist?.ToList() ?? new List<BlacklistWhitelist>();
-
-            // Check matches
-            if (blacklist.Any(b => b.Value == topic))
-            {
-                context.AcceptSubscription = false;
-                LogMessage(context, false);
-                return;
-            }
-
-            if (whitelist.Any(b => b.Value == topic))
-            {
-                context.AcceptSubscription = true;
-                LogMessage(context, true);
-                return;
-            }
-
-            // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
-            foreach (var forbiddenTopic in blacklist)
-            {
-                var doesTopicMatch = TopicChecker.Regex(forbiddenTopic.Value, topic);
-
-                if (!doesTopicMatch)
-                {
-                    continue;
-                }
-
-                context.AcceptSubscription = false;
-                LogMessage(context, false);
-                return;
-            }
-
-            // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
-            foreach (var allowedTopic in whitelist)
-            {
-                var doesTopicMatch = TopicChecker.Regex(allowedTopic.Value, topic);
-
-                if (!doesTopicMatch)
-                {
-                    continue;
-                }
-
-                context.AcceptSubscription = true;
-                LogMessage(context, true);
-                return;
-            }
-
-            context.AcceptSubscription = false;
-            LogMessage(context, false);
-        }
-
-        /// <summary>
-        ///     Validates the connection.
-        /// </summary>
-        /// <param name="context">The context.</param>
-        private async void ValidateConnection(MqttConnectionValidatorContext context)
-        {
-            var currentUser = await _userRepository.GetUserByName(context.Username).ConfigureAwait(false);
-
-            if (currentUser == null)
-            {
-                context.ReasonCode = MqttConnectReasonCode.BadUserNameOrPassword;
-                LogMessage(context, true);
-                return;
-            }
-
-            if (context.Username != currentUser.UserName)
-            {
-                context.ReasonCode = MqttConnectReasonCode.BadUserNameOrPassword;
-                LogMessage(context, true);
-                return;
-            }
-
-            var hashingResult = Hasher.VerifyHashedPassword(
-                currentUser,
-                currentUser.PasswordHash,
-                context.Password);
-
-            if (hashingResult == PasswordVerificationResult.Failed)
-            {
-                context.ReasonCode = MqttConnectReasonCode.BadUserNameOrPassword;
-                LogMessage(context, true);
-                return;
-            }
-
-            if (!currentUser.ValidateClientId)
-            {
-                context.ReasonCode = MqttConnectReasonCode.Success;
-                context.SessionItems.Add(context.ClientId, currentUser);
-                LogMessage(context, false);
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(currentUser.ClientIdPrefix))
-            {
-                if (context.ClientId != currentUser.ClientId)
-                {
-                    context.ReasonCode = MqttConnectReasonCode.BadUserNameOrPassword;
-                    LogMessage(context, true);
-                    return;
-                }
-
-                context.SessionItems.Add(currentUser.ClientId, currentUser);
-            }
-            else
-            {
-                context.SessionItems.Add(currentUser.ClientIdPrefix, currentUser);
-            }
-
-            context.ReasonCode = MqttConnectReasonCode.Success;
-            LogMessage(context, false);
-        }
-
-        /// <summary>
-        ///     Gets the client id prefix for a client id if there is one or <c>null</c> else.
-        /// </summary>
-        /// <param name="clientId">The client id.</param>
-        /// <returns>The client id prefix for a client id if there is one or <c>null</c> else.</returns>
-        private async Task<string> GetClientIdPrefix(string clientId)
-        {
-            var clientIdPrefixes = await _userRepository.GetAllClientIdPrefixes();
-            return clientIdPrefixes.FirstOrDefault(clientId.StartsWith);
         }
 
         /// <summary>
@@ -539,6 +295,266 @@ namespace NetCoreMQTTExampleDapperConfig
             }
 
             return false;
+        }
+
+        /// <summary>
+        ///     Validates the message publication.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        private async void ValidatePublish(MqttApplicationMessageInterceptorContext context)
+        {
+            var clientIdPrefix = await this.GetClientIdPrefix(context.ClientId);
+            User currentUser;
+            bool userFound;
+
+            if (string.IsNullOrWhiteSpace(clientIdPrefix))
+            {
+                userFound = context.SessionItems.TryGetValue(context.ClientId, out var currentUserObject);
+                currentUser = currentUserObject as User;
+            }
+            else
+            {
+                userFound = context.SessionItems.TryGetValue(clientIdPrefix, out var currentUserObject);
+                currentUser = currentUserObject as User;
+            }
+
+            if (!userFound || currentUser == null)
+            {
+                context.AcceptPublish = false;
+                return;
+            }
+
+            var topic = context.ApplicationMessage.Topic;
+
+            if (currentUser.ThrottleUser)
+            {
+                var payload = context.ApplicationMessage?.Payload;
+
+                if (payload != null)
+                {
+                    if (currentUser.MonthlyByteLimit != null)
+                    {
+                        if (IsUserThrottled(context.ClientId, payload.Length, currentUser.MonthlyByteLimit.Value))
+                        {
+                            context.AcceptPublish = false;
+                            return;
+                        }
+                    }
+                }
+            }
+
+            // Get blacklist
+            var publishBlackList = await this.userRepository.GetBlacklistItemsForUser(currentUser.Id, BlacklistWhitelistType.Publish);
+            var blacklist = publishBlackList?.ToList() ?? new List<BlacklistWhitelist>();
+
+            // Get whitelist
+            var publishWhitelist = await this.userRepository.GetWhitelistItemsForUser(currentUser.Id, BlacklistWhitelistType.Publish);
+            var whitelist = publishWhitelist?.ToList() ?? new List<BlacklistWhitelist>();
+
+            // Check matches
+            if (blacklist.Any(b => b.Value == topic))
+            {
+                context.AcceptPublish = false;
+                return;
+            }
+
+            if (whitelist.Any(b => b.Value == topic))
+            {
+                context.AcceptPublish = true;
+                LogMessage(context);
+                return;
+            }
+
+            // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
+            foreach (var forbiddenTopic in blacklist)
+            {
+                var doesTopicMatch = TopicChecker.Regex(forbiddenTopic.Value, topic);
+
+                if (!doesTopicMatch)
+                {
+                    continue;
+                }
+
+                context.AcceptPublish = false;
+                return;
+            }
+
+            // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
+            foreach (var allowedTopic in whitelist)
+            {
+                var doesTopicMatch = TopicChecker.Regex(allowedTopic.Value, topic);
+
+                if (!doesTopicMatch)
+                {
+                    continue;
+                }
+
+                context.AcceptPublish = true;
+                LogMessage(context);
+                return;
+            }
+
+            context.AcceptPublish = false;
+        }
+
+        /// <summary>
+        ///     Validates the subscription.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        private async void ValidateSubscription(MqttSubscriptionInterceptorContext context)
+        {
+            var clientIdPrefix = await this.GetClientIdPrefix(context.ClientId);
+            User currentUser;
+            bool userFound;
+
+            if (string.IsNullOrWhiteSpace(clientIdPrefix))
+            {
+                userFound = context.SessionItems.TryGetValue(context.ClientId, out var currentUserObject);
+                currentUser = currentUserObject as User;
+            }
+            else
+            {
+                userFound = context.SessionItems.TryGetValue(clientIdPrefix, out var currentUserObject);
+                currentUser = currentUserObject as User;
+            }
+
+            if (!userFound || currentUser == null)
+            {
+                context.AcceptSubscription = false;
+                LogMessage(context, false);
+                return;
+            }
+
+            var topic = context.TopicFilter.Topic;
+
+            // Get blacklist
+            var publishBlackList = await this.userRepository.GetBlacklistItemsForUser(currentUser.Id, BlacklistWhitelistType.Subscribe);
+            var blacklist = publishBlackList?.ToList() ?? new List<BlacklistWhitelist>();
+
+            // Get whitelist
+            var publishWhitelist = await this.userRepository.GetWhitelistItemsForUser(currentUser.Id, BlacklistWhitelistType.Subscribe);
+            var whitelist = publishWhitelist?.ToList() ?? new List<BlacklistWhitelist>();
+
+            // Check matches
+            if (blacklist.Any(b => b.Value == topic))
+            {
+                context.AcceptSubscription = false;
+                LogMessage(context, false);
+                return;
+            }
+
+            if (whitelist.Any(b => b.Value == topic))
+            {
+                context.AcceptSubscription = true;
+                LogMessage(context, true);
+                return;
+            }
+
+            // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
+            foreach (var forbiddenTopic in blacklist)
+            {
+                var doesTopicMatch = TopicChecker.Regex(forbiddenTopic.Value, topic);
+
+                if (!doesTopicMatch)
+                {
+                    continue;
+                }
+
+                context.AcceptSubscription = false;
+                LogMessage(context, false);
+                return;
+            }
+
+            // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
+            foreach (var allowedTopic in whitelist)
+            {
+                var doesTopicMatch = TopicChecker.Regex(allowedTopic.Value, topic);
+
+                if (!doesTopicMatch)
+                {
+                    continue;
+                }
+
+                context.AcceptSubscription = true;
+                LogMessage(context, true);
+                return;
+            }
+
+            context.AcceptSubscription = false;
+            LogMessage(context, false);
+        }
+
+        /// <summary>
+        ///     Validates the connection.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        private async void ValidateConnection(MqttConnectionValidatorContext context)
+        {
+            var currentUser = await this.userRepository.GetUserByName(context.Username).ConfigureAwait(false);
+
+            if (currentUser == null)
+            {
+                context.ReasonCode = MqttConnectReasonCode.BadUserNameOrPassword;
+                LogMessage(context, true);
+                return;
+            }
+
+            if (context.Username != currentUser.UserName)
+            {
+                context.ReasonCode = MqttConnectReasonCode.BadUserNameOrPassword;
+                LogMessage(context, true);
+                return;
+            }
+
+            var hashingResult = Hasher.VerifyHashedPassword(
+                currentUser,
+                currentUser.PasswordHash,
+                context.Password);
+
+            if (hashingResult == PasswordVerificationResult.Failed)
+            {
+                context.ReasonCode = MqttConnectReasonCode.BadUserNameOrPassword;
+                LogMessage(context, true);
+                return;
+            }
+
+            if (!currentUser.ValidateClientId)
+            {
+                context.ReasonCode = MqttConnectReasonCode.Success;
+                context.SessionItems.Add(context.ClientId, currentUser);
+                LogMessage(context, false);
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(currentUser.ClientIdPrefix))
+            {
+                if (context.ClientId != currentUser.ClientId)
+                {
+                    context.ReasonCode = MqttConnectReasonCode.BadUserNameOrPassword;
+                    LogMessage(context, true);
+                    return;
+                }
+
+                context.SessionItems.Add(currentUser.ClientId, currentUser);
+            }
+            else
+            {
+                context.SessionItems.Add(currentUser.ClientIdPrefix, currentUser);
+            }
+
+            context.ReasonCode = MqttConnectReasonCode.Success;
+            LogMessage(context, false);
+        }
+
+        /// <summary>
+        ///     Gets the client id prefix for a client id if there is one or <c>null</c> else.
+        /// </summary>
+        /// <param name="clientId">The client id.</param>
+        /// <returns>The client id prefix for a client id if there is one or <c>null</c> else.</returns>
+        private async Task<string> GetClientIdPrefix(string clientId)
+        {
+            var clientIdPrefixes = await this.userRepository.GetAllClientIdPrefixes();
+            return clientIdPrefixes.FirstOrDefault(clientId.StartsWith);
         }
     }
 }

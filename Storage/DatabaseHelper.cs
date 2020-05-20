@@ -1,12 +1,25 @@
-﻿using System;
-using System.Threading.Tasks;
-using Dapper;
-using Npgsql;
-using Serilog;
-using Storage.Statements;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="DatabaseHelper.cs" company="Haemmer Electronics">
+//   Copyright (c) 2020 All rights reserved.
+// </copyright>
+// <summary>
+//   An implementation to work with the database.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace Storage
 {
+    using System;
+    using System.Threading.Tasks;
+
+    using Dapper;
+
+    using Npgsql;
+
+    using Serilog;
+
+    using Storage.Statements;
+
     /// <summary>
     ///     An implementation to work with the database.
     /// </summary>
@@ -15,7 +28,7 @@ namespace Storage
         /// <summary>
         ///     The connection settings to use.
         /// </summary>
-        private readonly DatabaseConnectionSettings _connectionSettings;
+        private readonly DatabaseConnectionSettings connectionSettings;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="DatabaseHelper" /> class.
@@ -23,7 +36,7 @@ namespace Storage
         /// <param name="connectionSettings">The connection settings to use.</param>
         public DatabaseHelper(DatabaseConnectionSettings connectionSettings)
         {
-            _connectionSettings = connectionSettings;
+            this.connectionSettings = connectionSettings;
         }
 
         /// <inheritdoc cref="IDatabaseHelper" />
@@ -35,9 +48,9 @@ namespace Storage
         /// <seealso cref="IDatabaseHelper" />
         public async Task CreateDatabase(string database)
         {
-            await using var connection = new NpgsqlConnection(_connectionSettings.ToAdminConnectionString());
+            await using var connection = new NpgsqlConnection(this.connectionSettings.ToAdminConnectionString());
             await connection.OpenAsync();
-            var checkDatabaseExists = connection.ExecuteScalar(ExistsStatements.CheckDatabaseExists, new {_connectionSettings.Database});
+            var checkDatabaseExists = await connection.ExecuteScalarAsync(ExistsStatements.CheckDatabaseExists, new {this.connectionSettings.Database});
 
             if (Convert.ToBoolean(checkDatabaseExists) == false)
             {
@@ -58,7 +71,7 @@ namespace Storage
         /// <seealso cref="IDatabaseHelper" />
         public async Task DeleteDatabase(string database)
         {
-            await using var connection = new NpgsqlConnection(_connectionSettings.ToAdminConnectionString());
+            await using var connection = new NpgsqlConnection(this.connectionSettings.ToAdminConnectionString());
             await connection.OpenAsync();
             var sql = DropStatements.DropDatabase.Replace("@Database", database);
             await connection.ExecuteAsync(sql);
@@ -73,10 +86,10 @@ namespace Storage
         /// <seealso cref="IDatabaseHelper" />
         public async Task CreateAllTables(bool forceDelete)
         {
-            await CreateDatabaseVersionTable(forceDelete);
-            await CreateUserTable(forceDelete);
-            await CreateWhitelistTable(forceDelete);
-            await CreateBlacklistTable(forceDelete);
+            await this.CreateDatabaseVersionTable(forceDelete);
+            await this.CreateUserTable(forceDelete);
+            await this.CreateWhitelistTable(forceDelete);
+            await this.CreateBlacklistTable(forceDelete);
         }
 
         /// <inheritdoc cref="IDatabaseHelper" />
@@ -88,7 +101,7 @@ namespace Storage
         /// <seealso cref="IDatabaseHelper" />
         public async Task CreateDatabaseVersionTable(bool forceDelete)
         {
-            await using var connection = new NpgsqlConnection(_connectionSettings.ToConnectionString());
+            await using var connection = new NpgsqlConnection(this.connectionSettings.ToConnectionString());
             await connection.OpenAsync();
 
             if (forceDelete)
@@ -101,7 +114,7 @@ namespace Storage
             }
             else
             {
-                var checkTableExistsResult = connection.ExecuteScalar(ExistsStatements.CheckDatabaseVersionTableExists);
+                var checkTableExistsResult = await connection.ExecuteScalarAsync(ExistsStatements.CheckDatabaseVersionTableExists);
 
                 if (Convert.ToBoolean(checkTableExistsResult) == false)
                 {
@@ -121,7 +134,7 @@ namespace Storage
         /// <seealso cref="IDatabaseHelper" />
         public async Task CreateWhitelistTable(bool forceDelete)
         {
-            await using var connection = new NpgsqlConnection(_connectionSettings.ToConnectionString());
+            await using var connection = new NpgsqlConnection(this.connectionSettings.ToConnectionString());
             await connection.OpenAsync();
 
             if (forceDelete)
@@ -134,7 +147,7 @@ namespace Storage
             }
             else
             {
-                var checkTableExistsResult = connection.ExecuteScalar(ExistsStatements.CheckWhitelistTableExists);
+                var checkTableExistsResult = await connection.ExecuteScalarAsync(ExistsStatements.CheckWhitelistTableExists);
 
                 if (Convert.ToBoolean(checkTableExistsResult) == false)
                 {
@@ -154,7 +167,7 @@ namespace Storage
         /// <seealso cref="IDatabaseHelper" />
         public async Task CreateBlacklistTable(bool forceDelete)
         {
-            await using var connection = new NpgsqlConnection(_connectionSettings.ToConnectionString());
+            await using var connection = new NpgsqlConnection(this.connectionSettings.ToConnectionString());
             await connection.OpenAsync();
 
             if (forceDelete)
@@ -167,7 +180,7 @@ namespace Storage
             }
             else
             {
-                var checkTableExistsResult = connection.ExecuteScalar(ExistsStatements.CheckBlacklistTableExists);
+                var checkTableExistsResult = await connection.ExecuteScalarAsync(ExistsStatements.CheckBlacklistTableExists);
 
                 if (Convert.ToBoolean(checkTableExistsResult) == false)
                 {
@@ -187,7 +200,7 @@ namespace Storage
         /// <seealso cref="IDatabaseHelper" />
         public async Task CreateUserTable(bool forceDelete)
         {
-            await using var connection = new NpgsqlConnection(_connectionSettings.ToConnectionString());
+            await using var connection = new NpgsqlConnection(this.connectionSettings.ToConnectionString());
             await connection.OpenAsync();
 
             if (forceDelete)
@@ -200,7 +213,7 @@ namespace Storage
             }
             else
             {
-                var checkTableExistsResult = connection.ExecuteScalar(ExistsStatements.CheckUserTableExists);
+                var checkTableExistsResult = await connection.ExecuteScalarAsync(ExistsStatements.CheckUserTableExists);
 
                 if (Convert.ToBoolean(checkTableExistsResult) == false)
                 {

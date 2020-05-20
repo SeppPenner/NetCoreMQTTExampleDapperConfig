@@ -1,4 +1,13 @@
-﻿namespace Storage
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="MqttSettings.cs" company="Haemmer Electronics">
+//   Copyright (c) 2020 All rights reserved.
+// </copyright>
+// <summary>
+//   This class contains the MQTT server settings.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Storage
 {
     /// <summary>
     ///     This class contains the MQTT server settings.

@@ -1,8 +1,18 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ControllerBaseExtensions.cs" company="Haemmer Electronics">
+//   Copyright (c) 2020 All rights reserved.
+// </copyright>
+// <summary>
+//   Some extension methods for the <see cref="ControllerBase"></see> class.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace NetCoreMQTTExampleDapperConfig.Controllers.Extensions
 {
+    using System;
+
+    using Microsoft.AspNetCore.Mvc;
+
     /// <summary>
     ///     Some extension methods for the <see cref="ControllerBase"></see> class.
     /// </summary>
