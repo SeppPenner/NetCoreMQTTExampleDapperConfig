@@ -11,22 +11,22 @@ namespace NetCoreMQTTExampleDapperConfig
 {
     using System.IO;
     using System.Reflection;
-
+    using System.Threading.Tasks;
     using Microsoft.AspNetCore;
     using Microsoft.AspNetCore.Hosting;
-
+    using MQTTnet.AspNetCore;
     using Serilog;
 
     /// <summary>
     ///     The main program class.
     /// </summary>
-    public class Program
+    public static class Program
     {
         /// <summary>
         ///     Defines the entry point of the application.
         /// </summary>
         /// <param name="args">The arguments.</param>
-        public static void Main(string[] args)
+        public static Task Main(string[] args)
         {
             var currentLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
@@ -35,7 +35,7 @@ namespace NetCoreMQTTExampleDapperConfig
                 Path.Combine(currentLocation, @"log\NetCoreMQTTExampleDapperConfig_.txt"),
                 rollingInterval: RollingInterval.Day).CreateLogger();
 
-            CreateWebHostBuilder(args).Build().Run();
+            return CreateWebHostBuilder(args).Build().RunAsync();
         }
 
         /// <summary>
@@ -46,6 +46,11 @@ namespace NetCoreMQTTExampleDapperConfig
         public static IWebHostBuilder CreateWebHostBuilder(string[] args)
         {
             return WebHost.CreateDefaultBuilder(args)
+                .UseKestrel(o =>
+                {
+                    o.ListenAnyIP(1883, l => l.UseMqtt());
+                    o.ListenAnyIP(5000);
+                })
                 .UseStartup<Startup>();
         }
     }

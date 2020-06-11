@@ -15,6 +15,9 @@ The project was written and tested in .NetCore 3.1.
 ## How to use this project:
 1. Create your users and intial setup using the `DatabaseSetup` project or using the API.
 
+## API documentation
+* The API can be found under http://localhost:5000/swagger/ and is documented with Swagger.
+
 ## Temporarily locking clients
 Users can be blocked temporarily (until the end of the current month) if they exceed a certain data quota.
 Therefore, the parameter `ThrottleUser` in the `User` table must be set to` true` and `MonthlyByteLimit` to the desired threshold in bytes.
