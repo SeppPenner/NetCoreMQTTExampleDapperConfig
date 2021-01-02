@@ -14,7 +14,8 @@ namespace NetCoreMQTTExampleDapperConfig
     using System.Threading.Tasks;
     using Microsoft.AspNetCore;
     using Microsoft.AspNetCore.Hosting;
-    using MQTTnet.AspNetCore;
+    using MQTTnet.AspNetCore.Extensions;
+
     using Serilog;
 
     /// <summary>
@@ -26,6 +27,7 @@ namespace NetCoreMQTTExampleDapperConfig
         ///     Defines the entry point of the application.
         /// </summary>
         /// <param name="args">The arguments.</param>
+        /// <returns>A <see cref="Task"/> representing any asynchronous operation.</returns>
         public static Task Main(string[] args)
         {
             var currentLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
