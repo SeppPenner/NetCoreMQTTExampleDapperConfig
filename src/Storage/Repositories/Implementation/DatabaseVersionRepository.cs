@@ -16,8 +16,6 @@ namespace Storage.Repositories.Implementation
 
     using Dapper;
 
-    using Npgsql;
-
     using Storage.Database;
     using Storage.Repositories.Interfaces;
     using Storage.Statements;
@@ -27,20 +25,14 @@ namespace Storage.Repositories.Implementation
     ///     An implementation supporting the repository pattern to work with <see cref="DatabaseVersion" />s.
     /// </summary>
     /// <seealso cref="IDatabaseVersionRepository" />
-    public class DatabaseVersionRepository : IDatabaseVersionRepository
+    public class DatabaseVersionRepository : BaseRepository, IDatabaseVersionRepository
     {
-        /// <summary>
-        ///     The connection settings to use.
-        /// </summary>
-        private readonly DatabaseConnectionSettings connectionSettings;
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="DatabaseVersionRepository" /> class.
         /// </summary>
         /// <param name="connectionSettings">The connection settings to use.</param>
-        public DatabaseVersionRepository(DatabaseConnectionSettings connectionSettings)
+        public DatabaseVersionRepository(DatabaseConnectionSettings connectionSettings) : base(connectionSettings)
         {
-            this.connectionSettings = connectionSettings;
         }
 
         /// <inheritdoc cref="IDatabaseVersionRepository" />
@@ -51,8 +43,7 @@ namespace Storage.Repositories.Implementation
         /// <seealso cref="IDatabaseVersionRepository" />
         public async Task<List<DatabaseVersion>> GetDatabaseVersions()
         {
-            await using var connection = new NpgsqlConnection(this.connectionSettings.ToConnectionString());
-            await connection.OpenAsync();
+            var connection = await this.GetDatabaseConnection();
             var databaseVersions = await connection.QueryAsync<DatabaseVersion>(SelectStatements.SelectAllDatabaseVersions);
             return databaseVersions?.ToList() ?? new List<DatabaseVersion>();
         }
@@ -66,9 +57,10 @@ namespace Storage.Repositories.Implementation
         /// <seealso cref="IDatabaseVersionRepository" />
         public async Task<DatabaseVersion> GetDatabaseVersionById(Guid databaseVersionId)
         {
-            await using var connection = new NpgsqlConnection(this.connectionSettings.ToConnectionString());
-            await connection.OpenAsync();
-            return await connection.QueryFirstOrDefaultAsync<DatabaseVersion>(SelectStatements.SelectDatabaseVersionById, new {Id = databaseVersionId});
+            var connection = await this.GetDatabaseConnection();
+            return await connection.QueryFirstOrDefaultAsync<DatabaseVersion>(
+                       SelectStatements.SelectDatabaseVersionById,
+                       new { Id = databaseVersionId });
         }
 
         /// <inheritdoc cref="IDatabaseVersionRepository" />
@@ -80,9 +72,10 @@ namespace Storage.Repositories.Implementation
         /// <seealso cref="IDatabaseVersionRepository" />
         public async Task<DatabaseVersion> GetDatabaseVersionByName(string databaseVersionName)
         {
-            await using var connection = new NpgsqlConnection(this.connectionSettings.ToConnectionString());
-            await connection.OpenAsync();
-            return await connection.QueryFirstOrDefaultAsync<DatabaseVersion>(SelectStatements.SelectDatabaseVersionByName, new {DatabaseVersionName = databaseVersionName});
+            var connection = await this.GetDatabaseConnection();
+            return await connection.QueryFirstOrDefaultAsync<DatabaseVersion>(
+                       SelectStatements.SelectDatabaseVersionByName,
+                       new { DatabaseVersionName = databaseVersionName });
         }
 
         /// <inheritdoc cref="IDatabaseVersionRepository" />
@@ -96,9 +89,10 @@ namespace Storage.Repositories.Implementation
         /// <seealso cref="IDatabaseVersionRepository" />
         public async Task<bool> DeleteDatabaseVersion(Guid databaseVersionId)
         {
-            await using var connection = new NpgsqlConnection(this.connectionSettings.ToConnectionString());
-            await connection.OpenAsync();
-            var result = await connection.ExecuteAsync(UpdateStatements.MarkDatabaseVersionAsDeleted, new {Id = databaseVersionId});
+            var connection = await this.GetDatabaseConnection();
+            var result = await connection.ExecuteAsync(
+                             UpdateStatements.MarkDatabaseVersionAsDeleted,
+                             new { Id = databaseVersionId });
             return result == 1;
         }
 
@@ -112,9 +106,10 @@ namespace Storage.Repositories.Implementation
         /// <seealso cref="IDatabaseVersionRepository" />
         public async Task<bool> DeleteDatabaseVersionFromDatabase(Guid databaseVersionId)
         {
-            await using var connection = new NpgsqlConnection(this.connectionSettings.ToConnectionString());
-            await connection.OpenAsync();
-            var result = await connection.ExecuteAsync(DeleteStatements.DeleteDatabaseVersion, new {Id = databaseVersionId});
+            var connection = await this.GetDatabaseConnection();
+            var result = await connection.ExecuteAsync(
+                             DeleteStatements.DeleteDatabaseVersion,
+                             new { Id = databaseVersionId });
             return result == 1;
         }
 
@@ -127,8 +122,7 @@ namespace Storage.Repositories.Implementation
         /// <seealso cref="IDatabaseVersionRepository" />
         public async Task<bool> InsertDatabaseVersion(DatabaseVersion package)
         {
-            await using var connection = new NpgsqlConnection(this.connectionSettings.ToConnectionString());
-            await connection.OpenAsync();
+            var connection = await this.GetDatabaseConnection();
             var result = await connection.ExecuteAsync(InsertStatements.InsertDatabaseVersion, package);
             return result == 1;
         }
@@ -142,8 +136,7 @@ namespace Storage.Repositories.Implementation
         /// <seealso cref="IDatabaseVersionRepository" />
         public async Task<bool> UpdateDatabaseVersion(DatabaseVersion package)
         {
-            await using var connection = new NpgsqlConnection(this.connectionSettings.ToConnectionString());
-            await connection.OpenAsync();
+            var connection = await this.GetDatabaseConnection();
             var result = await connection.ExecuteAsync(UpdateStatements.UpdateDatabaseVersion, package);
             return result == 1;
         }
