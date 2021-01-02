@@ -3,7 +3,7 @@ NetCoreMQTTExampleDapperConfig
 
 NetCoreMQTTExampleDapperConfig is a project to check user credentials and topic restrictions from [MQTTnet](https://github.com/chkr1011/MQTTnet)
 from a database using [Dapper](https://stackexchange.github.io/Dapper/).
-The project was written and tested in .NetCore 3.1.
+The project was written and tested in .Net 5.0.
 
 [![Build status](https://ci.appveyor.com/api/projects/status/gul9bvjb9e7slm6c?svg=true)](https://ci.appveyor.com/project/SeppPenner/netcoremqttexampledapperconfig)
 [![GitHub issues](https://img.shields.io/github/issues/SeppPenner/NetCoreMQTTExampleDapperConfig.svg)](https://github.com/SeppPenner/NetCoreMQTTExampleDapperConfig/issues)
@@ -227,4 +227,4 @@ An example certificate is in the folder. Password for all is `test`.
 Change history
 --------------
 
-* **Version 1.0.0.0 (2020-02-12)** : 1.0 release.
+See the [Changelog](https://github.com/SeppPenner/NetCoreMQTTExampleDapperConfig/blob/master/Changelog.md).
