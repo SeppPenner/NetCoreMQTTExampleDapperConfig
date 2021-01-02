@@ -83,7 +83,7 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
             }
             catch (Exception ex)
             {
-                this.logger.Fatal("An error occurred: {ex}.", ex);
+                this.logger.Fatal("An error occurred: {@Exception}.", ex);
                 return this.InternalServerError(ex);
             }
         }
@@ -114,7 +114,7 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
         {
             try
             {
-                this.logger.Information("Executed GetWhitelistItemById with whitelist item identifier {whitelistItemId}.", whitelistItemId);
+                this.logger.Information("Executed GetWhitelistItemById with whitelist item identifier {@WhitelistItemId}.", whitelistItemId);
 
                 var whitelistItem = await this.whitelistRepository.GetWhitelistItemById(whitelistItemId);
 
@@ -123,12 +123,12 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
                     return this.Ok(whitelistItem);
                 }
 
-                this.logger.Warning("Whitelist item with identifier {whitelistItemId} not found.", whitelistItemId);
+                this.logger.Warning("Whitelist item with identifier {@WhitelistItemId} not found.", whitelistItemId);
                 return this.NotFound(whitelistItemId);
             }
             catch (Exception ex)
             {
-                this.logger.Fatal("An error occurred: {ex}.", ex);
+                this.logger.Fatal("An error occurred: {@Exception}.", ex);
                 return this.InternalServerError(ex);
             }
         }
@@ -161,7 +161,7 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
         {
             try
             {
-                this.logger.Information($"Executed CreateWhitelistItem with whitelist item {createWhitelistItem}.", createWhitelistItem);
+                this.logger.Information("Executed CreateWhitelistItem with whitelist item {@CreateWhitelistItem}.", createWhitelistItem);
 
                 var foundBlackListItem = this.whitelistRepository.GetWhitelistItemByIdAndType(createWhitelistItem.Id, createWhitelistItem.Type);
 
@@ -181,7 +181,7 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
             }
             catch (Exception ex)
             {
-                this.logger.Fatal("An error occurred: {ex}.", ex);
+                this.logger.Fatal("An error occurred: {@Exception}.", ex);
                 return this.InternalServerError(ex);
             }
         }
@@ -212,7 +212,7 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
         {
             try
             {
-                this.logger.Information("Executed DeleteWhitelistItemById with whitelist item identifier {whitelistItemId}.", whitelistItemId);
+                this.logger.Information("Executed DeleteWhitelistItemById with whitelist item identifier {@WhitelistItemId}.", whitelistItemId);
                 var deleted = await this.whitelistRepository.DeleteWhitelistItem(whitelistItemId);
 
                 if (deleted)
@@ -224,7 +224,7 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
             }
             catch (Exception ex)
             {
-                this.logger.Fatal("An error occurred: {ex}.", ex);
+                this.logger.Fatal("An error occurred: {@Exception}.", ex);
                 return this.InternalServerError(ex);
             }
         }

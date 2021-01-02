@@ -83,7 +83,7 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
             }
             catch (Exception ex)
             {
-                this.logger.Fatal("An error occurred: {ex}.", ex);
+                this.logger.Fatal("An error occurred: {@Exception}.", ex);
                 return this.InternalServerError(ex);
             }
         }
@@ -114,7 +114,7 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
         {
             try
             {
-                this.logger.Information("Executed GetBlacklistItemById with blacklist item identifier {blacklistItemId}.", blacklistItemId);
+                this.logger.Information("Executed GetBlacklistItemById with blacklist item identifier {@BlacklistItemId}.", blacklistItemId);
 
                 var blacklistItem = await this.blacklistRepository.GetBlacklistItemById(blacklistItemId);
 
@@ -123,12 +123,12 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
                     return this.Ok(blacklistItem);
                 }
 
-                this.logger.Warning("Blacklist item with blacklist item identifier {blacklistItemId} not found.", blacklistItemId);
+                this.logger.Warning("Blacklist item with blacklist item identifier {@BlacklistItemId} not found.", blacklistItemId);
                 return this.NotFound(blacklistItemId);
             }
             catch (Exception ex)
             {
-                this.logger.Fatal("An error occurred: {ex}.", ex);
+                this.logger.Fatal("An error occurred: {@Exception}.", ex);
                 return this.InternalServerError(ex);
             }
         }
@@ -161,7 +161,7 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
         {
             try
             {
-                this.logger.Information("Executed CreateBlacklistItem with blacklist item {createBlacklistItem}.", createBlacklistItem);
+                this.logger.Information("Executed CreateBlacklistItem with blacklist item {@CreateBlacklistItem}.", createBlacklistItem);
 
                 var foundBlackListItem = this.blacklistRepository.GetBlacklistItemByIdAndType(createBlacklistItem.Id, createBlacklistItem.Type);
 
@@ -181,7 +181,7 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
             }
             catch (Exception ex)
             {
-                this.logger.Fatal("An error occurred: {ex}.", ex);
+                this.logger.Fatal("An error occurred: {@Exception}.", ex);
                 return this.InternalServerError(ex);
             }
         }
@@ -212,7 +212,7 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
         {
             try
             {
-                this.logger.Information("Executed DeleteBlacklistItemById with blacklist item identifier {blacklistItemId}.", blacklistItemId);
+                this.logger.Information("Executed DeleteBlacklistItemById with blacklist item identifier {@BlacklistItemId}.", blacklistItemId);
                 var deleted = await this.blacklistRepository.DeleteBlacklistItem(blacklistItemId);
 
                 if (deleted)
@@ -224,7 +224,7 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
             }
             catch (Exception ex)
             {
-                this.logger.Fatal("An error occurred: {ex}.", ex);
+                this.logger.Fatal("An error occurred: {@Exception}.", ex);
                 return this.InternalServerError(ex);
             }
         }

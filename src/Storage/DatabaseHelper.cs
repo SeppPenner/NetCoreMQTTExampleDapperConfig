@@ -64,7 +64,6 @@ namespace Storage
                 await connection.ExecuteAsync(sql);
                 this.logger.Information("Created database.");
             }
-
         }
 
         /// <inheritdoc cref="IDatabaseHelper" />

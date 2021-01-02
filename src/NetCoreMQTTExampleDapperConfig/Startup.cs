@@ -209,8 +209,8 @@ namespace NetCoreMQTTExampleDapperConfig
 
             Logger.Information(
                 successful
-                    ? "New subscription: ClientId = {clientId}, TopicFilter = {topicFilter}"
-                    : "Subscription failed for clientId = {clientId}, TopicFilter = {topicFilter}",
+                    ? "New subscription: ClientId = {@ClientId}, TopicFilter = {@TopicFilter}"
+                    : "Subscription failed for clientId = {@ClientId}, TopicFilter = {@TopicFilter}",
                 context.ClientId,
                 context.TopicFilter);
         }
@@ -229,7 +229,7 @@ namespace NetCoreMQTTExampleDapperConfig
             var payload = context.ApplicationMessage?.Payload == null ? null : Encoding.UTF8.GetString(context.ApplicationMessage?.Payload);
 
             Logger.Information(
-                "Message: ClientId = {clientId}, Topic = {topic}, Payload = {payload}, QoS = {qos}, Retain-Flag = {retainFlag}",
+                "Message: ClientId = {@ClientId}, Topic = {@Topic}, Payload = {@Payload}, QoS = {@QoS}, Retain-Flag = {@RetainFlag}",
                 context.ClientId,
                 context.ApplicationMessage?.Topic,
                 payload,
@@ -252,7 +252,7 @@ namespace NetCoreMQTTExampleDapperConfig
             if (showPassword)
             {
                 Logger.Information(
-                    "New connection: ClientId = {clientId}, Endpoint = {endpoint}, Username = {userName}, Password = {password}, CleanSession = {cleanSession}",
+                    "New connection: ClientId = {@ClientId}, Endpoint = {@Endpoint}, Username = {@UserName}, Password = {@Password}, CleanSession = {@CleanSession}",
                     context.ClientId,
                     context.Endpoint,
                     context.Username,
@@ -262,7 +262,7 @@ namespace NetCoreMQTTExampleDapperConfig
             else
             {
                 Logger.Information(
-                    "New connection: ClientId = {clientId}, Endpoint = {endpoint}, Username = {userName}, CleanSession = {cleanSession}",
+                    "New connection: ClientId = {@ClientId}, Endpoint = {@Endpoint}, Username = {@UserName}, CleanSession = {@CleanSession}",
                     context.ClientId,
                     context.Endpoint,
                     context.Username,
@@ -290,7 +290,7 @@ namespace NetCoreMQTTExampleDapperConfig
                     return false;
                 }
 
-                Logger.Information("The client with client id {clientId} is now locked until the end of this month because it already used its data limit.", clientId);
+                Logger.Information("The client with client id {@ClientId} is now locked until the end of this month because it already used its data limit.", clientId);
                 return true;
             }
 
@@ -302,14 +302,14 @@ namespace NetCoreMQTTExampleDapperConfig
 
                 if (currentValue >= monthlyByteLimit)
                 {
-                    Logger.Information("The client with client id {clientId} is now locked until the end of this month because it already used its data limit.", clientId);
+                    Logger.Information("The client with client id {@ClientId} is now locked until the end of this month because it already used its data limit.", clientId);
                     return true;
                 }
             }
             catch (OverflowException)
             {
                 Logger.Information("OverflowException thrown.");
-                Logger.Information("The client with client id {clientId} is now locked until the end of this month because it already used its data limit.", clientId);
+                Logger.Information("The client with client id {@ClientId} is now locked until the end of this month because it already used its data limit.", clientId);
                 return true;
             }
 

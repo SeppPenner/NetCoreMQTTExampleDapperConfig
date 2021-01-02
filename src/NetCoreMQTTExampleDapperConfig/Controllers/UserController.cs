@@ -111,7 +111,7 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
             }
             catch (Exception ex)
             {
-                this.logger.Fatal("An error occurred: {ex}.", ex);
+                this.logger.Fatal("An error occurred: {@Exception}.", ex);
                 return this.InternalServerError(ex);
             }
         }
@@ -142,13 +142,13 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
         {
             try
             {
-                this.logger.Information("Executed GetUserById with user identifier {userId}.", userId);
+                this.logger.Information("Executed GetUserById with user identifier {@UserId}.", userId);
 
                 var user = await this.userRepository.GetUserById(userId);
 
                 if (user == null)
                 {
-                    this.logger.Warning("User with user identifier {userId} not found.", userId);
+                    this.logger.Warning("User with user identifier {@UserId} not found.", userId);
                     return this.NotFound(userId);
                 }
 
@@ -157,7 +157,7 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
             }
             catch (Exception ex)
             {
-                this.logger.Fatal("An error occurred: {ex}.", ex);
+                this.logger.Fatal("An error occurred: {@Exception}.", ex);
                 return this.InternalServerError(ex);
             }
         }
@@ -190,7 +190,7 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
         {
             try
             {
-                this.logger.Information("Executed CreateUser with user {createUser}.", createUser);
+                this.logger.Information("Executed CreateUser with user {@CreateUser}.", createUser);
 
                 var user = this.autoMapper.Map<User>(createUser);
                 user.Id = Guid.NewGuid();
@@ -214,7 +214,7 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
             }
             catch (Exception ex)
             {
-                this.logger.Fatal("An error occurred: {ex}.", ex);
+                this.logger.Fatal("An error occurred: {@Exception}.", ex);
                 return this.InternalServerError(ex);
             }
         }
@@ -250,13 +250,13 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
         {
             try
             {
-                this.logger.Information("Executed UpdateUser with user {updateUser} for user identifier: {userId}.", updateUser, userId);
+                this.logger.Information("Executed UpdateUser with user {@UpdateUser} for user identifier: {@UserId}.", updateUser, userId);
 
                 var resultUser = await this.userRepository.GetUserById(userId);
 
                 if (resultUser == null)
                 {
-                    this.logger.Warning("User with user identifier {userId} not found.", userId);
+                    this.logger.Warning("User with user identifier {@UserId} not found.", userId);
                     return this.NotFound(userId);
                 }
 
@@ -276,7 +276,7 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
             }
             catch (Exception ex)
             {
-                this.logger.Fatal("An error occurred: {ex}.", ex);
+                this.logger.Fatal("An error occurred: {@Exception}.", ex);
                 return this.InternalServerError(ex);
             }
         }
@@ -306,7 +306,7 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
         {
             try
             {
-                this.logger.Information("Executed DeleteUserById with user identifier {userId}.", userId);
+                this.logger.Information("Executed DeleteUserById with user identifier {@UserId}.", userId);
                 var deleted = await this.userRepository.DeleteUser(userId);
 
                 if (deleted)
@@ -318,7 +318,7 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
             }
             catch (Exception ex)
             {
-                this.logger.Fatal("An error occurred: {ex}.", ex);
+                this.logger.Fatal("An error occurred: {@Exception}.", ex);
                 return this.InternalServerError(ex);
             }
         }
