@@ -66,12 +66,14 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
         ///     Gets all blacklist items.
         /// </remarks>
         /// <response code="200">Blacklist items found.</response>
+        /// <response code="401">Unauthorized.</response>
         /// <response code="500">Internal server error.</response>
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here.")]
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly",
             Justification = "Reviewed. Suppression is OK here.")]
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<BlacklistWhitelist>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<IEnumerable<BlacklistWhitelist>>> GetAllBlacklistItems()
         {
@@ -101,6 +103,7 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
         ///     Gets a blacklist item by its id.
         /// </remarks>
         /// <response code="200">Blacklist item found.</response>
+        /// <response code="401">Unauthorized.</response>
         /// <response code="404">Blacklist item not found.</response>
         /// <response code="500">Internal server error.</response>
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here.")]
@@ -108,6 +111,7 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
             Justification = "Reviewed. Suppression is OK here.")]
         [HttpGet("{blacklistItemId}")]
         [ProducesResponseType(typeof(BlacklistWhitelist), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<BlacklistWhitelist>> GetBlacklistItemById(Guid blacklistItemId)
@@ -147,6 +151,7 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
         /// </remarks>
         /// <response code="200">Blacklist item created.</response>
         /// <response code="400">Blacklist item not created.</response>
+        /// <response code="401">Unauthorized.</response>
         /// <response code="409">Blacklist item already exists.</response>
         /// <response code="500">Internal server error.</response>
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here.")]
@@ -155,6 +160,7 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(BlacklistWhitelist), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlacklistWhitelist), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(BlacklistWhitelist), StatusCodes.Status409Conflict)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> CreateBlacklistItem([FromBody] BlacklistWhitelist createBlacklistItem)
@@ -200,6 +206,7 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
         /// </remarks>
         /// <response code="200">Blacklist item deleted.</response>
         /// <response code="400">Blacklist item not deleted.</response>
+        /// <response code="401">Unauthorized.</response>
         /// <response code="500">Internal server error.</response>
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here.")]
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly",
@@ -207,6 +214,7 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
         [HttpDelete("{blacklistItemId}")]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> DeleteBlacklistItemById(Guid blacklistItemId)
         {
