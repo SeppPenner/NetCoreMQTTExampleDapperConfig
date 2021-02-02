@@ -43,18 +43,6 @@ namespace NetCoreMQTTExampleDapperConfig
         }
 
         /// <summary>
-        ///     Creates the web host builder.
-        /// </summary>
-        /// <param name="args">The arguments.</param>
-        /// <returns>The <see cref="IWebHostBuilder" />.</returns>
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
-        {
-            return WebHost.CreateDefaultBuilder(args)
-                
-                .UseStartup<Startup>();
-        }
-
-        /// <summary>
         /// Creates the host builder.
         /// </summary>
         /// <param name="args">The arguments.</param>
