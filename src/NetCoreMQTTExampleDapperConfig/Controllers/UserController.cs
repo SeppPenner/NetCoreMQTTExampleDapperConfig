@@ -60,16 +60,18 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
         /// <summary>
         /// The logger.
         /// </summary>
-        private readonly ILogger logger = Log.ForContext<UserController>();
+        private readonly ILogger logger;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="UserController" /> class.
         /// </summary>
+        /// <param name="logger">The <see cref="ILogger"/>.</param>
         /// <param name="autoMapper">The <see cref="IMapper" />.</param>
         /// <param name="userRepository">The <see cref="IUserRepository" />.</param>
         // ReSharper disable once StyleCop.SA1650
-        public UserController(IMapper autoMapper, IUserRepository userRepository)
+        public UserController(ILogger logger, IMapper autoMapper, IUserRepository userRepository)
         {
+            this.logger = logger;
             this.autoMapper = autoMapper;
             this.passwordHasher = new PasswordHasher<User>();
             this.userRepository = userRepository;

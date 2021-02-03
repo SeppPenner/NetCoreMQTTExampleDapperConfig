@@ -43,16 +43,18 @@ namespace NetCoreMQTTExampleDapperConfig.Controllers
         /// <summary>
         /// The logger.
         /// </summary>
-        private readonly ILogger logger = Log.ForContext<WhitelistController>();
+        private readonly ILogger logger;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="WhitelistController" /> class.
         /// </summary>
+        /// <param name="logger">The <see cref="ILogger"/>.</param>
         /// <param name="whitelistRepository">The <see cref="IWhitelistRepository" />.</param>
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly",
             Justification = "Reviewed. Suppression is OK here.")]
-        public WhitelistController(IWhitelistRepository whitelistRepository)
+        public WhitelistController(ILogger logger, IWhitelistRepository whitelistRepository)
         {
+            this.logger = logger;
             this.whitelistRepository = whitelistRepository;
         }
 

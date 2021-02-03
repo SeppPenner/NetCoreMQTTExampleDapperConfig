@@ -148,6 +148,9 @@ namespace NetCoreMQTTExampleDapperConfig
             // Add identity stuff
             services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
 
+            // Add logger
+            services.AddSingleton(Log.Logger);
+
             // Add response compression
             services.AddResponseCompression();
 
