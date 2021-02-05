@@ -12,7 +12,7 @@ The project was written and tested in .Net 5.0.
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://raw.githubusercontent.com/SeppPenner/NetCoreMQTTExampleDapperConfig/master/License.txt)
 [![Known Vulnerabilities](https://snyk.io/test/github/SeppPenner/NetCoreMQTTExampleDapperConfig/badge.svg)](https://snyk.io/test/github/SeppPenner/NetCoreMQTTExampleDapperConfig)
 
-## How to use this project:
+## How to use this project
 1. Create your users and intial setup using the `DatabaseSetup` project or using the API.
 
 ## API documentation
@@ -22,7 +22,7 @@ The project was written and tested in .Net 5.0.
 Users can be blocked temporarily (until the end of the current month) if they exceed a certain data quota.
 Therefore, the parameter `ThrottleUser` in the `User` table must be set to` true` and `MonthlyByteLimit` to the desired threshold in bytes.
 
-## Attention:
+## Attention
 * Only the following [UTF-8](https://www.utf8-chartable.de/unicode-utf8-table.pl) chars are supported for topics:
 
 |Unicode code point|character|UTF-8(hex.)|Name|
@@ -216,7 +216,7 @@ Therefore, the parameter `ThrottleUser` in the `User` table must be set to` true
 |U+00FE|`þ`|c3 be|LATIN SMALL LETTER THORN|
 |U+00FF|`ÿ`|c3 bf|LATIN SMALL LETTER Y WITH DIAERESIS|
 
-## Create an openssl certificate:
+## Create an openssl certificate
 ```bash
 openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365
 openssl pkcs12 -export -out certificate.pfx -inkey key.pem -in cert.pem
