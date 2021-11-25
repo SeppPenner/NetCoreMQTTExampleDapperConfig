@@ -20,10 +20,11 @@
             The logger.
             </summary>
         </member>
-        <member name="M:NetCoreMQTTExampleDapperConfig.Controllers.BlacklistController.#ctor(Storage.Repositories.Interfaces.IBlacklistRepository)">
+        <member name="M:NetCoreMQTTExampleDapperConfig.Controllers.BlacklistController.#ctor(Serilog.ILogger,Storage.Repositories.Interfaces.IBlacklistRepository)">
             <summary>
                 Initializes a new instance of the <see cref="T:NetCoreMQTTExampleDapperConfig.Controllers.BlacklistController" /> class.
             </summary>
+            <param name="logger">The <see cref="T:Serilog.ILogger"/>.</param>
             <param name="blacklistRepository">The <see cref="T:Storage.Repositories.Interfaces.IBlacklistRepository" />.</param>
         </member>
         <member name="M:NetCoreMQTTExampleDapperConfig.Controllers.BlacklistController.GetAllBlacklistItems">
@@ -37,6 +38,7 @@
                 Gets all blacklist items.
             </remarks>
             <response code="200">Blacklist items found.</response>
+            <response code="401">Unauthorized.</response>
             <response code="500">Internal server error.</response>
         </member>
         <member name="M:NetCoreMQTTExampleDapperConfig.Controllers.BlacklistController.GetBlacklistItemById(System.Guid)">
@@ -53,6 +55,7 @@
                 Gets a blacklist item by its id.
             </remarks>
             <response code="200">Blacklist item found.</response>
+            <response code="401">Unauthorized.</response>
             <response code="404">Blacklist item not found.</response>
             <response code="500">Internal server error.</response>
         </member>
@@ -71,6 +74,7 @@
             </remarks>
             <response code="200">Blacklist item created.</response>
             <response code="400">Blacklist item not created.</response>
+            <response code="401">Unauthorized.</response>
             <response code="409">Blacklist item already exists.</response>
             <response code="500">Internal server error.</response>
         </member>
@@ -89,6 +93,7 @@
             </remarks>
             <response code="200">Blacklist item deleted.</response>
             <response code="400">Blacklist item not deleted.</response>
+            <response code="401">Unauthorized.</response>
             <response code="500">Internal server error.</response>
         </member>
         <member name="T:NetCoreMQTTExampleDapperConfig.Controllers.Extensions.ControllerBaseExtensions">
@@ -130,10 +135,11 @@
             The logger.
             </summary>
         </member>
-        <member name="M:NetCoreMQTTExampleDapperConfig.Controllers.UserController.#ctor(AutoMapper.IMapper,Storage.Repositories.Interfaces.IUserRepository)">
+        <member name="M:NetCoreMQTTExampleDapperConfig.Controllers.UserController.#ctor(Serilog.ILogger,AutoMapper.IMapper,Storage.Repositories.Interfaces.IUserRepository)">
             <summary>
                 Initializes a new instance of the <see cref="T:NetCoreMQTTExampleDapperConfig.Controllers.UserController" /> class.
             </summary>
+            <param name="logger">The <see cref="T:Serilog.ILogger"/>.</param>
             <param name="autoMapper">The <see cref="T:AutoMapper.IMapper" />.</param>
             <param name="userRepository">The <see cref="T:Storage.Repositories.Interfaces.IUserRepository" />.</param>
         </member>
@@ -148,6 +154,7 @@
                 Gets all users.
             </remarks>
             <response code="200">Users found.</response>
+            <response code="401">Unauthorized.</response>
             <response code="500">Internal server error.</response>
         </member>
         <member name="M:NetCoreMQTTExampleDapperConfig.Controllers.UserController.GetUserById(System.Guid)">
@@ -164,6 +171,7 @@
                 Gets a user by their id.
             </remarks>
             <response code="200">User found.</response>
+            <response code="401">Unauthorized.</response>
             <response code="404">User not found.</response>
             <response code="500">Internal server error.</response>
         </member>
@@ -182,6 +190,7 @@
             </remarks>
             <response code="200">User created.</response>
             <response code="400">User not created.</response>
+            <response code="401">Unauthorized.</response>
             <response code="409">User already exists.</response>
             <response code="500">Internal server error.</response>
         </member>
@@ -203,6 +212,7 @@
             </remarks>
             <response code="200">User updated.</response>
             <response code="400">User not updated.</response>
+            <response code="401">Unauthorized.</response>
             <response code="404">User not found.</response>
             <response code="500">Internal server error.</response>
         </member>
@@ -221,6 +231,7 @@
             </remarks>
             <response code="200">User deleted.</response>
             <response code="400">User not deleted.</response>
+            <response code="401">Unauthorized.</response>
             <response code="500">Internal server error.</response>
         </member>
         <member name="T:NetCoreMQTTExampleDapperConfig.Controllers.WhitelistController">
@@ -239,10 +250,11 @@
             The logger.
             </summary>
         </member>
-        <member name="M:NetCoreMQTTExampleDapperConfig.Controllers.WhitelistController.#ctor(Storage.Repositories.Interfaces.IWhitelistRepository)">
+        <member name="M:NetCoreMQTTExampleDapperConfig.Controllers.WhitelistController.#ctor(Serilog.ILogger,Storage.Repositories.Interfaces.IWhitelistRepository)">
             <summary>
                 Initializes a new instance of the <see cref="T:NetCoreMQTTExampleDapperConfig.Controllers.WhitelistController" /> class.
             </summary>
+            <param name="logger">The <see cref="T:Serilog.ILogger"/>.</param>
             <param name="whitelistRepository">The <see cref="T:Storage.Repositories.Interfaces.IWhitelistRepository" />.</param>
         </member>
         <member name="M:NetCoreMQTTExampleDapperConfig.Controllers.WhitelistController.GetAllWhitelistItems">
@@ -256,6 +268,7 @@
                 Gets all whitelist items.
             </remarks>
             <response code="200">Whitelist items found.</response>
+            <response code="401">Unauthorized.</response>
             <response code="500">Internal server error.</response>
         </member>
         <member name="M:NetCoreMQTTExampleDapperConfig.Controllers.WhitelistController.GetWhitelistItemById(System.Guid)">
@@ -272,6 +285,7 @@
                 Gets a whitelist item by its id.
             </remarks>
             <response code="200">Whitelist item found.</response>
+            <response code="401">Unauthorized.</response>
             <response code="404">Whitelist item not found.</response>
             <response code="500">Internal server error.</response>
         </member>
@@ -290,6 +304,7 @@
             </remarks>
             <response code="200">Whitelist item created.</response>
             <response code="400">Whitelist item not created.</response>
+            <response code="401">Unauthorized.</response>
             <response code="409">Whitelist item already exists.</response>
             <response code="500">Internal server error.</response>
         </member>
@@ -308,6 +323,7 @@
             </remarks>
             <response code="200">Whitelist item deleted.</response>
             <response code="400">Whitelist item not deleted.</response>
+            <response code="401">Unauthorized.</response>
             <response code="500">Internal server error.</response>
         </member>
         <member name="T:NetCoreMQTTExampleDapperConfig.DateTimeExtensions">
@@ -346,12 +362,13 @@
             <param name="args">The arguments.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing any asynchronous operation.</returns>
         </member>
-        <member name="M:NetCoreMQTTExampleDapperConfig.Program.CreateWebHostBuilder(System.String[])">
+        <member name="M:NetCoreMQTTExampleDapperConfig.Program.CreateHostBuilder(System.String[],System.String)">
             <summary>
-                Creates the web host builder.
+            Creates the host builder.
             </summary>
             <param name="args">The arguments.</param>
-            <returns>The <see cref="T:Microsoft.AspNetCore.Hosting.IWebHostBuilder" />.</returns>
+            <param name="currentLocation">The current assembly location.</param>
+            <returns>A new <see cref="T:Microsoft.Extensions.Hosting.IHostBuilder"/>.</returns>
         </member>
         <member name="T:NetCoreMQTTExampleDapperConfig.Startup">
             <summary>
