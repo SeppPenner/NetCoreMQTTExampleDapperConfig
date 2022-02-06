@@ -38,24 +38,21 @@ namespace Storage.Database
         /// <summary>
         ///     Gets or sets the blacklist or whitelist value.
         /// </summary>
-        public string Value { get; set; }
+        public string Value { get; set; } = string.Empty;
 
         /// <summary>
         ///     Gets or sets the created at timestamp.
         /// </summary>
-        // ReSharper disable once UnusedMember.Global
         public DateTimeOffset CreatedAt { get; set; }
 
         /// <summary>
         ///     Gets or sets the deleted at timestamp.
         /// </summary>
-        // ReSharper disable once UnusedMember.Global
         public DateTimeOffset? DeletedAt { get; set; }
 
         /// <summary>
         ///     Gets or sets the updated at timestamp.
         /// </summary>
-        // ReSharper disable once UnusedMember.Global
         public DateTimeOffset? UpdatedAt { get; set; } = null;
 
         /// <summary>

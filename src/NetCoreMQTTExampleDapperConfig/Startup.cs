@@ -68,7 +68,7 @@ namespace NetCoreMQTTExampleDapperConfig
         /// <summary>
         ///     The <see cref="IUserRepository" />.
         /// </summary>
-        private IUserRepository userRepository;
+        private IUserRepository? userRepository;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="Startup" /> class.
@@ -173,7 +173,7 @@ namespace NetCoreMQTTExampleDapperConfig
                 });
 
             // Read certificate
-            var currentPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var currentPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? string.Empty;
             var certificate = new X509Certificate2(
                 // ReSharper disable once AssignNullToNotNullAttribute
                 Path.Combine(currentPath, "certificate.pfx"),
@@ -229,7 +229,7 @@ namespace NetCoreMQTTExampleDapperConfig
                 return;
             }
 
-            var payload = context.ApplicationMessage?.Payload == null ? null : Encoding.UTF8.GetString(context.ApplicationMessage?.Payload);
+            var payload = context.ApplicationMessage?.Payload is null ? null : Encoding.UTF8.GetString(context.ApplicationMessage.Payload);
 
             Logger.Information(
                 "Message: ClientId = {@ClientId}, Topic = {@Topic}, Payload = {@Payload}, QoS = {@QoS}, Retain-Flag = {@RetainFlag}",
@@ -326,21 +326,29 @@ namespace NetCoreMQTTExampleDapperConfig
         private async void ValidatePublish(MqttApplicationMessageInterceptorContext context)
         {
             var clientIdPrefix = await this.GetClientIdPrefix(context.ClientId);
-            User currentUser;
+            User? currentUser = null;
             bool userFound;
 
             if (string.IsNullOrWhiteSpace(clientIdPrefix))
             {
                 userFound = context.SessionItems.TryGetValue(context.ClientId, out var currentUserObject);
-                currentUser = currentUserObject as User;
+
+                if (currentUserObject is User foundUser)
+                {
+                    currentUser = foundUser;
+                }
             }
             else
             {
                 userFound = context.SessionItems.TryGetValue(clientIdPrefix, out var currentUserObject);
-                currentUser = currentUserObject as User;
+
+                if (currentUserObject is User foundUser)
+                {
+                    currentUser = foundUser;
+                }
             }
 
-            if (!userFound || currentUser == null)
+            if (!userFound || currentUser is null)
             {
                 context.AcceptPublish = false;
                 return;
@@ -366,11 +374,11 @@ namespace NetCoreMQTTExampleDapperConfig
             }
 
             // Get blacklist
-            var publishBlackList = await this.userRepository.GetBlacklistItemsForUser(currentUser.Id, BlacklistWhitelistType.Publish);
+            var publishBlackList = await this.userRepository!.GetBlacklistItemsForUser(currentUser.Id, BlacklistWhitelistType.Publish);
             var blacklist = publishBlackList?.ToList() ?? new List<BlacklistWhitelist>();
 
             // Get whitelist
-            var publishWhitelist = await this.userRepository.GetWhitelistItemsForUser(currentUser.Id, BlacklistWhitelistType.Publish);
+            var publishWhitelist = await this.userRepository!.GetWhitelistItemsForUser(currentUser.Id, BlacklistWhitelistType.Publish);
             var whitelist = publishWhitelist?.ToList() ?? new List<BlacklistWhitelist>();
 
             // Check matches
@@ -387,7 +395,6 @@ namespace NetCoreMQTTExampleDapperConfig
                 return;
             }
 
-            // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
             foreach (var forbiddenTopic in blacklist)
             {
                 var doesTopicMatch = TopicChecker.Regex(forbiddenTopic.Value, topic);
@@ -401,7 +408,6 @@ namespace NetCoreMQTTExampleDapperConfig
                 return;
             }
 
-            // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
             foreach (var allowedTopic in whitelist)
             {
                 var doesTopicMatch = TopicChecker.Regex(allowedTopic.Value, topic);
@@ -426,21 +432,29 @@ namespace NetCoreMQTTExampleDapperConfig
         private async void ValidateSubscription(MqttSubscriptionInterceptorContext context)
         {
             var clientIdPrefix = await this.GetClientIdPrefix(context.ClientId);
-            User currentUser;
+            User? currentUser = null;
             bool userFound;
 
             if (string.IsNullOrWhiteSpace(clientIdPrefix))
             {
                 userFound = context.SessionItems.TryGetValue(context.ClientId, out var currentUserObject);
-                currentUser = currentUserObject as User;
+
+                if (currentUserObject is User foundUser)
+                {
+                    currentUser = foundUser;
+                }
             }
             else
             {
                 userFound = context.SessionItems.TryGetValue(clientIdPrefix, out var currentUserObject);
-                currentUser = currentUserObject as User;
+
+                if (currentUserObject is User foundUser)
+                {
+                    currentUser = foundUser;
+                }
             }
 
-            if (!userFound || currentUser == null)
+            if (!userFound || currentUser is null)
             {
                 context.AcceptSubscription = false;
                 LogMessage(context, false);
@@ -450,11 +464,11 @@ namespace NetCoreMQTTExampleDapperConfig
             var topic = context.TopicFilter.Topic;
 
             // Get blacklist
-            var publishBlackList = await this.userRepository.GetBlacklistItemsForUser(currentUser.Id, BlacklistWhitelistType.Subscribe);
+            var publishBlackList = await this.userRepository!.GetBlacklistItemsForUser(currentUser.Id, BlacklistWhitelistType.Subscribe);
             var blacklist = publishBlackList?.ToList() ?? new List<BlacklistWhitelist>();
 
             // Get whitelist
-            var publishWhitelist = await this.userRepository.GetWhitelistItemsForUser(currentUser.Id, BlacklistWhitelistType.Subscribe);
+            var publishWhitelist = await this.userRepository!.GetWhitelistItemsForUser(currentUser.Id, BlacklistWhitelistType.Subscribe);
             var whitelist = publishWhitelist?.ToList() ?? new List<BlacklistWhitelist>();
 
             // Check matches
@@ -512,7 +526,7 @@ namespace NetCoreMQTTExampleDapperConfig
         /// <param name="context">The context.</param>
         private async void ValidateConnection(MqttConnectionValidatorContext context)
         {
-            var currentUser = await this.userRepository.GetUserByName(context.Username).ConfigureAwait(false);
+            var currentUser = await this.userRepository!.GetUserByName(context.Username).ConfigureAwait(false);
 
             if (currentUser == null)
             {
@@ -573,9 +587,9 @@ namespace NetCoreMQTTExampleDapperConfig
         /// </summary>
         /// <param name="clientId">The client id.</param>
         /// <returns>The client id prefix for a client id if there is one or <c>null</c> else.</returns>
-        private async Task<string> GetClientIdPrefix(string clientId)
+        private async Task<string?> GetClientIdPrefix(string clientId)
         {
-            var clientIdPrefixes = await this.userRepository.GetAllClientIdPrefixes();
+            var clientIdPrefixes = await this.userRepository!.GetAllClientIdPrefixes();
             return clientIdPrefixes.FirstOrDefault(clientId.StartsWith);
         }
     }

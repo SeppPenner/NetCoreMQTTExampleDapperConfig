@@ -26,7 +26,7 @@ namespace Storage.Database
         /// <summary>
         ///     Gets or sets the version name.
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         /// <summary>
         ///     Gets or sets the version number.
@@ -47,7 +47,6 @@ namespace Storage.Database
         /// <summary>
         ///     Gets or sets the updated at timestamp.
         /// </summary>
-        // ReSharper disable once UnusedMember.Global
         public DateTimeOffset? UpdatedAt { get; set; } = null;
 
         /// <summary>

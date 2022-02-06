@@ -27,27 +27,27 @@ namespace DatabaseSetup
         /// <summary>
         ///     The <see cref="IUserRepository" />.
         /// </summary>
-        private static IUserRepository userRepository;
+        private static IUserRepository? userRepository;
 
         /// <summary>
         ///     The <see cref="IDatabaseVersionRepository" />.
         /// </summary>
-        private static IDatabaseVersionRepository databaseVersionRepository;
+        private static IDatabaseVersionRepository? databaseVersionRepository;
 
         /// <summary>
         ///     The <see cref="IWhitelistRepository" />.
         /// </summary>
-        private static IWhitelistRepository whitelistRepository;
+        private static IWhitelistRepository? whitelistRepository;
 
         /// <summary>
         ///     The <see cref="IBlacklistRepository" />.
         /// </summary>
-        private static IBlacklistRepository blacklistRepository;
+        private static IBlacklistRepository? blacklistRepository;
 
         /// <summary>
         ///     The <see cref="IDatabaseHelper" />.
         /// </summary>
-        private static IDatabaseHelper databaseHelper;
+        private static IDatabaseHelper? databaseHelper;
 
         /// <summary>
         ///     The main method of the program.
@@ -91,7 +91,7 @@ namespace DatabaseSetup
         private static void SeedData()
         {
             var version = new DatabaseVersion { Number = 100, Name = "Sicario: 1.0.0", CreatedAt = DateTimeOffset.Now };
-            databaseVersionRepository.InsertDatabaseVersion(version);
+            databaseVersionRepository!.InsertDatabaseVersion(version);
 
             var userId = Guid.NewGuid();
 
@@ -107,10 +107,10 @@ namespace DatabaseSetup
             };
 
             user.PasswordHash = new PasswordHasher<User>().HashPassword(user, "Hans");
-            userRepository.InsertUser(user);
+            userRepository!.InsertUser(user);
 
             // Insert subscription blacklist and whitelist items
-            blacklistRepository.InsertBlacklistItem(new BlacklistWhitelist
+            blacklistRepository!.InsertBlacklistItem(new BlacklistWhitelist
             {
                 UserId = userId,
                 Type = BlacklistWhitelistType.Subscribe,
@@ -131,7 +131,7 @@ namespace DatabaseSetup
                 Value = "c/#"
             });
 
-            whitelistRepository.InsertWhitelistItem(new BlacklistWhitelist
+            whitelistRepository!.InsertWhitelistItem(new BlacklistWhitelist
             {
                 UserId = userId,
                 Type = BlacklistWhitelistType.Subscribe,

@@ -35,7 +35,7 @@ namespace NetCoreMQTTExampleDapperConfig
 
             Log.Logger = new LoggerConfiguration().MinimumLevel.Debug().WriteTo.File(
                 // ReSharper disable once AssignNullToNotNullAttribute
-                Path.Combine(currentLocation, @"log\NetCoreMQTTExampleDapperConfig_.txt"),
+                Path.Combine(currentLocation, @"log\NetCoreMQTTExampleDapperConfig_.txt") ?? string.Empty,
                 rollingInterval: RollingInterval.Day).CreateLogger();
 
             return CreateHostBuilder(args, currentLocation).Build().RunAsync();
