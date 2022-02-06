@@ -332,20 +332,12 @@ namespace NetCoreMQTTExampleDapperConfig
             if (string.IsNullOrWhiteSpace(clientIdPrefix))
             {
                 userFound = context.SessionItems.TryGetValue(context.ClientId, out var currentUserObject);
-
-                if (currentUserObject is User foundUser)
-                {
-                    currentUser = foundUser;
-                }
+                currentUser = currentUserObject as User;
             }
             else
             {
                 userFound = context.SessionItems.TryGetValue(clientIdPrefix, out var currentUserObject);
-
-                if (currentUserObject is User foundUser)
-                {
-                    currentUser = foundUser;
-                }
+                currentUser = currentUserObject as User;
             }
 
             if (!userFound || currentUser is null)
@@ -438,20 +430,12 @@ namespace NetCoreMQTTExampleDapperConfig
             if (string.IsNullOrWhiteSpace(clientIdPrefix))
             {
                 userFound = context.SessionItems.TryGetValue(context.ClientId, out var currentUserObject);
-
-                if (currentUserObject is User foundUser)
-                {
-                    currentUser = foundUser;
-                }
+                currentUser = currentUserObject as User;
             }
             else
             {
                 userFound = context.SessionItems.TryGetValue(clientIdPrefix, out var currentUserObject);
-
-                if (currentUserObject is User foundUser)
-                {
-                    currentUser = foundUser;
-                }
+                currentUser = currentUserObject as User;
             }
 
             if (!userFound || currentUser is null)
