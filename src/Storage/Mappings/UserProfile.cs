@@ -1,4 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="UserProfile.cs" company="Hämmer Electronics">
 //   Copyright (c) 2020 All rights reserved.
 // </copyright>
@@ -7,30 +7,24 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Storage.Mappings
+namespace Storage.Mappings;
+
+/// <summary>
+///     The user profile.
+/// </summary>
+/// <seealso cref="Profile" />
+public class UserProfile : Profile
 {
-    using AutoMapper;
-
-    using Storage.Database;
-    using Storage.Dto;
-
     /// <summary>
-    ///     The user profile.
+    ///     Initializes a new instance of the <see cref="UserProfile" /> class.
     /// </summary>
-    /// <seealso cref="Profile" />
-    public class UserProfile : Profile
+    public UserProfile()
     {
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="UserProfile" /> class.
-        /// </summary>
-        public UserProfile()
-        {
-            this.CreateMap<User, DtoReadUser>();
-            this.CreateMap<DtoReadUser, User>();
-            this.CreateMap<User, DtoCreateUpdateUser>();
-            this.CreateMap<DtoCreateUpdateUser, User>();
-            this.CreateMap<DtoReadUser, DtoCreateUpdateUser>();
-            this.CreateMap<DtoCreateUpdateUser, DtoReadUser>();
-        }
+        this.CreateMap<User, DtoReadUser>();
+        this.CreateMap<DtoReadUser, User>();
+        this.CreateMap<User, DtoCreateUpdateUser>();
+        this.CreateMap<DtoCreateUpdateUser, User>();
+        this.CreateMap<DtoReadUser, DtoCreateUpdateUser>();
+        this.CreateMap<DtoCreateUpdateUser, DtoReadUser>();
     }
 }

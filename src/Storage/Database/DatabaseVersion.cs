@@ -1,4 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="DatabaseVersion.cs" company="Hämmer Electronics">
 //   Copyright (c) 2020 All rights reserved.
 // </copyright>
@@ -7,55 +7,49 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Storage.Database
-{
-    using System;
+namespace Storage.Database;
 
-    using Newtonsoft.Json;
+/// <summary>
+///     The database version class. It contains information about the database version used.
+/// </summary>
+public class DatabaseVersion
+{
+    /// <summary>
+    ///     Gets or sets the primary key.
+    /// </summary>
+    public Guid Id { get; set; } = Guid.NewGuid();
 
     /// <summary>
-    ///     The database version class. It contains information about the database version used.
+    ///     Gets or sets the version name.
     /// </summary>
-    public class DatabaseVersion
+    public string Name { get; set; } = string.Empty;
+
+    /// <summary>
+    ///     Gets or sets the version number.
+    /// </summary>
+    public long Number { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the created at timestamp.
+    /// </summary>
+    public DateTimeOffset CreatedAt { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the deleted at timestamp.
+    /// </summary>
+    public DateTimeOffset? DeletedAt { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the updated at timestamp.
+    /// </summary>
+    public DateTimeOffset? UpdatedAt { get; set; } = null;
+
+    /// <summary>
+    ///     Returns a <see cref="string"></see> representation of the <see cref="DatabaseVersion" /> class.
+    /// </summary>
+    /// <returns>A <see cref="string"></see> representation of the <see cref="DatabaseVersion" /> class.</returns>
+    public override string ToString()
     {
-        /// <summary>
-        ///     Gets or sets the primary key.
-        /// </summary>
-        public Guid Id { get; set; } = Guid.NewGuid();
-
-        /// <summary>
-        ///     Gets or sets the version name.
-        /// </summary>
-        public string Name { get; set; } = string.Empty;
-
-        /// <summary>
-        ///     Gets or sets the version number.
-        /// </summary>
-        public long Number { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the created at timestamp.
-        /// </summary>
-        public DateTimeOffset CreatedAt { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the deleted at timestamp.
-        /// </summary>
-        // ReSharper disable once UnusedMember.Global
-        public DateTimeOffset? DeletedAt { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the updated at timestamp.
-        /// </summary>
-        public DateTimeOffset? UpdatedAt { get; set; } = null;
-
-        /// <summary>
-        ///     Returns a <see cref="string"></see> representation of the <see cref="DatabaseVersion" /> class.
-        /// </summary>
-        /// <returns>A <see cref="string"></see> representation of the <see cref="DatabaseVersion" /> class.</returns>
-        public override string ToString()
-        {
-            return JsonConvert.SerializeObject(this);
-        }
+        return JsonConvert.SerializeObject(this);
     }
 }
