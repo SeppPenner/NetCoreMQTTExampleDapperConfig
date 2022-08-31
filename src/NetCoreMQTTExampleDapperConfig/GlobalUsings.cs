@@ -10,7 +10,8 @@ global using AutoMapper;
 global using Microsoft.AspNetCore.Identity;
 global using Microsoft.AspNetCore.Mvc;
 
-global using MQTTnet.AspNetCore.Extensions;
+global using MQTTnet;
+global using MQTTnet.AspNetCore;
 global using MQTTnet.Protocol;
 global using MQTTnet.Server;
 
