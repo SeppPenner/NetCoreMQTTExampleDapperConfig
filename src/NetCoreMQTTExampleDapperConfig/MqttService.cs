@@ -65,10 +65,14 @@ public class MqttService : BackgroundService
     public MqttService(MqttSettings mqttServiceConfiguration, string serviceName, X509Certificate2 certificate, UserRepository userRepository)
     {
         this.MqttServiceConfiguration = mqttServiceConfiguration;
-        this.logger = Log.ForContext("Type", nameof(MqttService));
         this.serviceName = serviceName;
         this.certificate = certificate;
         this.userRepository = userRepository;
+
+        // Create the logger.
+        this.logger = LoggerConfig.GetLoggerConfiguration(nameof(MqttService))
+            .WriteTo.Sink((ILogEventSink)Log.Logger)
+            .CreateLogger();
     }
 
     /// <inheritdoc cref="BackgroundService"/>

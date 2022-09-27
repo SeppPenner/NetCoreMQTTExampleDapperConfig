@@ -20,6 +20,8 @@ global using NetCoreMQTTExampleDapperConfig.Controllers.Extensions;
 global using NSwag.Annotations;
 
 global using Serilog;
+global using Serilog.Core;
+global using Serilog.Exceptions;
 
 global using Storage;
 global using Storage.Database;

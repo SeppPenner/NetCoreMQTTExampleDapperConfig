@@ -41,7 +41,6 @@ public static class Program
             .ConfigureWebHostDefaults(
                 webBuilder =>
                     {
-                        webBuilder.UseSerilog();
                         webBuilder.UseContentRoot(currentLocation);
                         webBuilder.UseStartup<Startup>();
                         webBuilder.UseKestrel(
