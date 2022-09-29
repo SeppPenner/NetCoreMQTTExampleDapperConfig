@@ -350,6 +350,19 @@
             <param name="date">The date to get the current month end from.</param>
             <returns>A new <see cref="T:System.DateTimeOffset" /> that represents the end of the current month.</returns>
         </member>
+        <member name="T:NetCoreMQTTExampleDapperConfig.LoggerConfig">
+            <summary>
+            A class that contains the main logger configuration.
+            </summary>
+        </member>
+        <member name="M:NetCoreMQTTExampleDapperConfig.LoggerConfig.GetLoggerConfiguration(System.String)">
+            <summary>
+            Gets the logger configuration.
+            </summary>
+            <param name="type">The logger type.</param>
+            <returns>The <see cref="T:Serilog.LoggerConfiguration"/>.</returns>
+            <exception cref="T:System.ArgumentException">Thrown if the logger type is null.</exception>
+        </member>
         <member name="T:NetCoreMQTTExampleDapperConfig.MqttService">
             <inheritdoc cref="T:Microsoft.Extensions.Hosting.BackgroundService"/>
             <summary>
