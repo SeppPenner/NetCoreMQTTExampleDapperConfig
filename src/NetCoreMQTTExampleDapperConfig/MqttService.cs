@@ -467,16 +467,18 @@ public class MqttService : BackgroundService
     /// <summary> 
     ///     Logs the message from the MQTT subscription interceptor context. 
     /// </summary> 
-    /// <param name="args">The arguments.</param> 
-    /// <param name="successful">A <see cref="bool"/> value indicating whether the subscription was successful or not.</param> 
+    /// <param name="args">The arguments.</param>
+    /// <param name="successful">A <see cref="bool"/> value indicating whether the subscription was successful or not.</param>
     private void LogMessage(InterceptingSubscriptionEventArgs args, bool successful)
     {
+#pragma warning disable Serilog004 // Constant MessageTemplate verifier
         this.logger.Information(
             successful
                 ? "New subscription: ClientId = {ClientId}, TopicFilter = {TopicFilter}"
                 : "Subscription failed for clientId = {ClientId}, TopicFilter = {TopicFilter}",
             args.ClientId,
             args.TopicFilter);
+#pragma warning restore Serilog004 // Constant MessageTemplate verifier
     }
 
     /// <summary>
@@ -499,8 +501,8 @@ public class MqttService : BackgroundService
     /// <summary> 
     ///     Logs the message from the MQTT connection validation context. 
     /// </summary> 
-    /// <param name="args">The arguments.</param> 
-    /// <param name="showPassword">A <see cref="bool"/> value indicating whether the password is written to the log or not.</param> 
+    /// <param name="args">The arguments.</param>
+    /// <param name="showPassword">A <see cref="bool"/> value indicating whether the password is written to the log or not.</param>
     private void LogMessage(ValidatingConnectionEventArgs args, bool showPassword)
     {
         if (showPassword)

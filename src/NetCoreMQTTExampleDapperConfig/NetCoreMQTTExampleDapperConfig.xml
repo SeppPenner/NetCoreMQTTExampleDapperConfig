@@ -470,8 +470,8 @@
             <summary> 
                 Logs the message from the MQTT subscription interceptor context. 
             </summary> 
-            <param name="args">The arguments.</param> 
-            <param name="successful">A <see cref="T:System.Boolean"/> value indicating whether the subscription was successful or not.</param> 
+            <param name="args">The arguments.</param>
+            <param name="successful">A <see cref="T:System.Boolean"/> value indicating whether the subscription was successful or not.</param>
         </member>
         <member name="M:NetCoreMQTTExampleDapperConfig.MqttService.LogMessage(MQTTnet.Server.InterceptingPublishEventArgs)">
             <summary>
@@ -483,8 +483,8 @@
             <summary> 
                 Logs the message from the MQTT connection validation context. 
             </summary> 
-            <param name="args">The arguments.</param> 
-            <param name="showPassword">A <see cref="T:System.Boolean"/> value indicating whether the password is written to the log or not.</param> 
+            <param name="args">The arguments.</param>
+            <param name="showPassword">A <see cref="T:System.Boolean"/> value indicating whether the password is written to the log or not.</param>
         </member>
         <member name="M:NetCoreMQTTExampleDapperConfig.MqttService.LogMemoryInformation">
             <summary>
