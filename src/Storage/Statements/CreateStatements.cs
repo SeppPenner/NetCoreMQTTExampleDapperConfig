@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="CreateStatements.cs" company="Hämmer Electronics">
-//   Copyright (c) 2020 All rights reserved.
+//   Copyright (c) All rights reserved.
 // </copyright>
 // <summary>
 //   The SQL statements for table creation.

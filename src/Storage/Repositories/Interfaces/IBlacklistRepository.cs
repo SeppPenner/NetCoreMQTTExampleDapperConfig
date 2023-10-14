@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="IBlacklistRepository.cs" company="Hämmer Electronics">
-//   Copyright (c) 2020 All rights reserved.
+//   Copyright (c) All rights reserved.
 // </copyright>
 // <summary>
 //   An interface supporting the repository pattern to work with <see cref="BlacklistWhitelist" />s.

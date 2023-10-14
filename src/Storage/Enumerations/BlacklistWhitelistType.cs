@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="BlacklistWhitelistType.cs" company="Hämmer Electronics">
-//   Copyright (c) 2020 All rights reserved.
+//   Copyright (c) All rights reserved.
 // </copyright>
 // <summary>
 //   An enumeration representing the available blacklist or whitelist types.
