@@ -83,6 +83,11 @@ public class Startup
         // Load MQTT configuration settings
         var mqttSettings = this.Configuration.GetSection("MqttSettings").Get<MqttSettings>();
 
+        if (mqttSettings is null)
+        {
+            throw new ArgumentNullException(nameof(mqttSettings));
+        }
+
         // Add database helper
         services.AddSingleton<IDatabaseHelper>(r => new DatabaseHelper(databaseConnection));
 
