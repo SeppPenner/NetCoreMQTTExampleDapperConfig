@@ -34,7 +34,7 @@ public class BlacklistRepository : BaseRepository, IBlacklistRepository
     {
         var connection = await this.GetDatabaseConnection();
         var blacklists = await connection.QueryAsync<BlacklistWhitelist>(SelectStatements.SelectAllBlacklistItems);
-        return blacklists?.ToList() ?? new List<BlacklistWhitelist>();
+        return blacklists?.ToList() ?? [];
     }
 
     /// <inheritdoc cref="IBlacklistRepository" />
@@ -44,10 +44,10 @@ public class BlacklistRepository : BaseRepository, IBlacklistRepository
     /// <param name="blacklistItemId">The <see cref="BlacklistWhitelist" />'s id to query for.</param>
     /// <returns>A <see cref="Task" /> representing any asynchronous operation.</returns>
     /// <seealso cref="IBlacklistRepository" />
-    public async Task<BlacklistWhitelist> GetBlacklistItemById(Guid blacklistItemId)
+    public async Task<BlacklistWhitelist?> GetBlacklistItemById(Guid blacklistItemId)
     {
         var connection = await this.GetDatabaseConnection();
-        return await connection.QueryFirstOrDefaultAsync<BlacklistWhitelist>(
+        return await connection.QueryFirstOrDefaultAsync<BlacklistWhitelist?>(
                    SelectStatements.SelectBlacklistItemById,
                    new { Id = blacklistItemId });
     }
@@ -60,10 +60,10 @@ public class BlacklistRepository : BaseRepository, IBlacklistRepository
     /// <param name="blacklistItemType">The <see cref="BlacklistWhitelistType" /> to query for.</param>
     /// <returns>A <see cref="Task" /> representing any asynchronous operation.</returns>
     /// <seealso cref="IBlacklistRepository" />
-    public async Task<BlacklistWhitelist> GetBlacklistItemByIdAndType(Guid blacklistItemId, BlacklistWhitelistType blacklistItemType)
+    public async Task<BlacklistWhitelist?> GetBlacklistItemByIdAndType(Guid blacklistItemId, BlacklistWhitelistType blacklistItemType)
     {
         var connection = await this.GetDatabaseConnection();
-        return await connection.QueryFirstOrDefaultAsync<BlacklistWhitelist>(
+        return await connection.QueryFirstOrDefaultAsync<BlacklistWhitelist?>(
                    SelectStatements.SelectBlacklistItemByIdAndType,
                    new { Id = blacklistItemId, Type = blacklistItemType });
     }
@@ -75,10 +75,10 @@ public class BlacklistRepository : BaseRepository, IBlacklistRepository
     /// <param name="blacklistItemType">The <see cref="BlacklistWhitelist" />'s type to query for.</param>
     /// <returns>A <see cref="Task" /> representing any asynchronous operation.</returns>
     /// <seealso cref="IBlacklistRepository" />
-    public async Task<BlacklistWhitelist> GetBlacklistItemByType(BlacklistWhitelistType blacklistItemType)
+    public async Task<BlacklistWhitelist?> GetBlacklistItemByType(BlacklistWhitelistType blacklistItemType)
     {
         var connection = await this.GetDatabaseConnection();
-        return await connection.QueryFirstOrDefaultAsync<BlacklistWhitelist>(
+        return await connection.QueryFirstOrDefaultAsync<BlacklistWhitelist?>(
                    SelectStatements.SelectBlacklistItemByType,
                    new { Type = blacklistItemType });
     }

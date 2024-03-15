@@ -34,7 +34,7 @@ public class UserRepository : BaseRepository, IUserRepository
     {
         var connection = await this.GetDatabaseConnection();
         var users = await connection.QueryAsync<User>(SelectStatements.SelectAllUsers);
-        return users?.ToList() ?? new List<User>();
+        return users?.ToList() ?? [];
     }
 
     /// <inheritdoc cref="IUserRepository" />
@@ -44,10 +44,10 @@ public class UserRepository : BaseRepository, IUserRepository
     /// <param name="userId">The <see cref="User" />'s id to query for.</param>
     /// <returns>A <see cref="Task" /> representing any asynchronous operation.</returns>
     /// <seealso cref="IUserRepository" />
-    public async Task<User> GetUserById(Guid userId)
+    public async Task<User?> GetUserById(Guid userId)
     {
         var connection = await this.GetDatabaseConnection();
-        return await connection.QueryFirstOrDefaultAsync<User>(
+        return await connection.QueryFirstOrDefaultAsync<User?>(
                    SelectStatements.SelectUserById,
                    new { Id = userId });
     }
@@ -59,10 +59,10 @@ public class UserRepository : BaseRepository, IUserRepository
     /// <param name="userName">The <see cref="User" />'s name to query for.</param>
     /// <returns>A <see cref="Task" /> representing any asynchronous operation.</returns>
     /// <seealso cref="IUserRepository" />
-    public async Task<User> GetUserByName(string userName)
+    public async Task<User?> GetUserByName(string userName)
     {
         var connection = await this.GetDatabaseConnection();
-        return await connection.QueryFirstOrDefaultAsync<User>(
+        return await connection.QueryFirstOrDefaultAsync<User?>(
                    SelectStatements.SelectUserByUserName,
                    new { UserName = userName });
     }

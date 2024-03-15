@@ -34,7 +34,7 @@ public class DatabaseVersionRepository : BaseRepository, IDatabaseVersionReposit
     {
         var connection = await this.GetDatabaseConnection();
         var databaseVersions = await connection.QueryAsync<DatabaseVersion>(SelectStatements.SelectAllDatabaseVersions);
-        return databaseVersions?.ToList() ?? new List<DatabaseVersion>();
+        return databaseVersions?.ToList() ?? [];
     }
 
     /// <inheritdoc cref="IDatabaseVersionRepository" />
@@ -44,10 +44,10 @@ public class DatabaseVersionRepository : BaseRepository, IDatabaseVersionReposit
     /// <param name="databaseVersionId">The <see cref="DatabaseVersion" />'s id.</param>
     /// <returns>A <see cref="Task" /> representing any asynchronous operation.</returns>
     /// <seealso cref="IDatabaseVersionRepository" />
-    public async Task<DatabaseVersion> GetDatabaseVersionById(Guid databaseVersionId)
+    public async Task<DatabaseVersion?> GetDatabaseVersionById(Guid databaseVersionId)
     {
         var connection = await this.GetDatabaseConnection();
-        return await connection.QueryFirstOrDefaultAsync<DatabaseVersion>(
+        return await connection.QueryFirstOrDefaultAsync<DatabaseVersion?>(
                    SelectStatements.SelectDatabaseVersionById,
                    new { Id = databaseVersionId });
     }
@@ -59,10 +59,10 @@ public class DatabaseVersionRepository : BaseRepository, IDatabaseVersionReposit
     /// <param name="databaseVersionName">The <see cref="DatabaseVersion" />'s name to query for.</param>
     /// <returns>A <see cref="Task" /> representing any asynchronous operation.</returns>
     /// <seealso cref="IDatabaseVersionRepository" />
-    public async Task<DatabaseVersion> GetDatabaseVersionByName(string databaseVersionName)
+    public async Task<DatabaseVersion?> GetDatabaseVersionByName(string databaseVersionName)
     {
         var connection = await this.GetDatabaseConnection();
-        return await connection.QueryFirstOrDefaultAsync<DatabaseVersion>(
+        return await connection.QueryFirstOrDefaultAsync<DatabaseVersion?>(
                    SelectStatements.SelectDatabaseVersionByName,
                    new { DatabaseVersionName = databaseVersionName });
     }

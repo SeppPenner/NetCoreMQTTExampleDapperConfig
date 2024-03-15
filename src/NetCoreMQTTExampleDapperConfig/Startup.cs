@@ -57,7 +57,7 @@ public class Startup
 
         // Use swagger stuff
         app.UseOpenApi();
-        app.UseSwaggerUi3();
+        app.UseSwaggerUi();
 
         // Use HTTPS.
         app.UseHttpsRedirection();

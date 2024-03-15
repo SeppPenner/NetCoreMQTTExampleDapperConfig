@@ -25,14 +25,14 @@ public interface IUserRepository
     /// </summary>
     /// <param name="userId">The <see cref="User" />'s id to query for.</param>
     /// <returns>A <see cref="Task" /> representing any asynchronous operation.</returns>
-    Task<User> GetUserById(Guid userId);
+    Task<User?> GetUserById(Guid userId);
 
     /// <summary>
     ///     Gets a <see cref="User" /> by their user name.
     /// </summary>
     /// <param name="userName">The <see cref="User" />'s name to query for.</param>
     /// <returns>A <see cref="Task" /> representing any asynchronous operation.</returns>
-    Task<User> GetUserByName(string userName);
+    Task<User?> GetUserByName(string userName);
 
     /// <summary>
     ///     Gets a <see cref="User" />'s name and identifier by their user name.

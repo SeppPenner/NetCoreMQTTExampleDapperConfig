@@ -53,7 +53,7 @@ public class MqttService : BackgroundService
     /// <summary>
     /// The client identifiers.
     /// </summary>
-    private static readonly HashSet<string> clientIds = new();
+    private static readonly HashSet<string> clientIds = [];
 
     /// <summary>
     /// Gets or sets the MQTT service configuration.
@@ -294,11 +294,11 @@ public class MqttService : BackgroundService
 
             // Get blacklist
             var publishBlackList = await this.userRepository!.GetBlacklistItemsForUser(currentUser.Id, BlacklistWhitelistType.Subscribe);
-            var blacklist = publishBlackList?.ToList() ?? new List<BlacklistWhitelist>();
+            var blacklist = publishBlackList?.ToList() ?? [];
 
             // Get whitelist
             var publishWhitelist = await this.userRepository!.GetWhitelistItemsForUser(currentUser.Id, BlacklistWhitelistType.Subscribe);
-            var whitelist = publishWhitelist?.ToList() ?? new List<BlacklistWhitelist>();
+            var whitelist = publishWhitelist?.ToList() ?? [];
 
             // Check matches
             if (blacklist.Any(b => b.Value == topic))
@@ -388,13 +388,13 @@ public class MqttService : BackgroundService
 
             if (currentUser.ThrottleUser)
             {
-                var payload = args.ApplicationMessage?.Payload;
+                var payload = args.ApplicationMessage?.PayloadSegment;
 
                 if (payload != null)
                 {
                     if (currentUser.MonthlyByteLimit != null)
                     {
-                        if (this.IsUserThrottled(args.ClientId, payload.Length, currentUser.MonthlyByteLimit.Value))
+                        if (this.IsUserThrottled(args.ClientId, payload.Value.Count, currentUser.MonthlyByteLimit.Value))
                         {
                             args.ProcessPublish = false;
                             return;
@@ -405,11 +405,11 @@ public class MqttService : BackgroundService
 
             // Get blacklist
             var publishBlackList = await this.userRepository!.GetBlacklistItemsForUser(currentUser.Id, BlacklistWhitelistType.Publish);
-            var blacklist = publishBlackList?.ToList() ?? new List<BlacklistWhitelist>();
+            var blacklist = publishBlackList?.ToList() ?? [];
 
             // Get whitelist
             var publishWhitelist = await this.userRepository!.GetWhitelistItemsForUser(currentUser.Id, BlacklistWhitelistType.Publish);
-            var whitelist = publishWhitelist?.ToList() ?? new List<BlacklistWhitelist>();
+            var whitelist = publishWhitelist?.ToList() ?? [];
 
             // Check matches
             if (blacklist.Any(b => b.Value == topic))
@@ -516,7 +516,7 @@ public class MqttService : BackgroundService
     /// <param name="args">The arguments.</param>
     private void LogMessage(InterceptingPublishEventArgs args)
     {
-        var payload = args.ApplicationMessage?.Payload == null ? null : Encoding.UTF8.GetString(args.ApplicationMessage.Payload);
+        var payload = args.ApplicationMessage?.PayloadSegment is null ? null : Encoding.UTF8.GetString(args.ApplicationMessage.PayloadSegment);
 
         this.logger.Information(
             "Message: ClientId = {ClientId}, Topic = {Topic}, Payload = {Payload}, QoS = {Qos}, Retain-Flag = {RetainFlag}",
